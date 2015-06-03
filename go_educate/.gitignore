@@ -1,0 +1,17 @@
+licence.png
+dataSourceConfig.properties
+build/
+classes/
+bak
+BAK
+UML/
+Thumbs.db
+*.class
+*.log
+*.tmp
+*.tmp*
+*.swp
+*.bak
+*.BAK
+*.svn
+*~
