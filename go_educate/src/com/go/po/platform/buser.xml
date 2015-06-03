@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="buser">
+    <!-- 查询数据 -->
+	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select * From  TBUSER 
+	   Where 1=1
+	   <if test="NAME!=NULL and NAME!=''">
+	   	And NAME like CONCAT('%','${NAME}','%' )  
+	   </if>
+	   <if test="TEXT!=NULL and TEXT!=''">
+	   	And TEXT like CONCAT('%','${TEXT}','%' )  
+	   </if>
+	   limit  #{pageBean.startRowNum},#{pageBean.rows}
+	</select> 
+	<select id="findall" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select * From  TBUSER 
+	   Where 1=1
+	   <if test="roleidlist!=NULL">
+	   	And ROLEID In 
+	   	<foreach collection="roleidlist" item="roleid"  open="(" separator="," close=")">   
+           #{roleid}  
+        </foreach> ;
+	   </if>
+	</select> 
+	
+	<!-- 查询记录数 -->
+	<select id="findcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
+	    Select count(1) From  TBUSER 
+	    where 1=1
+	     <if test="NAME!=NULL and NAME!=''">
+	   	And NAME like CONCAT('%','${NAME}','%' )  
+	   </if>
+	   <if test="TEXT!=NULL and TEXT!=''">
+	   	And TEXT like CONCAT('%','${TEXT}','%' )  
+	   </if>
+	</select>
+	
+	<!-- 添加后台数据 -->
+	<insert id="add" parameterType="java.util.HashMap" >
+	   insert into TBUSER(ID,NAME,PASSWORD,TEXT,SEX,ROLEID,TELEPHONE,EMAIL,
+                         QQ,TYPE,IDENF,ISACTIVES) 
+	   values(#{id},#{NAME},#{PASSWORD},#{TEXT},#{SEX},
+	          #{ROLEID},#{TELEPHONE},#{EMAIL},#{QQ},
+	          #{TYPE},#{IDENF},#{ISACTIVES})
+	</insert>
+	
+	<!-- 添加后台数据 -->
+	<update id="update" parameterType="java.util.HashMap" >
+	   update TBUSER set TELEPHONE = #{TELEPHONE},
+	                    NAME = #{NAME},
+	                     TEXT = #{TEXT},
+	                    PASSWORD = #{PASSWORD},
+	                    ROLEID = #{ROLEID},
+	                    SEX = #{SEX},
+	                    EMAIL = #{EMAIL},
+	                    IDENF = #{IDENF},
+                        QQ = #{QQ},
+                        TYPE = #{TYPE},
+                        ISACTIVES = #{ISACTIVES}
+        where  ID=#{ID} 
+	</update>
+	<!-- 更新数据状态 -->
+	<update id="changestat"  parameterType="java.util.HashMap">
+	   update TBUSER set ISACTIVES = #{ISACTIVES} 
+	   Where ID=#{ID} 
+	</update>	
+	<!-- 导出数据 -->
+	<select id="load"  parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	   Select * From TBUSER  Where ID=#{ID}
+	</select>
+	<!-- 删除数据 -->
+	<delete id="delete"  parameterType = "java.util.List">
+	    delete From  TBUSER   Where 1 = 1
+	    And ID in 
+	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach> ;
+        delete From  TUSERCURRICULUM  
+	    Where  USERID in 
+	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach> 
+	</delete>
+	<!-- 修改密码 -->
+	<update id="changepassword"  parameterType="java.util.HashMap">
+	   update TBUSER set PASSWORD = #{PASSWORD} 
+	   Where ID=#{ID} 
+	</update>	
+	
+	<!-- 查询权限 -->
+	<select id="findusercurriculum" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select * From  TUSERCURRICULUM 
+	   Where 1=1
+	   <if test="ID!=NULL and ID!=''">
+	   	And USERID = #{ID}
+	   </if>
+	</select> 
+</mapper>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="go_educate"
+  id="myeclipse.1416400113065"
+  context-root="/go_xkxt"
+  j2ee-spec="6.0"
+  archive="go_educate.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

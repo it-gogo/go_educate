@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lesson">
+    <!-- 查询数据 -->
+	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select * From  TLESSON 
+	   Where 1=1
+	   <if test="NAME!=NULL and NAME!=''">
+	   	And NAME like CONCAT('%','${NAME}','%' )  
+	   </if>
+	   limit  #{pageBean.startRowNum},#{pageBean.rows}
+	</select> 
+	<select id="findall" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select * From  TLESSON 
+	   Where 1=1
+	   <if test="ISACTIVES!=NULL and ISACTIVES!=''">
+	   	And ISACTIVES =#{ISACTIVES}  
+	   </if>
+	</select>
+	
+	<!-- 查询记录数 -->
+	<select id="findcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
+	    Select count(1) From  TLESSON 
+	    where 1=1
+	     <if test="NAME!=NULL and NAME!=''">
+	   	And NAME like CONCAT('%','${NAME}','%' )  
+	   </if>
+	</select>
+	
+	<!-- 添加后台数据 -->
+	<insert id="add" parameterType="java.util.HashMap" >
+	   insert into TLESSON(ID,NAME,STARTTIME,ENDTIME,ISACTIVES) 
+	   values(#{id},#{NAME},#{STARTTIME},#{ENDTIME},#{ISACTIVES})
+	</insert>
+	
+	<!-- 添加后台数据 -->
+	<update id="update" parameterType="java.util.HashMap" >
+	   update TLESSON set  NAME = #{NAME},
+	   					STARTTIME = #{STARTTIME},
+	   					ENDTIME = #{ENDTIME},
+                        ISACTIVES = #{ISACTIVES}
+        where  ID=#{ID} 
+	</update>
+	<!-- 更新数据状态 -->
+	<update id="changestat"  parameterType="java.util.HashMap">
+	   update TLESSON set ISACTIVES = #{ISACTIVES} 
+	   Where ID=#{ID} 
+	</update>	
+	<!-- 导出数据 -->
+	<select id="load"  parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	   Select * From TLESSON  Where ID=#{ID}
+	</select>
+	<!-- 删除数据 -->
+	<delete id="delete"  parameterType = "java.util.List">
+	    delete From  TLESSON   Where 1 = 1
+	    And ID in 
+	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach>;
+	</delete>
+</mapper>
