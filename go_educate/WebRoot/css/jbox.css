@@ -1,6 +1,6 @@
 @charset "utf-8";
 /*
-  ÌáÊ¾£ºCSS ÑùÊ½Ö»ÔÊÐíÐÞ¸ÄÑÕÉ«ÊôÐÔ£¬»òÍ¼Æ¬µÄµØÖ·£¨Í¼Æ¬´óÐ¡ÒªºÍÄ¬ÈÏµÄÒ»ÖÂ£©¡£border:dotted solid double dashed
+  ï¿½ï¿½Ê¾ï¿½ï¿½CSS ï¿½ï¿½Ê½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½Þ¸ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½Ô£ï¿½ï¿½ï¿½Í¼Æ¬ï¿½Äµï¿½Ö·ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Ð¡Òªï¿½ï¿½Ä¬ï¿½Ïµï¿½Ò»ï¿½Â£ï¿½ï¿½ï¿½border:dotted solid double dashed
 */
 *:focus {outline: none;}
 /* fade */
@@ -28,7 +28,7 @@ div.jbox .jbox-button-panel{border-top:1px solid #CCCCCC;background-color: #EEEE
 div.jbox .jbox-bottom-text{text-indent:10px;color:#444444;}
 /*div.jbox .jbox-button{background:url(images/jbox-button2.png) repeat-x transparent;border:#AAAAAA 1px solid;color:#888888;border-radius:3px 3px 3px 3px;margin:1px 7px 0px 0px;height:22px;cursor:default;}*/
 div.jbox .jbox-button{
-	background: url(../../../../Images/btn_bgs.gif) repeat-x scroll 0 -5px;
+	background: url(../../../../images/btn_bgs.gif) repeat-x scroll 0 -5px;
 	padding: 0px 14px 0px 13px;
 	margin: 2px;
 	overflow: visible;
