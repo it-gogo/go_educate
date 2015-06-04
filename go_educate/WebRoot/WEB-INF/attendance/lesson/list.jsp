@@ -17,9 +17,9 @@
 				<div class="cztable">
 					<div class="tis">
 						<form action="findList.do" method="post" id="searchForm">
-							名称:<input size="20" name="NAME" value="${parameter.NAME }" class="input_2"  />
+							<%-- 名称:<input size="20" name="NAME" value="${parameter.NAME }" class="input_2"  />
 							<input class="input2" type="submit" value="查询"   />
-							<input class="input2" type="button" value="清空"  onclick="clearData('searchForm')"  />
+							<input class="input2" type="button" value="清空"  onclick="clearData('searchForm')"  /> --%>
 							<input class="input2" type="button" value="添加" onclick="addxx()"  />
 							<input class="input2" type="button" value="删除" onclick="deleteAll()"  />
 						</form>
@@ -28,7 +28,7 @@
 						<tbody>
 							<tr style="height: 25px" align="center">
 								<th scope="col"><input type="checkbox" id="checkAll"  onclick="checkAll(this);"  /><label for="checkAll">全选</label></th>
-								<th scope="col">名称 </th>
+								<!-- <th scope="col">名称 </th> -->
 								<th scope="col">开始时间</th>
 								<th scope="col">结束时间</th>
 								<th scope="col">操作</th>
@@ -36,7 +36,7 @@
 							<c:forEach items="${pageBean.list }" var="vo" >
 								<tr align="center">
 									<td><input type="checkbox" name="ID" value="${vo.ID }" /></td>
-									<td>${vo.NAME }</td>
+									<%-- <td>${vo.NAME }</td> --%>
 									<td>${vo.STARTTIME }</td>
 									<td>${vo.ENDTIME }</td>
 									<td>

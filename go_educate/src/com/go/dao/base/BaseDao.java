@@ -66,8 +66,9 @@ public class BaseDao  {
 	private  PageBean<Map<String,Object>>  setPage(Map<String,Object> parameter,Integer allRows){
 		Object page = parameter.get(Syscontants.PAGE_PARAMETER);
 		Object rows = parameter.get(Syscontants.ROWS_PARAMETER);
-		int n_page = 1;
-		int n_rows = 10;
+		PageBean<Map<String,Object>>  pb = new PageBean<Map<String,Object>>();
+		int n_page =pb.getPage();
+		int n_rows = pb.getRows();
 		if(page!=null){
 			n_page = Integer.parseInt(page.toString());
 		}
@@ -75,7 +76,6 @@ public class BaseDao  {
 			n_rows = Integer.parseInt(rows.toString());
 		}
 		
-		PageBean<Map<String,Object>>  pb = new PageBean<Map<String,Object>>();
 		//设置总记录数
 		pb.setTotalRows(allRows.intValue());
 		pb.setAllPageCount();

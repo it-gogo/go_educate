@@ -72,7 +72,7 @@ body{font-size:12px;}
 .cdlist div{height:28px; line-height:24px;border-bottom:1px #98c9ee dotted;}
 .cdlist div a{ display:block; background:#fff;line-height:28px;height:28px; text-align:center;}
 .cdlist div a:hover{color:#f30;background:#0080c4; color:#fff;}
-
+.cdlist div a.select{color:#f30;background:#0080c4; color:#fff;}
 
 /* Created by Louis Time:2013-5-6 */
 /* Begin */

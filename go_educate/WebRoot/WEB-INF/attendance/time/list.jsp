@@ -32,7 +32,7 @@
 								<th scope="col"><input type="checkbox" id="checkAll"  onclick="checkAll(this);"  /><label for="checkAll">全选</label></th>
 								<th scope="col">姓名 </th>
 								<th scope="col">日期 </th>
-								<th scope="col">课时</th>
+								<!-- <th scope="col">课时</th> -->
 								<th scope="col">上课时间</th>
 								<th scope="col">操作</th>
 							</tr>
@@ -41,11 +41,11 @@
 									<td><input type="checkbox" name="ID" value="${vo.ID }" /></td>
 									<td>${vo.USERNAME }</td>
 									<td>${vo.DATE }</td>
-									<td>
+									<%-- <td>
 										<c:forEach items="${vo.children}" var="po" >
 										${po.NAME }</br>
 										</c:forEach>
-									</td>
+									</td> --%>
 									<td>
 										<c:forEach items="${vo.children}" var="po" >
 										${po.STARTTIME }-${po.ENDTIME }</br>

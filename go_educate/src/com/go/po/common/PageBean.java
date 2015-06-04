@@ -19,7 +19,7 @@ public class PageBean<T> {
 	private Integer page = 1;//第几页   To specify index of current page.
 	
 
-	private Integer rows = 2 ;//页面记录数   To specify how many records are presented per page.
+	private Integer rows = 10 ;//页面记录数   To specify how many records are presented per page.
 	
 
 	private Integer startRowNum = 1;//当前页开始记录数   First row index of this page.

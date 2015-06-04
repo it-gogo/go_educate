@@ -11,7 +11,7 @@
 			<div class="cdlist">
 				<c:forEach items="${menu.list }" var="children">
 					<div>
-						<a href="${children.URLS }">${children.MNAME }</a>
+						<a href="${children.URLS }" <c:if test="${selectMenu.selectID==children.ID }">class="select"</c:if>>${children.MNAME }</a>
 					</div>
 				</c:forEach>
 			</div>

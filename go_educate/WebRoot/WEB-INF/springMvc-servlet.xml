@@ -48,8 +48,10 @@
          <mvc:mapping path="/bmenu/*.do"/>
          <mvc:mapping path="/buser/*.do"/>
          <mvc:mapping path="/role/*.do"/>
-         <mvc:mapping path="/lesson/*.do"/>
          <mvc:mapping path="/curriculum/*.do"/>
+         
+         <mvc:mapping path="/lesson/*.do"/>
+         <mvc:mapping path="/time/*.do"/>
          <bean class="com.go.common.interceptor.SessionInterceptor"></bean>
       </mvc:interceptor>
       <!-- 前台Session拦截器

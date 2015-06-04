@@ -48,7 +48,7 @@
 								<td width="15%" align="right"><div align="right">课时：</div></td>
 								<td>
 									<c:forEach items="${lessonList }" var="lesson">
-										<input type="checkbox" name="LESSONID" value="${lesson.ID }" id="${lesson.ID }" /><label for="${lesson.ID }">${lesson.STARTTIME }-${lesson.ENDTIME }(${lesson.NAME })</label>&nbsp;&nbsp;
+										<input type="checkbox" name="LESSONID" value="${lesson.ID }" id="${lesson.ID }" /><label for="${lesson.ID }">${lesson.STARTTIME }-${lesson.ENDTIME }</label>&nbsp;&nbsp;
 									</c:forEach>
 								</td>
 							</tr>

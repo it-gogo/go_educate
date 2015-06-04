@@ -30,10 +30,10 @@
 					<form action="save.do" method="post" id="eform">
 						<input type="hidden" name="ID" value="${vo.ID }" />
 						<table width="100%" cellpadding="0" cellspacing="0">
-							<tr>
+						<%-- 	<tr>
 								<td width="15%" align="right"><div align="right">名称：</div></td>
 								<td><input size="25" name="NAME" value="${vo.NAME }" class="input_2 requires"  /></td>
-							</tr>
+							</tr> --%>
 							<tr>
 								<td width="15%" align="right"><div align="right">开始时间：</div></td>
 								<td><input size="25" name="STARTTIME" value="${vo.STARTTIME }" class="input_2 requires Wdate"  /></td>

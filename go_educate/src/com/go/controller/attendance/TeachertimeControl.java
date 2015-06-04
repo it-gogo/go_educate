@@ -81,20 +81,27 @@ public class TeachertimeControl extends BaseController {
 		  m.put("USERID", userid);
 		  Object date=parameter.get("DATE");
 		  m.put("DATE", date);
-		  List<Map<String,Object>> l=teachertimeService.findAll(m);
-		  if(l!=null && l.size()>0){
-			  this.ajaxMessage(response, Syscontants.MESSAGE,"操作失败，"+date+"已经安排了。");
-			  return;
-		  }
+		 
 		  boolean  isIDNull = sqlUtil.isIDNull(parameter,"ID");
 		  if(isIDNull){
 			  //设置ID
+			  List<Map<String,Object>> l=teachertimeService.findAll(m);
+			  if(l!=null && l.size()>0){
+				  this.ajaxMessage(response, Syscontants.MESSAGE,"操作失败，"+date+"已经安排了。");
+				  return;
+			  }
 			  Map<String,Object> n_parameter = sqlUtil.setTableID(parameter);
 			  parameter.put("ID", n_parameter.get("id"));
 			  //添加菜单
 			  this.teachertimeService.add(n_parameter);
 			  this.ajaxMessage(response, Syscontants.MESSAGE,"添加成功");
 		  }else{
+			  m.put("BID", parameter.get("ID"));
+			  List<Map<String,Object>> l=teachertimeService.findAll(m);
+			  if(l!=null && l.size()>0){
+				  this.ajaxMessage(response, Syscontants.MESSAGE,"操作失败，"+date+"已经安排了。");
+				  return;
+			  }
 			  this.teachertimeService.update(parameter);
 			  this.ajaxMessage(response, Syscontants.MESSAGE,"修改成功");
 		  }

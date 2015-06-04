@@ -33,6 +33,9 @@
 	   <if test="DATE!=NULL and DATE!=''">
 	   	And DATE =#{DATE}  
 	   </if>
+	   <if test="BID!=NULL and BID!=''">
+	   	And ID !=#{BID}  
+	   </if>
 	</select>
 	
 	
