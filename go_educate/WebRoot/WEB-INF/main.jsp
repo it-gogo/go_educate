@@ -27,7 +27,7 @@
                     </span>个异议、<span class="red">0</span>条短信息未处理</p>
                 <div class="btright">
                     <a href="User/StudentInfor/Letter.aspx.html">
-                        <img src="images/Student/default/bt_bzr.jpg" alt="给班主任发消息" width="121" height="25" /></a></div>
+                        <img src="../css/images/Student/default/bt_bzr.jpg" alt="给班主任发消息" width="121" height="25" /></a></div>
             </div>
         </div>
         <div class="dh2">
@@ -41,7 +41,7 @@
                     已经发放了 <span class="red">0 </span>本书籍 <a href="EducationCenter/Book.aspx.html" class="red">查看书籍情况</a></p>
                 <div class="btright">
                     <a href="EducationCenter/Application.aspx.html">
-                        <img src="images/Student/default/bt_jw.jpg" alt="进入教务中心" width="121" height="25" /></a></div>
+                        <img src="../css/images/Student/default/bt_jw.jpg" alt="进入教务中心" width="121" height="25" /></a></div>
             </div>
         </div>
         <div class="dh3" style="margin: 0 27px 15px 0;">
@@ -55,7 +55,7 @@
                     <a href="http://sm.zk0731.com/User/ExamCenter/ExamPractice/ListExercise.aspx?ptid=2">网上作业</a></p>
                 <div class="btright">
                     <a href="http://sm.zk0731.com/User/ExamCenter/ExamPractice/ListExam.aspx?ptid=1">
-                        <img src="images/Student/default/bt_ks.jpg" alt="进入考试中心" width="121" height="25" /></a></div>
+                        <img src="../css/images/Student/default/bt_ks.jpg" alt="进入考试中心" width="121" height="25" /></a></div>
             </div>
         </div>
         <div class="dh4">
@@ -69,7 +69,7 @@
                 
                 <div class="btright">
                     <a href="MyAccount/wdcw.aspx.html">
-                        <img src="images/Student/default/bt_cw.jpg" alt="进入财务中心" width="121" height="25" /></a></div>
+                        <img src="../css/images/Student/default/bt_cw.jpg" alt="进入财务中心" width="121" height="25" /></a></div>
             </div>
         </div>
     </div>
