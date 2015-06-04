@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="timelesson">
+	
+	<!-- 查询权限 -->
+	<select id="findall" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select * From  TTIMELESSON 
+	   Where 1=1
+	   <if test="ID!=NULL and ID!=''">
+	   	And TIMEID = #{ID}
+	   </if>
+	</select> 
+	<!-- 添加后台数据 -->
+	<insert id="add" parameterType="java.util.List" >
+		<foreach collection="list" item="vo"  open="" separator=";" close="">   
+		   insert into TTIMELESSON(ID,TIMEID,LESSONID) 
+		   values(#{vo.id},#{vo.TIMEID},#{vo.LESSONID})
+	   </foreach>
+	</insert>
+	<!-- 删除数据 -->
+	<delete id="delete"  parameterType = "java.util.List">
+	    delete From  TTIMELESSON  
+	    Where  TIMEID in 
+	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach> 
+	</delete>
+</mapper>

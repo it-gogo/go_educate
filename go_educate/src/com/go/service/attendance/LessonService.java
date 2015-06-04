@@ -72,4 +72,12 @@ public class LessonService extends BaseService {
 	public  void  delete(List<String> parameter){
 		this.getBaseDao().delete("lesson.delete", parameter);
 	}
+	/**
+	 * 查询时间冲突个数
+	 * @param parameter
+	 * @return
+	 */
+	public int findconfilict(Map<String,Object> parameter){
+		return Integer.parseInt(this.getBaseDao().findOne("lesson.findconfilict", parameter)+"");
+	}
 }

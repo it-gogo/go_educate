@@ -8,15 +8,23 @@
 	   <if test="NAME!=NULL and NAME!=''">
 	   	And NAME like CONCAT('%','${NAME}','%' )  
 	   </if>
+	   Order By STARTTIME asc
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
+	
 	<select id="findall" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select * From  TLESSON 
 	   Where 1=1
 	   <if test="ISACTIVES!=NULL and ISACTIVES!=''">
 	   	And ISACTIVES =#{ISACTIVES}  
 	   </if>
+	   <if test="TIMEID!=NULL and TIMEID!=''">
+	   	And ID In(Select LESSONID From TTIMELESSON Where TIMEID=#{TIMEID})
+	   </if>
+	   Order By STARTTIME asc
 	</select>
+	
+	
 	
 	<!-- 查询记录数 -->
 	<select id="findcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
@@ -57,5 +65,21 @@
 	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
            #{id}  
         </foreach>;
+        delete From  TTIMELESSON   Where 1 = 1
+	    And LESSONID in 
+	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach>;
 	</delete>
+	<!-- 冲突时间 -->
+	<select id="findconfilict" resultType="java.lang.Object" parameterType="java.util.HashMap" >
+	   select count(*) From  TLESSON 
+	   Where 1=1
+	   	And ((STARTTIME &lt; #{STARTTIME}  And ENDTIME > #{ENDTIME}) 
+	   	Or (STARTTIME > #{STARTTIME} And STARTTIME &lt; #{ENDTIME} )
+	   	Or (ENDTIME > #{STARTTIME} And ENDTIME  &lt; #{ENDTIME}) )
+	   	 <if test="ID!=NULL and ID!=''">
+		   	And ID!=#{ID} 
+		   </if>
+	</select>
 </mapper>
