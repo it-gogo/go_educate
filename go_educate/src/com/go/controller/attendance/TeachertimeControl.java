@@ -67,11 +67,15 @@ public class TeachertimeControl extends BaseController {
 	   * @param response
 	 * @throws Exception 
 	   */
-	  @RequestMapping("save1.do")
-	  public  void save1(HttpServletRequest request, HttpServletResponse response,String[] TIME) throws Exception{
+	  @RequestMapping("save.do")
+	  public  void save(HttpServletRequest request, HttpServletResponse response,String[] TIME) throws Exception{
 		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
 		  if(!"1".equals(user.get("TYPE"))){
 			  this.ajaxMessage(response, Syscontants.MESSAGE,"操作失败，这能老师自己操作。");
+			  return;
+		  }
+		  if(TIME==null || TIME.length==0){
+			  this.ajaxMessage(response, Syscontants.MESSAGE,"操作失败，至少添加一个时间段。");
 			  return;
 		  }
 		  //获取请求参数
@@ -86,10 +90,17 @@ public class TeachertimeControl extends BaseController {
 		  List<Map<String,Object>> timeList=new ArrayList<Map<String, Object>>();
 		  SimpleDateFormat sdf=new SimpleDateFormat("HH:mm");
 		  for(String str:TIME){
+			  if(str==null || "".equals(str)){
+				  continue;
+			  }
 			  Map<String, Object> time=new HashMap<String,Object>();
 			  String[] arr=str.split("-");
 			  long stime=sdf.parse(arr[0]).getTime();
 			  long etime=sdf.parse(arr[1]).getTime();
+			  if(stime>=etime){//开始时间大于结束时间
+				  this.ajaxMessage(response, Syscontants.ERROE,"操作失败，时间段错误。");
+				  return;
+			  }
 			  for(Map<String,Object> t:timeList){
 				  Long starttime=Long.parseLong(t.get("starttime").toString());
 				  Long endtime=Long.parseLong(t.get("endtime").toString());
@@ -140,18 +151,10 @@ public class TeachertimeControl extends BaseController {
 		  List<String> ll=new ArrayList<String>();
 		  ll.add(parameter.get("ID").toString());
 		  teachertimeService.deleteTL(ll);//删除之前连接表数据
-		  List<Map<String,Object>> list=new ArrayList<Map<String,Object>>();
-//		  for(String str:LESSONID){
-//			  Map<String,Object> map=new HashMap<String,Object>();
-//			  map = sqlUtil.setTableID(map);
-//			  map.put("TIMEID", parameter.get("ID"));
-//			  map.put("LESSONID", str);
-//			  list.add(map);
-//		  }
-		  teachertimeService.addTL(list);//添加新连接表数据
+		  teachertimeService.addTL(timeList);//添加新连接表数据
 	  }
-	  @RequestMapping("save.do")
-	  public  void save(HttpServletRequest request, HttpServletResponse response,String[] LESSONID) throws Exception{
+	  @RequestMapping("save1.do")
+	  public  void save1(HttpServletRequest request, HttpServletResponse response,String[] LESSONID) throws Exception{
 		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
 		  if(!"1".equals(user.get("TYPE"))){
 			  this.ajaxMessage(response, Syscontants.MESSAGE,"操作失败，这能老师自己操作。");

@@ -70,18 +70,28 @@
 							<tr>
 								<td width="15%" align="right"><div align="right">时间段：</div></td>
 								<td id="time">
+									<c:if test="${timelesson==null}">
+										<div>
+											<input size="25" name="TIME" readonly="readonly" class="input_2" onclick="timeRange(this)" />
+											<a style="width:32px;height: 32px;display: inline-block;vertical-align:middle;background-position: 32px;background-image: url('<%=request.getContextPath()%>/css/images/jbox-icons.png');" href="javascript:void(0);" onclick="removeTime(this);"></a>
+										</div>
+									</c:if>
+									<c:if test="${timelesson!=null}">
+										<c:forEach items="${timelesson }" var="vo">
+											<div>
+												<input size="25" name="TIME" value="${vo.STARTTIME }-${vo.ENDTIME}" readonly="readonly" class="input_2" onclick="timeRange(this)" />
+												<a style="width:32px;height: 32px;display: inline-block;vertical-align:middle;background-position: 32px;background-image: url('<%=request.getContextPath()%>/css/images/jbox-icons.png');" href="javascript:void(0);" onclick="removeTime(this);"></a>
+											</div>
+										</c:forEach>
+									</c:if>
 									<%--<div>
-										<input size="25" name="TIME" readonly="readonly" class="input_2" onclick="timeRange(this)" />
-										<a style="width:32px;height: 32px;display: inline-block;vertical-align:middle;background-position: 32px;background-image: url('<%=request.getContextPath()%>/css/images/jbox-icons.png');" href="javascript:void(0);" onclick="removeTime(this);"></a>
-									</div>
-									--%><%--<div>
 										从<input size="25" name="STRETTIME"  class="input_2 Wdate" onFocus="WdatePicker({dateFmt:'HH:mm'})"  />
 										到<input size="25" name="ENDTIME" class="input_2 Wdate" onFocus="WdatePicker({dateFmt:'HH:mm'})" />
 										<a style="width:32px;height: 32px;display: inline-block;vertical-align:middle;background-position: 32px;background-image: url('<%=request.getContextPath()%>/css/images/jbox-icons.png');" href="javascript:void(0);" onclick="removeTime(this);"></a>
 									</div>
-									--%><c:forEach items="${lessonList }" var="lesson">
+									--%><%-- <c:forEach items="${lessonList }" var="lesson">
 										<input type="checkbox" name="LESSONID" value="${lesson.ID }" id="${lesson.ID }" /><label for="${lesson.ID }">${lesson.STARTTIME }-${lesson.ENDTIME }</label>&nbsp;&nbsp;
-									</c:forEach>
+									</c:forEach> --%>
 								</td>
 							</tr>
 							<tr>

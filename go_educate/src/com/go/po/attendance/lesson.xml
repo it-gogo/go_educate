@@ -18,9 +18,9 @@
 	   <if test="ISACTIVES!=NULL and ISACTIVES!=''">
 	   	And ISACTIVES =#{ISACTIVES}  
 	   </if>
-	   <if test="TIMEID!=NULL and TIMEID!=''">
+	   <!-- <if test="TIMEID!=NULL and TIMEID!=''">
 	   	And ID In(Select LESSONID From TTIMELESSON Where TIMEID=#{TIMEID})
-	   </if>
+	   </if> -->
 	   Order By STARTTIME asc
 	</select>
 	

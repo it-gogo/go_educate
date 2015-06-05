@@ -27,8 +27,8 @@ public class TeachertimeService extends BaseService {
 		List<Map<String,Object>> list=pb.getList();
 		for(Map<String,Object> map:list){
 			Map<String,Object> n_parameter=new HashMap<String,Object>();
-			n_parameter.put("TIMEID", map.get("ID"));
-			List<Map<String,Object>> ll=this.getBaseDao().findList("lesson.findall", n_parameter);
+			n_parameter.put("ID", map.get("ID"));
+			List<Map<String,Object>> ll=this.getBaseDao().findList("timelesson.findall", n_parameter);
 			if(ll!=null && list.size()>0){
 				map.put("children", ll);
 			}

@@ -13,8 +13,8 @@
 	<!-- 添加后台数据 -->
 	<insert id="add" parameterType="java.util.List" >
 		<foreach collection="list" item="vo"  open="" separator=";" close="">   
-		   insert into TTIMELESSON(ID,TIMEID,LESSONID) 
-		   values(#{vo.id},#{vo.TIMEID},#{vo.LESSONID})
+		   insert into TTIMELESSON(ID,TIMEID,STARTTIME,ENDTIME) 
+		   values(#{vo.id},#{vo.TIMEID},#{vo.STARTTIME},#{vo.ENDTIME})
 	   </foreach>
 	</insert>
 	<!-- 删除数据 -->
