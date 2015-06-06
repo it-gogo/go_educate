@@ -132,7 +132,9 @@ public class TeachertimeControl extends BaseController {
 				  this.ajaxMessage(response, Syscontants.MESSAGE,"操作失败，"+date+"已经安排了。");
 				  return;
 			  }
-			  Map<String,Object> n_parameter = sqlUtil.setTableID(parameter);
+//			  Map<String,Object> n_parameter = sqlUtil.setTableID(parameter);
+			  Map<String,Object> n_parameter=parameter;
+			  n_parameter.put("id", id);
 			  parameter.put("ID", n_parameter.get("id"));
 			  //添加菜单
 			  this.teachertimeService.add(n_parameter);
