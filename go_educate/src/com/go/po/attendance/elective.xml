@@ -10,8 +10,8 @@
 	</select>
     <!-- 查询数据 -->
 	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
-	   select * From  TELECTIVE 
-	   Where 1=1
+	   select a.*,b.ID ELECTIVEID From TCURRICULUM a left join  TELECTIVE b on a.ID = b.CURRICULUMID
+	   Where 1=1 And a.ISACTIVES=1
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
 	
@@ -44,7 +44,7 @@
 	</update>
 	<!-- 导出数据 -->
 	<select id="load"  parameterType="java.util.HashMap" resultType="java.util.HashMap">
-	   Select * From TELECTIVE  Where ID=#{ID}
+	   Select * From TELECTIVE  Where ID=#{ELECTIVEID}
 	</select>
 	<!-- 删除数据 -->
 	<delete id="delete"  parameterType = "java.util.List">

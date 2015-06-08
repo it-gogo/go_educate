@@ -24,12 +24,18 @@ public class ElectiveService extends BaseService {
 	 */
 	public List<Map<String,Object>> findOptionalLesson(Map<String,Object> parameter){
 		Object curruculumid=parameter.get("ID");
+		Object electiveid=parameter.get("ELECTIVEID");
 		List<Map<String,Object>> list=this.getBaseDao().findList("elective.optionaldate", parameter);
+		List<Map<String,Object>> arrayList=new ArrayList<Map<String,Object>>();
 		for(Map<String,Object> map:list){
 			Map<Object,List<Map<String,Object>>> res=new HashMap<Object,List<Map<String,Object>>>();
 			map.put("CURRICULUMID", curruculumid);
+			map.put("ELECTIVEID", electiveid);
 			List<Map<String,Object>> lessonList=this.getBaseDao().findList("lesson.findoptional",map);
-			System.out.println("lessonList:"+lessonList.size());
+			if(lessonList==null || lessonList.size()==0){
+				arrayList.add(map);
+				continue;
+			}
 			for(Map<String,Object> lesson:lessonList){
 				Object username=lesson.get("USERNAME");
 				if(res.containsKey(username)){//存在
@@ -43,6 +49,7 @@ public class ElectiveService extends BaseService {
 			}
 			map.put("lessonList", res);
 		}
+		list.removeAll(arrayList);
 		return list;
 	}
 	/**
@@ -61,6 +68,15 @@ public class ElectiveService extends BaseService {
 	public List<Map<String,Object>> findAll(Map<String,Object> parameter){
 		return this.getBaseDao().findList("elective.findall", parameter);
 	}
+	/**
+	 * 查询选课课时表
+	 * @param parameter
+	 * @return
+	 */
+	public List<Map<String,Object>> findElectiveLesson(Map<String,Object> parameter){
+		return this.getBaseDao().findList("electivelesson.findall", parameter);
+	}
+	
 	
 	/**
 	 * 加载信息
@@ -100,5 +116,12 @@ public class ElectiveService extends BaseService {
 	 */
 	public  void  delete(List<String> parameter){
 		this.getBaseDao().delete("elective.delete", parameter);
+	}
+	/**
+	 * 删除选课课时表
+	 * @param parameter
+	 */
+	public  void  deleteElectiveLesson(Object parameter){
+		this.getBaseDao().delete("electivelesson.delete", parameter);
 	}
 }

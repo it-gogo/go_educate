@@ -42,6 +42,11 @@ function save(eform) {
 			return false;
 		}
 	}
+	 if(typeof(beforeSubimt)=='function'){
+		 if(!beforeSubimt(eform)){
+			 return false;
+		}
+     }
 	$("#"+eform).submit(function() {
         $("#"+eform).ajaxSubmit({
         	clearForm: false,

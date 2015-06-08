@@ -20,6 +20,7 @@
 							名称:<input size="20" name="NAME" value="${parameter.NAME }" class="input_2"  />
 							<input class="input2" type="submit" value="查询"   />
 							<input class="input2" type="button" value="清空"  onclick="clearData('searchForm')"  />
+							<input class="input2" type="button" value="生成课表"  onclick="generateTimetable()" style="float: right;"  />
 						</form>
 					</div>
 					<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -32,7 +33,11 @@
 								<tr align="center">
 									<td>${vo.NAME }</td>
 									<td>
-										<a href="javascript:void(0);"  onclick="elective('${vo.ID}')">选课</a> 
+										<c:if test="${vo.ELECTIVEID==NULL }"><a href="javascript:void(0);"  onclick="elective('${vo.ID}')">选课</a></c:if>
+										 <c:if test="${vo.ELECTIVEID!=NULL }">
+										 	<a href="javascript:void(0);"  onclick="load('${vo.ID}','${vo.ELECTIVEID}')">修改</a> |
+										 	<a href="javascript:void(0);"  onclick="deleteOne('${vo.ELECTIVEID}')">删除</a>
+										 </c:if>
 									</td>
 								</tr>
 							</c:forEach>

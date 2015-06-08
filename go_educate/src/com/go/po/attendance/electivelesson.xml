@@ -10,12 +10,17 @@
 	   </foreach>
 	</insert>
 	
+	<select id="findall" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select * From  TELECTIVELESSON 
+	   Where 1=1 
+	   <if test="ELECTIVEID!=NULL and ELECTIVEID!=''">
+	   	And ELECTIVEID = #{ELECTIVEID}
+	   </if>
+	</select>
+	
 	<!-- 删除数据 -->
-	<delete id="delete"  parameterType = "java.util.List">
+	<delete id="delete"  parameterType = "java.lang.Object">
 	    delete From  TELECTIVELESSON   Where 1 = 1
-	    And ID in 
-	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
-           #{id}  
-        </foreach>;
+	    And ELECTIVEID = #{id}  
 	</delete>
 </mapper>

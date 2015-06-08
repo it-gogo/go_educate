@@ -3,17 +3,27 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<%@include file="/WEB-INF/common/head.jsp"%>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/script/attendance/lesson.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/script/attendance/elective.js"></script>
 	<script src="<%=request.getContextPath() %>/My97DatePicker/WdatePicker.js"></script>
 	<script type="text/javascript">
-	/*$(function() {
-		$( ".Wdate" ).click(function(){
-			WdatePicker({dateFmt:'HH:mm'});
-		});
-		$( ".Wdate" ).focus(function(){
-			WdatePicker({dateFmt:'HH:mm'});
-		});
-	});*/
+	$(function(){
+		var obj='${electiveLesson }';
+		if(typeof(obj)=='undefined' || obj==''){
+			return ;
+		}else{
+			var json= eval("("+obj+")");
+			var box=$("input[name='LESSONID']");
+			for(var i=0;i<box.size();i++){
+				var o=box.get(i);
+				for(var j=0;j<json.length;j++){
+					if(o.value==json[j].TIMEID+"-"+json[j].LESSONID){
+						o.checked=true;
+						break;
+					}
+				}
+			}
+		}
+	});
 	function selectLesson(obj){
 		var $obj=$(obj);
 		var id=$obj.attr("id");
@@ -65,6 +75,7 @@
 					<h2 class="mbx">课时管理 &gt; 课时编辑</h2>
 					<form action="save.do" method="post" id="eform">
 						<input type="hidden" name="CURRICULUMID" value="${parameter.ID }" />
+						<input type="hidden" name="ID" value="${vo.ID }" />
 						<table width="100%" cellpadding="0" cellspacing="0">
 							<c:forEach items="${timeList }" var="time" varStatus="i" >
 								<tr>

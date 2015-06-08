@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.go.common.util.ExtendDate;
+import com.go.common.util.JSONUtil;
 import com.go.common.util.SqlUtil;
 import com.go.common.util.SysUtil;
 import com.go.controller.base.BaseController;
@@ -32,8 +33,6 @@ import com.go.service.platform.CurriculumService;
 public class ElectiveControl extends BaseController {
 	  @Resource
 	  private  ElectiveService  electiveService;
-	  @Resource
-	  private  CurriculumService  curriculumService;
 	  /**
 	   * 添加数据页面
 	   * @return
@@ -59,6 +58,8 @@ public class ElectiveControl extends BaseController {
 		  Map<String,Object>  res = this.electiveService.load(parameter);
 		  model.addAttribute("vo", res);
 		  
+		  List<Map<String,Object>> list=this.electiveService.findElectiveLesson(parameter);
+		  model.addAttribute("electiveLesson", JSONUtil.listToArray(list));
 		  return "forward:add.do";
 	  }
 	  /**
@@ -70,17 +71,36 @@ public class ElectiveControl extends BaseController {
 	  @RequestMapping("save.do")
 	  public  void save(HttpServletRequest request, HttpServletResponse response,String[] LESSONID) throws Exception{
 		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
+		  if(!"2".equals(user.get("TYPE"))){//为不学生
+			  this.ajaxMessage(response, Syscontants.ERROE,"添加失败，只能学生操作。");
+			  return;
+		  }
 		  //获取请求参数
 		  Map<String,Object> parameter = sqlUtil.setParameterInfo(request);
-		  Map<String,Object> elective=new HashMap<String,Object>();
-		  elective.put("USERID", user.get("ID"));//学生ID
-		  elective.put("CURRICULUMID", parameter.get("CURRICULUMID"));
-		  elective.put("MUCHLESSON", LESSONID.length);
-		  elective.put("CREATEDATE", ExtendDate.getYMD(new Date()));
-		  String electiveid=SqlUtil.uuid();
-		  elective.put("id", electiveid);
-		  electiveService.add(elective);//添加选课
-		  
+		  boolean  isIDNull = sqlUtil.isIDNull(parameter,"ID");
+		  String electiveid="";
+		  if(isIDNull){
+			  Map<String,Object> elective=new HashMap<String,Object>();
+			  elective.put("USERID", user.get("ID"));//学生ID
+			  elective.put("CURRICULUMID", parameter.get("CURRICULUMID"));
+			  elective.put("MUCHLESSON", LESSONID.length);
+			  elective.put("CREATEDATE", ExtendDate.getYMD_h_m_s(new Date()));
+			  electiveid=SqlUtil.uuid();
+			  elective.put("id", electiveid);
+			  electiveService.add(elective);//添加选课
+			  this.ajaxMessage(response, Syscontants.MESSAGE,"添加成功");
+		  }else{
+			  Map<String,Object> elective=new HashMap<String,Object>();
+			  elective.put("USERID", user.get("ID"));//学生ID
+			  elective.put("CURRICULUMID", parameter.get("CURRICULUMID"));
+			  elective.put("MUCHLESSON", LESSONID.length);
+			  elective.put("CREATEDATE", ExtendDate.getYMD_h_m_s(new Date()));
+			  electiveid=parameter.get("ID").toString();
+			  elective.put("id", electiveid);
+			  electiveService.update(elective);//添加选课
+			  this.ajaxMessage(response, Syscontants.MESSAGE,"修改成功");
+		  }
+		  electiveService.deleteElectiveLesson(electiveid);//删除旧选课课时表
 		  List<Map<String,Object>> electiveLessonList=new ArrayList<Map<String,Object>>();
 		  for(String str:LESSONID){
 			  String[] arr=str.split("-");
@@ -92,7 +112,6 @@ public class ElectiveControl extends BaseController {
 			  electiveLessonList.add(electiveLesson);
 		  }
 		  electiveService.addElectiveLesson(electiveLessonList);
-		  this.ajaxMessage(response, Syscontants.MESSAGE,"添加成功");
 		  
 	  }
 	  /**
@@ -103,8 +122,8 @@ public class ElectiveControl extends BaseController {
 	  @RequestMapping("findList.do")
 	  public  String  findList(HttpServletRequest request, HttpServletResponse response,Model  model){
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
-		  parameter.put("ISACTIVES", 1);
-		  PageBean<Map<String,Object>> pb = curriculumService.findList(parameter);
+//		  parameter.put("ISACTIVES", 1);
+		  PageBean<Map<String,Object>> pb = electiveService.findList(parameter);
 		  model.addAttribute("pageBean", pb);
 		  model.addAttribute("parameter", parameter);
 		  return  "attendance/elective/list";
@@ -119,5 +138,15 @@ public class ElectiveControl extends BaseController {
 		  List<String> parameter = sqlUtil.getIdsParameter(request);
 		  this.electiveService.delete(parameter);
 		  this.ajaxMessage(response, Syscontants.MESSAGE, "删除成功");
+	  }
+	  /**
+	   * 生成课表
+	   * @param request
+	   * @param response
+	   */
+	  @RequestMapping("generateTimetable.do")
+	  public  void  generateTimetable(HttpServletRequest request, HttpServletResponse response){
+		  List<String> parameter = sqlUtil.getIdsParameter(request);
+		  this.ajaxMessage(response, Syscontants.MESSAGE, "生成成功");
 	  }
 }
