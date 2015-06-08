@@ -1,5 +1,6 @@
 package com.go.controller.attendance;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.go.common.util.ExtendDate;
+import com.go.common.util.SqlUtil;
 import com.go.common.util.SysUtil;
 import com.go.controller.base.BaseController;
 import com.go.po.common.PageBean;
@@ -42,6 +44,7 @@ public class ElectiveControl extends BaseController {
 		  parameter.put("today", ExtendDate.getYMD(new Date()));
 		  List<Map<String,Object>> list=electiveService.findOptionalLesson(parameter);
 		  model.addAttribute("timeList", list);
+		  model.addAttribute("parameter", parameter);
 		  return  "attendance/elective/edit";
 	  }  
 	  /**
@@ -65,21 +68,31 @@ public class ElectiveControl extends BaseController {
 	 * @throws Exception 
 	   */
 	  @RequestMapping("save.do")
-	  public  void save(HttpServletRequest request, HttpServletResponse response,String[] elective) throws Exception{
+	  public  void save(HttpServletRequest request, HttpServletResponse response,String[] LESSONID) throws Exception{
 		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
 		  //获取请求参数
 		  Map<String,Object> parameter = sqlUtil.setParameterInfo(request);
-		  boolean  isIDNull = sqlUtil.isIDNull(parameter,"ID");
-		  if(isIDNull){
-			  //设置ID
-			  Map<String,Object> n_parameter = sqlUtil.setTableID(parameter);
-			  //添加菜单
-			  this.electiveService.add(n_parameter);
-			  this.ajaxMessage(response, Syscontants.MESSAGE,"添加成功");
-		  }else{
-			  this.electiveService.update(parameter);
-			  this.ajaxMessage(response, Syscontants.MESSAGE,"修改成功");
+		  Map<String,Object> elective=new HashMap<String,Object>();
+		  elective.put("USERID", user.get("ID"));//学生ID
+		  elective.put("CURRICULUMID", parameter.get("CURRICULUMID"));
+		  elective.put("MUCHLESSON", LESSONID.length);
+		  elective.put("CREATEDATE", ExtendDate.getYMD(new Date()));
+		  String electiveid=SqlUtil.uuid();
+		  elective.put("id", electiveid);
+		  electiveService.add(elective);//添加选课
+		  
+		  List<Map<String,Object>> electiveLessonList=new ArrayList<Map<String,Object>>();
+		  for(String str:LESSONID){
+			  String[] arr=str.split("-");
+			  Map<String,Object> electiveLesson=new HashMap<String,Object>();//选课课时表
+			  electiveLesson.put("ELECTIVEID", electiveid);
+			  electiveLesson.put("LESSONID", arr[1]);
+			  electiveLesson.put("TIMEID", arr[0]);
+			  electiveLesson.put("id", SqlUtil.uuid());
+			  electiveLessonList.add(electiveLesson);
 		  }
+		  electiveService.addElectiveLesson(electiveLessonList);
+		  this.ajaxMessage(response, Syscontants.MESSAGE,"添加成功");
 		  
 	  }
 	  /**

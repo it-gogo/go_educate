@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="electivelesson">
+	
+	<!-- 添加后台数据 -->
+	<insert id="add" parameterType="java.util.HashMap" >
+		<foreach collection="list" item="vo"  open="" separator=";" close="">   
+		   insert into TELECTIVELESSON(ID,ELECTIVEID,LESSONID,TIMEID) 
+		   values(#{vo.id},#{vo.ELECTIVEID},#{vo.LESSONID},#{vo.TIMEID})
+	   </foreach>
+	</insert>
+	
+	<!-- 删除数据 -->
+	<delete id="delete"  parameterType = "java.util.List">
+	    delete From  TELECTIVELESSON   Where 1 = 1
+	    And ID in 
+	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach>;
+	</delete>
+</mapper>

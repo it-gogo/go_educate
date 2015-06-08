@@ -30,14 +30,14 @@
 	
 	<!-- 添加后台数据 -->
 	<insert id="add" parameterType="java.util.HashMap" >
-	   insert into TELECTIVE(ID,USERID,CURRICULEMID,MUCHLESSON,CREATEDATE) 
-	   values(#{id},#{USERID},#{CURRICULEMID},#{MUCHLESSON},#{CREATEDATE})
+	   insert into TELECTIVE(ID,USERID,CURRICULUMID,MUCHLESSON,CREATEDATE) 
+	   values(#{id},#{USERID},#{CURRICULUMID},#{MUCHLESSON},#{CREATEDATE})
 	</insert>
 	
 	<!-- 添加后台数据 -->
 	<update id="update" parameterType="java.util.HashMap" >
 	   update TELECTIVE set  USERID = #{USERID},
-	   					CURRICULEMID = #{CURRICULEMID},
+	   					CURRICULUMID = #{CURRICULUMID},
 	   					MUCHLESSON = #{MUCHLESSON},
                         CREATEDATE = #{CREATEDATE}
         where  ID=#{ID} 

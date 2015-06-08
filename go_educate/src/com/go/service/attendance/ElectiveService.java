@@ -1,5 +1,7 @@
 package com.go.service.attendance;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +23,25 @@ public class ElectiveService extends BaseService {
 	 * @return
 	 */
 	public List<Map<String,Object>> findOptionalLesson(Map<String,Object> parameter){
+		Object curruculumid=parameter.get("ID");
 		List<Map<String,Object>> list=this.getBaseDao().findList("elective.optionaldate", parameter);
 		for(Map<String,Object> map:list){
-			map.put("timelessonList", this.getBaseDao().findList("timelesson.findall",map));
+			Map<Object,List<Map<String,Object>>> res=new HashMap<Object,List<Map<String,Object>>>();
+			map.put("CURRICULUMID", curruculumid);
+			List<Map<String,Object>> lessonList=this.getBaseDao().findList("lesson.findoptional",map);
+			System.out.println("lessonList:"+lessonList.size());
+			for(Map<String,Object> lesson:lessonList){
+				Object username=lesson.get("USERNAME");
+				if(res.containsKey(username)){//存在
+					List<Map<String,Object>> l=res.get(username);
+					l.add(lesson);
+				}else{
+					List<Map<String,Object>> l=new ArrayList<Map<String,Object>>();
+					l.add(lesson);
+					res.put(username, l);
+				}
+			}
+			map.put("lessonList", res);
 		}
 		return list;
 	}
@@ -59,6 +77,13 @@ public class ElectiveService extends BaseService {
 	 */
 	public  void  add(Map<String,Object> parameter){
 	    this.getBaseDao().insert("elective.add", parameter);
+	}
+	/**
+	 * 添加选课课时表
+	 * @param parameter
+	 */
+	public  void  addElectiveLesson(List<Map<String,Object>> parameter){
+	    this.getBaseDao().insert("electivelesson.add", parameter);
 	}
 	
 	/**

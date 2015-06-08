@@ -18,10 +18,18 @@
 	   <if test="ISACTIVES!=NULL and ISACTIVES!=''">
 	   	And ISACTIVES =#{ISACTIVES}  
 	   </if>
-	   <!-- <if test="TIMEID!=NULL and TIMEID!=''">
-	   	And ID In(Select LESSONID From TTIMELESSON Where TIMEID=#{TIMEID})
-	   </if> -->
 	   Order By STARTTIME asc
+	</select>
+	<!-- 可选课时 -->
+	<select id="findoptional" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select a.*,c.ID TIMEID,c.USERID USERID,c.DATE DATE,(Select NAME From TBUSER Where ID=c.USERID) USERNAME From  TLESSON a,TTIMELESSON b join TTEACHERTIME c on b.TIMEID=c.ID Where a.STARTTIME>=b.STARTTIME And a.ENDTIME &lt;= b.ENDTIME 
+	   <if test="DATE!=NULL and DATE!=''">
+	   	And c.DATE =#{DATE}  
+	   </if>
+	   <if test="CURRICULUMID!=NULL and CURRICULUMID!=''">
+	   	And c.USERID In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{CURRICULUMID})
+	   </if>
+	   Order By a.STARTTIME asc
 	</select>
 	
 	
