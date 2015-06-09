@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- 定时删除选课超过两个小时未生成课表的课时 -->
+	<!-- 要调用的工作类 -->
+	<bean id="deletePast" class="com.go.quart.ElectiveQuart"></bean>
+	<!-- 定义调用对象和调用对象的方法 -->
+	<bean id="toDoDelete"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject" ref="deletePast" />		
+		<!-- 调用的方法 -->
+		<property name="targetMethod" value="excute" />
+		
+		<!-- 不并发运行
+		<property name="concurrent" value="false" />  -->
+	</bean>
+	<!-- 定时删除选课超过两个小时未生成课表的课时 -->
+	<!-- 定义触发时间 -->
+	<bean id="doDelete" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="toDoDelete" />
+		</property>
+		<!-- 5分钟执行一次 -->
+		<property name="cronExpression">
+				<value>0 */5 * * * ?</value>
+		</property>
+	</bean>
+
+	
+	<!-- spring管理 -->
+	<bean id="startQuartz" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="doDelete" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>

@@ -60,4 +60,12 @@
            #{id}  
         </foreach>;
 	</delete>
+	<!-- zhangjf 2015-06-09 查询所有选课状态中超时的数据 -->
+	<select id="findDeLateList" parameterType="map" resultType="map">
+		select * from TELECTIVE 
+		where 1=1
+		and status =0
+		and DATE_FORMAT(DATE_SUB(DATE_FORMAT(now(),'%Y-%m-%d %H:%i'),INTERVAL ${num} ${type}),'%Y-%m-%d %H:%i')>DATE_FORMAT(CREATEDATE,'%Y-%m-%d %H:%i') 
+	</select>
+	
 </mapper>

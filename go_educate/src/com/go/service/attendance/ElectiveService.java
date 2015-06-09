@@ -18,6 +18,18 @@ import com.go.service.base.BaseService;
 public class ElectiveService extends BaseService {
 
 	/**
+	 * 查询选课超时的选课列表
+	 * @author zhangjf
+	 * @create_date 2015-6-9 下午8:57:15
+	 * @param params
+	 * @return
+	 */
+	public List<Map<String,Object>> findDelateOptionLesson(Map<String,Object> params){
+		List<Map<String,Object>> DelateList=this.getBaseDao().findList("elective.findDeLateList",params);
+		return DelateList;
+	}
+	
+	/**
 	 * 查询可选课时。
 	 * @param parameter
 	 * @return
