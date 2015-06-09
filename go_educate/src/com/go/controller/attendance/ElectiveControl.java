@@ -79,24 +79,20 @@ public class ElectiveControl extends BaseController {
 		  Map<String,Object> parameter = sqlUtil.setParameterInfo(request);
 		  boolean  isIDNull = sqlUtil.isIDNull(parameter,"ID");
 		  String electiveid="";
+		  Map<String,Object> elective=new HashMap<String,Object>();
+		  elective.put("USERID", user.get("ID"));//学生ID
+		  elective.put("CURRICULUMID", parameter.get("CURRICULUMID"));
+		  elective.put("MUCHLESSON", LESSONID.length);
+		  elective.put("CREATEDATE", ExtendDate.getYMD_h_m_s(new Date()));
+		  elective.put("STATUS","0");
 		  if(isIDNull){
-			  Map<String,Object> elective=new HashMap<String,Object>();
-			  elective.put("USERID", user.get("ID"));//学生ID
-			  elective.put("CURRICULUMID", parameter.get("CURRICULUMID"));
-			  elective.put("MUCHLESSON", LESSONID.length);
-			  elective.put("CREATEDATE", ExtendDate.getYMD_h_m_s(new Date()));
 			  electiveid=SqlUtil.uuid();
 			  elective.put("id", electiveid);
 			  electiveService.add(elective);//添加选课
 			  this.ajaxMessage(response, Syscontants.MESSAGE,"添加成功");
 		  }else{
-			  Map<String,Object> elective=new HashMap<String,Object>();
-			  elective.put("USERID", user.get("ID"));//学生ID
-			  elective.put("CURRICULUMID", parameter.get("CURRICULUMID"));
-			  elective.put("MUCHLESSON", LESSONID.length);
-			  elective.put("CREATEDATE", ExtendDate.getYMD_h_m_s(new Date()));
 			  electiveid=parameter.get("ID").toString();
-			  elective.put("id", electiveid);
+			  elective.put("ID", electiveid);
 			  electiveService.update(elective);//添加选课
 			  this.ajaxMessage(response, Syscontants.MESSAGE,"修改成功");
 		  }
