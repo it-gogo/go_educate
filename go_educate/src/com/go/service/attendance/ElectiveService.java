@@ -53,7 +53,8 @@ public class ElectiveService extends BaseService {
 	 * @param parameter
 	 * @return
 	 */
-	public  List<Map<String,Object>> findSelectedLesson(Map<String,Object> parameter){
+	public  Map<String,List<Map<String,Object>>> findSelectedLesson(Map<String,Object> parameter){
+		Map<String,List<Map<String,Object>>> res=new HashMap<String,List<Map<String,Object>>>();
 		List<Map<String,Object>> lessonList=this.getBaseDao().findList("elective.findSelectedLesson", parameter);//已选课时
 		List<Map<String,Object>> dateList=this.getBaseDao().findList("elective.findSelectedDate", parameter);//已选日期
 		List<Map<String,Object>> list=this.getBaseDao().findList("elective.findSelected", parameter);//已选数据
@@ -80,7 +81,10 @@ public class ElectiveService extends BaseService {
 			}
 		}
 		System.out.println(dateList);
-		return dateList;
+		res.put("lessonList",lessonList);
+		res.put("dateList",dateList);
+		res.put("list",list);
+		return res;
 	}
 	
 	/**

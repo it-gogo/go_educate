@@ -17,21 +17,20 @@
 	<select id="findSelectedLesson" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select * From  TLESSON 
 	   Where 1=1
-	    And ID In (Select LESSONID From TELECTIVELESSON Where ID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = #{SEMESTERID}))
+	    And ID In (Select LESSONID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = #{SEMESTERID}))
 	</select>
 	<!-- 查询已选择的日期 -->
 	<select id="findSelectedDate" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 		select DATE From  TTEACHERTIME 
 	   Where 1=1 
-	    And ID In (Select TIMEID From TELECTIVELESSON Where ID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = #{SEMESTERID}))
+	    And ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = #{SEMESTERID}))
 	   Group By DATE
 	</select>
 	<!-- 查询已选择数据 -->
 	<select id="findSelected" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
-	   select a.*,b.*,c.*,(Select NAME From TBUSER Where ID=c.USERID) USERNAME
+	   select a.*,b.*,c.*,(Select NAME From TBUSER Where ID=c.USERID) USERNAME,(Select NAME From TCURRICULUM Where ID=(Select CURRICULUMID From TELECTIVE Where ID = a.ELECTIVEID)) CURRICULUMNAME
 	   From  TELECTIVELESSON a join TLESSON b on a.LESSONID = b.id  join TTEACHERTIME c on a.TIMEID=c.ID 
 	   Where a.ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = #{SEMESTERID})
-	   Order By a.STARTTIME asc
 	</select>
 	
 	<!-- 查询可选日期 -->

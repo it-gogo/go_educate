@@ -154,7 +154,8 @@ public class ElectiveControl extends BaseController {
 	  public String lookTimetable(HttpServletRequest request, HttpServletResponse response,Model  model){
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
 		  parameter.put("SEMESTERID", "360bd21e8c36464398afdeb594a40a0e");
-		  electiveService.findSelectedLesson(parameter);
-		  return "";
+		  Map<String,List<Map<String,Object>>> map=electiveService.findSelectedLesson(parameter);
+		  model.addAttribute("map", map);
+		  return  "attendance/elective/test";
 	  }
 }
