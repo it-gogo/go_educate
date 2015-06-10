@@ -142,7 +142,19 @@ public class ElectiveControl extends BaseController {
 	   */
 	  @RequestMapping("generateTimetable.do")
 	  public  void  generateTimetable(HttpServletRequest request, HttpServletResponse response){
-		  List<String> parameter = sqlUtil.getIdsParameter(request);
-		  this.ajaxMessage(response, Syscontants.MESSAGE, "生成成功");
+		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
+		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
+		  parameter=sqlUtil.setTableID(parameter);
+		  parameter.put("USERID", user.get("ID"));
+		  parameter.put("CREATEDATE",ExtendDate.getYMD_h_m_s(new Date()));
+		  this.ajaxMessage(response, Syscontants.MESSAGE, electiveService.generateTimetable(parameter));
+	  }
+	  
+	  @RequestMapping("lookTimetable.do")
+	  public String lookTimetable(HttpServletRequest request, HttpServletResponse response,Model  model){
+		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
+		  parameter.put("SEMESTERID", "360bd21e8c36464398afdeb594a40a0e");
+		  electiveService.findSelectedLesson(parameter);
+		  return "";
 	  }
 }

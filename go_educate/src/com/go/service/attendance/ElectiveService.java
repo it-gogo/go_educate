@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.go.common.util.SqlUtil;
+import com.go.common.util.SysUtil;
 import com.go.po.common.PageBean;
 import com.go.service.base.BaseService;
 /**
@@ -17,6 +19,24 @@ import com.go.service.base.BaseService;
 @Service
 public class ElectiveService extends BaseService {
 
+	public String  generateTimetable(Map<String,Object> parameter){
+		List<Map<String,Object>> list=this.getBaseDao().findList("elective.findelective", parameter);//更新选课状态
+		if(list==null || list.size()==0){
+			return "生成失败，请先选课。";
+		}
+		this.getBaseDao().update("elective.updateStatus", parameter);//更新选课状态
+		this.getBaseDao().insert("semester.add", parameter);//添加学期
+		List<Map<String,Object>> arrayList=new ArrayList<Map<String,Object>>();
+		for(Map<String,Object> map:list){
+			Map<String,Object> m=new HashMap<String,Object>();
+			m.put("id", SqlUtil.uuid());
+			m.put("SEMESTERID", parameter.get("id"));
+			m.put("ELECTIVEID", map.get("ID"));
+			arrayList.add(m);
+		}
+		this.getBaseDao().insert("semesterelective.add", arrayList);//添加学期更选课关联表
+		return "生成成功";
+	}
 	/**
 	 * 查询选课超时的选课列表
 	 * @author zhangjf
@@ -27,6 +47,40 @@ public class ElectiveService extends BaseService {
 	public List<Map<String,Object>> findDelateOptionLesson(Map<String,Object> params){
 		List<Map<String,Object>> DelateList=this.getBaseDao().findList("elective.findDeLateList",params);
 		return DelateList;
+	}
+	/**
+	 * 查询已选择的课时
+	 * @param parameter
+	 * @return
+	 */
+	public  List<Map<String,Object>> findSelectedLesson(Map<String,Object> parameter){
+		List<Map<String,Object>> lessonList=this.getBaseDao().findList("elective.findSelectedLesson", parameter);//已选课时
+		List<Map<String,Object>> dateList=this.getBaseDao().findList("elective.findSelectedDate", parameter);//已选日期
+		List<Map<String,Object>> list=this.getBaseDao().findList("elective.findSelected", parameter);//已选数据
+		for(Map<String,Object> date:dateList){//遍历日期
+			Object d=date.get("DATE");
+			if(d==null){
+				continue;
+			}
+			for(Map<String,Object> vo:list){//遍历数据
+				if(d.equals(vo.get("DATE"))){
+					for(Map<String,Object> lesson:lessonList){
+						Object lessonid=lesson.get("ID");
+						Object lessonid1=vo.get("LESSONID");
+						if(lessonid.equals(lessonid1)){
+							List<Map<String,Object>> children=(List<Map<String, Object>>) date.get(lessonid);
+							if(children==null){
+								children=new ArrayList<Map<String, Object>>();
+								date.put(lessonid.toString(), children);
+							}
+							children.add(vo);
+						}
+					}
+				}
+			}
+		}
+		System.out.println(dateList);
+		return dateList;
 	}
 	
 	/**

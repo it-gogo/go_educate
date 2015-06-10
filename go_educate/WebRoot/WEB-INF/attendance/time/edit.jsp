@@ -41,6 +41,7 @@
 		var html="<div><input size=\"25\" readonly=\"readonly\" name=\"TIME\"  class=\"input_2\" onclick=\"timeRange(this)\" /> <a style=\"width:32px;height: 32px;display: inline-block;vertical-align:middle;background-position: 32px;background-image: url('<%=request.getContextPath()%>/css/images/jbox-icons.png');\" href=\"javascript:void(0);\" onclick=\"removeTime(this);\"></a></div>";
 		$("#time").append(html);
 	}
+	
 	</script>
 	<style type="text/css">
 	#time div{margin: 3px;}

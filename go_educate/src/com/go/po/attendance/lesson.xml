@@ -25,11 +25,13 @@
 	   select a.*,c.ID TIMEID,c.USERID USERID,c.DATE DATE,(Select NAME From TBUSER Where ID=c.USERID) USERNAME 
 	   From  TLESSON a,TTIMELESSON b join TTEACHERTIME c on b.TIMEID=c.ID 
 	   Where a.STARTTIME>=b.STARTTIME And a.ENDTIME &lt;= b.ENDTIME 
-	  	 And (Select count(*) From TELECTIVELESSON d Where d.LESSONID=a.ID And d.TIMEID = c.ID 
+	  	 And (Select count(*) From TELECTIVELESSON d Where ((d.LESSONID=a.ID And d.TIMEID = c.ID) Or  
+	  	 (d.TIMEID In (Select ID From TTEACHERTIME Where DATE=c.DATE) And d.LESSONID=a.ID))
 	   	<if test="ELECTIVEID!=NULL and ELECTIVEID!=''">
 	   	And ELECTIVEID != #{ELECTIVEID} 
 	   	</if>
 	  	 )=0
+	  	 
 	   <if test="DATE!=NULL and DATE!=''">
 	   	And c.DATE =#{DATE}  
 	   </if>

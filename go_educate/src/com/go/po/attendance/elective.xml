@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="elective">
+	<!-- 生成课表修改状态 -->
+	<update id="updateStatus" parameterType="java.util.HashMap"  >
+		update TELECTIVE set  STATUS = 1
+        where  USERID=#{USERID} And STATUS = 0
+	</update>
+	<!-- 查询要生成课表的选课记录 -->
+	<select id="findelective" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select * From  TELECTIVE 
+	   Where 1=1
+	    And USERID=#{USERID} And STATUS = 0
+	</select>
+	
+	<!-- 查询已选择的课时 -->
+	<select id="findSelectedLesson" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select * From  TLESSON 
+	   Where 1=1
+	    And ID In (Select LESSONID From TELECTIVELESSON Where ID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = #{SEMESTERID}))
+	</select>
+	<!-- 查询已选择的日期 -->
+	<select id="findSelectedDate" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+		select DATE From  TTEACHERTIME 
+	   Where 1=1 
+	    And ID In (Select TIMEID From TELECTIVELESSON Where ID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = #{SEMESTERID}))
+	   Group By DATE
+	</select>
+	<!-- 查询已选择数据 -->
+	<select id="findSelected" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select a.*,b.*,c.*,(Select NAME From TBUSER Where ID=c.USERID) USERNAME
+	   From  TELECTIVELESSON a join TLESSON b on a.LESSONID = b.id  join TTEACHERTIME c on a.TIMEID=c.ID 
+	   Where a.ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = #{SEMESTERID})
+	   Order By a.STARTTIME asc
+	</select>
+	
+	<!-- 查询可选日期 -->
 	<select id="optionaldate" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select * From  TTEACHERTIME 
 	   Where 1=1 
@@ -10,8 +44,8 @@
 	</select>
     <!-- 查询数据 -->
 	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
-	   select a.*,b.ID ELECTIVEID From TCURRICULUM a left join  TELECTIVE b on a.ID = b.CURRICULUMID
-	   Where 1=1 And a.ISACTIVES=1
+	   select a.*,b.ID ELECTIVEID From TCURRICULUM a left join  TELECTIVE b on a.ID = b.CURRICULUMID And b.STATUS=0
+	   Where 1=1 And a.ISACTIVES=1 
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
 	

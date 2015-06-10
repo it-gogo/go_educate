@@ -61,6 +61,17 @@
 		}
 	}
 	</script>
+	<style type="text/css">
+	.float{ width:100%; clear:both; line-height:26px; color:#000; text-align:center; margin-top:10px;}
+	.float{
+	
+	position:fixed;  
+    left:0px;  
+    bottom:10px;  
+    _position:absolute;  
+    _top:expression(document.documentElement.clientHeight + document.documentElement.scrollTop - this.offsetHeight); 
+}
+	</style>
 </head>
 <body>
 	<%@include file="/WEB-INF/common/banner.jsp"%>
@@ -108,15 +119,16 @@
 									<input type="radio" value="0" name="ISACTIVES" id="isactives_0" /><label for="isactives_0">否</label>
 								</td>
 							</tr>--%>
-							<tr>
+							<%--<tr>
 								<td colspan="2" align="center">
-									<div align="center">
-										<input type="button" value="提交" onclick="save('eform')" class="input2" /> 
-										<input type="button" value="返回" onclick="back()" class="input2" />
-									</div>
+									
 								</td>
-							</tr>
+							</tr>--%>
 						</table>
+						<div align="center" class="float">
+							<input type="button" value="提交" onclick="jBox.confirm('您是否要提交选课？', '询问', function(v, h, f) {if(v=='ok'){save('eform');}});" class="input2" /> 
+							<input type="button" value="返回" onclick="back()" class="input2" />
+						</div>
 					</form>
 				</div>
 			</div>

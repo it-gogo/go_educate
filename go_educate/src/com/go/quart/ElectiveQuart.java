@@ -53,7 +53,7 @@ public class ElectiveQuart implements Runnable {
 			 * 2.获取所有超时的选课数据ID
 			 */
 			for (Map<String, Object> delate : delateList) {
-				idList.add(delate.get("id").toString());
+				idList.add(delate.get("ID").toString());
 			}
 			/**
 			 * 3.进行超时数据删除
