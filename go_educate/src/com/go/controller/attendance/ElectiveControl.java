@@ -82,7 +82,7 @@ public class ElectiveControl extends BaseController {
 		  Map<String,Object> elective=new HashMap<String,Object>();
 		  elective.put("USERID", user.get("ID"));//学生ID
 		  elective.put("CURRICULUMID", parameter.get("CURRICULUMID"));
-		  elective.put("MUCHLESSON", LESSONID.length);
+//		  elective.put("MUCHLESSON", LESSONID.length);
 		  elective.put("CREATEDATE", ExtendDate.getYMD_h_m_s(new Date()));
 		  elective.put("STATUS","0");
 		  if(isIDNull){
@@ -145,6 +145,10 @@ public class ElectiveControl extends BaseController {
 	  @RequestMapping("generateTimetable.do")
 	  public  void  generateTimetable(HttpServletRequest request, HttpServletResponse response){
 		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
+		  if(!"2".equals(user.get("TYPE"))){//为不学生
+			  this.ajaxMessage(response, Syscontants.ERROE,"添加失败，只能学生操作。");
+			  return;
+		  }
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
 		  parameter=sqlUtil.setTableID(parameter);
 		  parameter.put("USERID", user.get("ID"));

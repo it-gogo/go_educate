@@ -33,7 +33,7 @@
 								<tr align="center">
 									<td>${vo.NAME }</td>
 									<td>
-										<c:if test="${vo.ELECTIVEID==NULL }"><a href="javascript:void(0);"  onclick="elective('${vo.ID}')">选课</a></c:if>
+										<c:if test="${vo.ELECTIVEID==NULL }"><a href="javascript:void(0);"  onclick="elective('${vo.ID}','${parameter.SEMESTERID }')">选课</a></c:if>
 										 <c:if test="${vo.ELECTIVEID!=NULL }">
 										 	<a href="javascript:void(0);"  onclick="load('${vo.ID}','${vo.ELECTIVEID}')">修改</a> |
 										 	<a href="javascript:void(0);"  onclick="deleteOne('${vo.ELECTIVEID}')">删除</a>

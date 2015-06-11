@@ -29,7 +29,7 @@ public class SemesterService extends BaseService {
 		List<Map<String,Object>> lessonList=this.getBaseDao().findList("elective.findSelectedLesson", parameter);//已选课时
 		List<Map<String,Object>> dateList=this.getBaseDao().findList("elective.findSelectedDate", parameter);//已选日期
 		List<Map<String,Object>> list=this.getBaseDao().findList("elective.findSelected", parameter);//已选数据
-		Map<String,Object> res= this.getBaseDao().loadEntity("findOneSemester", parameter);
+		Map<String,Object> res= this.getBaseDao().loadEntity("elective.findOneSemester", parameter);
 		if(dateList==null || dateList.size()==0){
 			return null;
 		}
@@ -107,5 +107,12 @@ public class SemesterService extends BaseService {
 	 */
 	public  void  delete(List<String> parameter){
 		this.getBaseDao().delete("semester.delete", parameter);
+	}
+	/**
+	 * 删除数据
+	 * @param parameter
+	 */
+	public  void  deleteToday(Map<String,Object> parameter){
+		this.getBaseDao().delete("electivelesson.deleteToday", parameter);
 	}
 }

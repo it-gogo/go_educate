@@ -35,6 +35,7 @@ function beforeSubimt(eform){
 function generateTimetable(){
 	jBox.confirm('您是否确定生成课表？', '询问', function(v, h, f) {
 		  if(v=="ok"){
+			 // location.href="generateTimetable.do";
 			  $.ajax({
 				  url:"generateTimetable.do",
 				  success:function(data){

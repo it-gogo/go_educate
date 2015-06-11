@@ -23,4 +23,12 @@
 	    delete From  TELECTIVELESSON   Where 1 = 1
 	    And ELECTIVEID = #{id}  
 	</delete>
+	<!-- 删除数据用于修改 -->
+	<delete id="deleteToday"  parameterType = "java.util.HashMap">
+	    delete From  TELECTIVELESSON   Where 1 = 1
+	    And ELECTIVEID = #{id}  
+	    <if test="today!=null and today!=''">
+	    	And TIMEID In (Select ID From TTEACHERTIME Where DATE >#{today})
+	    </if>
+	</delete>
 </mapper>

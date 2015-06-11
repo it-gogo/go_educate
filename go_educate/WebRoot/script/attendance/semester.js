@@ -24,8 +24,8 @@ function modifyElective(id,userid){
  * 选课
  * @param id
  */
-function elective(id){
-	location.href="add.do?SEMESTERID="+id;
+function elective(curriculumid,semesterid){
+	location.href="add.do?SEMESTERID="+semesterid+"&ID="+curriculumid;
 }
 
 /**

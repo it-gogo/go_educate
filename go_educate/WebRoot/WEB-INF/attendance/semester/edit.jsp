@@ -91,6 +91,7 @@
 						<input type="hidden" name="CURRICULUMID" value="${vo.CURRICULUMID }" />
 						<input type="hidden" name="ID" value="${vo.ID }" />
 						<input type="hidden" name="USERID" value="${vo.USERID }" />
+						<input type="hidden" name="SEMESTERID" value="${vo.SEMESTERID }" />
 						<table width="100%" cellpadding="0" cellspacing="0">
 							<c:forEach items="${timeList }" var="time" varStatus="i" >
 								<tr>

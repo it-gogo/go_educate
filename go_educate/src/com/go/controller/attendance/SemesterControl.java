@@ -45,7 +45,9 @@ public class SemesterControl extends BaseController {
 		  parameter.put("today", ExtendDate.getYMD(new Date()));
 		  List<Map<String,Object>> list=electiveService.findOptionalLesson(parameter);
 		  model.addAttribute("timeList", list);
-//		  model.addAttribute("vo", parameter);
+		  parameter.put("CURRICULUMID", parameter.get("ID"));
+		  parameter.remove("ID");
+		  model.addAttribute("vo", parameter);
 		  return  "attendance/semester/edit";
 	  }  
 	  /**
@@ -79,7 +81,7 @@ public class SemesterControl extends BaseController {
 		  Map<String,Object> elective=new HashMap<String,Object>();
 		  elective.put("USERID", parameter.get("USERID"));//学生ID
 		  elective.put("CURRICULUMID", parameter.get("CURRICULUMID"));
-		  elective.put("MUCHLESSON", LESSONID.length);
+//		  elective.put("MUCHLESSON", LESSONID.length);
 		  elective.put("CREATEDATE", ExtendDate.getYMD_h_m_s(new Date()));
 		  elective.put("STATUS","1");
 		  if(isIDNull){
@@ -92,8 +94,11 @@ public class SemesterControl extends BaseController {
 			  elective.put("ID", electiveid);
 			  electiveService.update(elective);//添加选课
 			  this.ajaxMessage(response, Syscontants.MESSAGE,"修改成功");
+			  Map<String,Object> today=new HashMap<String,Object>();
+			  today.put("today", ExtendDate.getYMD(new Date()));
+			  today.put("id", electiveid);
+			  semesterService.deleteToday(today);//删除旧选课课时表
 		  }
-		  electiveService.deleteElectiveLesson(electiveid);//删除旧选课课时表
 		  List<Map<String,Object>> electiveLessonList=new ArrayList<Map<String,Object>>();
 		  for(String str:LESSONID){
 			  String[] arr=str.split("-");
@@ -134,7 +139,6 @@ public class SemesterControl extends BaseController {
 	  @RequestMapping("lookTimetable.do")
 	  public String lookTimetable(HttpServletRequest request, HttpServletResponse response,Model  model){
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
-//		  parameter.put("SEMESTERID", "fbfc19e3e4264c51b29e84774dc208fd");
 		  Map<String,Object> map=semesterService.findSelectedLesson(parameter);
 		  model.addAttribute("map", map);
 		  return  "attendance/semester/look";
@@ -148,8 +152,6 @@ public class SemesterControl extends BaseController {
 	  @RequestMapping("modifyElective.do")
 	  public  String  modifyElective(HttpServletRequest request, HttpServletResponse response,Model  model){
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
-//		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
-//		  parameter.put("USERID", user.get("ID"));
 		  parameter.put("STATUS", 1);
 		  PageBean<Map<String,Object>> pb = electiveService.findList(parameter);
 		  model.addAttribute("pageBean", pb);

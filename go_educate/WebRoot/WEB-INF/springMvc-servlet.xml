@@ -52,6 +52,7 @@
          
          <mvc:mapping path="/lesson/*.do"/>
          <mvc:mapping path="/time/*.do"/>
+         <mvc:mapping path="/semester/*.do"/>
          <bean class="com.go.common.interceptor.SessionInterceptor"></bean>
       </mvc:interceptor>
       <!-- 前台Session拦截器
