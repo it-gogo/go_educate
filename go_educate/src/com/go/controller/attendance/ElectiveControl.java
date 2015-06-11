@@ -153,8 +153,8 @@ public class ElectiveControl extends BaseController {
 	  @RequestMapping("lookTimetable.do")
 	  public String lookTimetable(HttpServletRequest request, HttpServletResponse response,Model  model){
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
-		  parameter.put("SEMESTERID", "360bd21e8c36464398afdeb594a40a0e");
-		  Map<String,List<Map<String,Object>>> map=electiveService.findSelectedLesson(parameter);
+		  parameter.put("SEMESTERID", "fbfc19e3e4264c51b29e84774dc208fd");
+		  Map<String,Object> map=electiveService.findSelectedLesson(parameter);
 		  model.addAttribute("map", map);
 		  return  "attendance/elective/test";
 	  }

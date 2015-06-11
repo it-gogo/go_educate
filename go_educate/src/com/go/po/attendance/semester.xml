@@ -3,8 +3,11 @@
 <mapper namespace="semester">
     <!-- 查询数据 -->
 	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
-	   select * From  TSEMESTER 
-	   Where 1=1
+	   select *,(Select NAME From TBUSER Where ID=a.USERID) USERNAME ,
+	   (Select SUM(MUCHLESSON) From TELECTIVE Where ID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) MUCHLESSON,
+	   (Select min(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) FIRST,
+	   (Select max(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) LATEST
+	   From  TSEMESTER a Where 1=1
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
 	
@@ -14,10 +17,16 @@
 	    where 1=1
 	</select>
 	
+	<!-- 查询最大系列号 -->
+	<select id="findmaxindex" resultType="java.lang.Object" parameterType="java.util.HashMap" >
+	    Select max(SEVERAL)  From  TSEMESTER 
+	    Where 1=1 And USERID=#{USERID}
+	</select>
+	
 	<!-- 添加后台数据 -->
 	<insert id="add" parameterType="java.util.HashMap" >
-	   insert into TSEMESTER(ID,USERID,CREATEDATE) 
-	   values(#{id},#{USERID},#{CREATEDATE})
+	   insert into TSEMESTER(ID,USERID,CREATEDATE,SEVERAL) 
+	   values(#{id},#{USERID},#{CREATEDATE},#{SEVERAL})
 	</insert>
 	
 	<!-- 导出数据 -->

@@ -25,6 +25,12 @@ public class ElectiveService extends BaseService {
 			return "生成失败，请先选课。";
 		}
 		this.getBaseDao().update("elective.updateStatus", parameter);//更新选课状态
+		Object several=this.getBaseDao().findOne("semester.findmaxindex",parameter);//查询该学生学期最大系列号
+		if(several==null){
+			parameter.put("SEVERAL", 1);
+		}else{
+			parameter.put("SEVERAL", Integer.valueOf(several.toString())+1);
+		}
 		this.getBaseDao().insert("semester.add", parameter);//添加学期
 		List<Map<String,Object>> arrayList=new ArrayList<Map<String,Object>>();
 		for(Map<String,Object> map:list){
@@ -48,24 +54,45 @@ public class ElectiveService extends BaseService {
 		List<Map<String,Object>> DelateList=this.getBaseDao().findList("elective.findDeLateList",params);
 		return DelateList;
 	}
+	public static void main(String[] args) {
+		System.out.println(1/2);
+		List<List<Map<String,Object>>> resList=new ArrayList<List<Map<String,Object>>>();
+		System.out.println(resList.size());
+	}
 	/**
 	 * 查询已选择的课时
 	 * @param parameter
 	 * @return
 	 */
-	public  Map<String,List<Map<String,Object>>> findSelectedLesson(Map<String,Object> parameter){
-		Map<String,List<Map<String,Object>>> res=new HashMap<String,List<Map<String,Object>>>();
+	public  Map<String,Object> findSelectedLesson(Map<String,Object> parameter){
+//		Map<String,Object> res=new HashMap<String,Object>();
 		List<Map<String,Object>> lessonList=this.getBaseDao().findList("elective.findSelectedLesson", parameter);//已选课时
 		List<Map<String,Object>> dateList=this.getBaseDao().findList("elective.findSelectedDate", parameter);//已选日期
 		List<Map<String,Object>> list=this.getBaseDao().findList("elective.findSelected", parameter);//已选数据
-		for(Map<String,Object> date:dateList){//遍历日期
+		Map<String,Object> res= this.getBaseDao().loadEntity("findOneSemester", parameter);
+		if(dateList==null || dateList.size()==0){
+			return null;
+		}
+		int size=5;//每size天为一页
+		int index=dateList.size()/size;
+		List<List<Map<String,Object>>> resList=new ArrayList<List<Map<String,Object>>>();
+		for(int i=0;i<dateList.size();i++){//遍历日期
+			Map<String,Object> date=dateList.get(i);
 			Object d=date.get("DATE");
 			if(d==null){
 				continue;
 			}
+			int j=i/size;
+			if(resList.size()==j){
+				List<Map<String,Object>> l=new ArrayList<Map<String,Object>>();
+				l.add(date);
+				resList.add(l);
+			}else{
+				resList.get(j).add(date);
+			}
 			for(Map<String,Object> vo:list){//遍历数据
 				if(d.equals(vo.get("DATE"))){
-					for(Map<String,Object> lesson:lessonList){
+					for(Map<String,Object> lesson:lessonList){//遍历课时
 						Object lessonid=lesson.get("ID");
 						Object lessonid1=vo.get("LESSONID");
 						if(lessonid.equals(lessonid1)){
@@ -80,10 +107,12 @@ public class ElectiveService extends BaseService {
 				}
 			}
 		}
-		System.out.println(dateList);
+		System.out.println(resList);
 		res.put("lessonList",lessonList);
-		res.put("dateList",dateList);
+		res.put("dateList",resList);
+//		res.put("dateList",dateList);
 		res.put("list",list);
+		
 		return res;
 	}
 	

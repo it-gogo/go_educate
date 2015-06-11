@@ -32,6 +32,15 @@
 	   From  TELECTIVELESSON a join TLESSON b on a.LESSONID = b.id  join TTEACHERTIME c on a.TIMEID=c.ID 
 	   Where a.ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = #{SEMESTERID})
 	</select>
+	<!-- 查询一个课表数据 -->
+	<select id="findOneSemester" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select *,(Select NAME From TBUSER Where ID=a.USERID) USERNAME ,
+	   (Select SUM(MUCHLESSON) From TELECTIVE Where ID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) MUCHLESSON,
+	   (Select min(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) FIRST,
+	   (Select max(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) LATEST
+	   From  TSEMESTER a Where ID  = #{SEMESTERID}
+	   limit 0,1
+	</select>
 	
 	<!-- 查询可选日期 -->
 	<select id="optionaldate" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
