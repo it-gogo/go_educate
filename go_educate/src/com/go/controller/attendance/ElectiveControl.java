@@ -118,7 +118,9 @@ public class ElectiveControl extends BaseController {
 	  @RequestMapping("findList.do")
 	  public  String  findList(HttpServletRequest request, HttpServletResponse response,Model  model){
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
-//		  parameter.put("ISACTIVES", 1);
+		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
+		  parameter.put("USERID", user.get("ID"));
+		  parameter.put("STATUS", 0);
 		  PageBean<Map<String,Object>> pb = electiveService.findList(parameter);
 		  model.addAttribute("pageBean", pb);
 		  model.addAttribute("parameter", parameter);
@@ -148,14 +150,5 @@ public class ElectiveControl extends BaseController {
 		  parameter.put("USERID", user.get("ID"));
 		  parameter.put("CREATEDATE",ExtendDate.getYMD_h_m_s(new Date()));
 		  this.ajaxMessage(response, Syscontants.MESSAGE, electiveService.generateTimetable(parameter));
-	  }
-	  
-	  @RequestMapping("lookTimetable.do")
-	  public String lookTimetable(HttpServletRequest request, HttpServletResponse response,Model  model){
-		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
-		  parameter.put("SEMESTERID", "fbfc19e3e4264c51b29e84774dc208fd");
-		  Map<String,Object> map=electiveService.findSelectedLesson(parameter);
-		  model.addAttribute("map", map);
-		  return  "attendance/elective/test";
 	  }
 }

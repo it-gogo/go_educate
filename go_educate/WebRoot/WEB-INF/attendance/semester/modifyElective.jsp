@@ -12,34 +12,32 @@
 			<%@include file="/WEB-INF/common/nav.jsp"%>
 			<div class="rightbox">
 
-				<h2 class="mbx">考勤管理 &gt; 学期管理</h2>
+				<h2 class="mbx">考勤管理 &gt; 修改选课</h2>
 				<%@include file="/WEB-INF/platform/nav.jsp"%>
 				<div class="cztable">
 					<div class="tis">
-						<form action="findList.do" method="post" id="searchForm">
+						<form action="modifyElective.do" method="post" id="searchForm">
 							名称:<input size="20" name="NAME" value="${parameter.NAME }" class="input_2"  />
 							<input class="input2" type="submit" value="查询"   />
 							<input class="input2" type="button" value="清空"  onclick="clearData('searchForm')"  />
+							<input class="input2" type="button" value="返回"  onclick="back()" style="float: right;"  />
 						</form>
 					</div>
 					<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						<tbody>
 							<tr style="height: 25px" align="center">
-								<th scope="col">学员 </th>
-								<th scope="col">学期 </th>
-								<th scope="col">课时 </th>
-								<th scope="col">日期 </th>
+								<th scope="col">名称 </th>
 								<th scope="col">操作</th>
 							</tr>
 							<c:forEach items="${pageBean.list }" var="vo" >
 								<tr align="center">
-									<td>${vo.USERNAME }</td>
-									<td>第 ${vo.SEVERAL } 学期</td>
-									<td>${vo.MUCHLESSON }</td>
-									<td> ${vo.FIRST } - ${vo.LATEST }</td>
+									<td>${vo.NAME }</td>
 									<td>
-										<a href="javascript:void(0);"  onclick="lookTimetable('${vo.ID}')">查看</a> |
-										<a href="javascript:void(0);"  onclick="modifyElective('${vo.ID}','${vo.USERID }')">修改</a> |
+										<c:if test="${vo.ELECTIVEID==NULL }"><a href="javascript:void(0);"  onclick="elective('${vo.ID}')">选课</a></c:if>
+										 <c:if test="${vo.ELECTIVEID!=NULL }">
+										 	<a href="javascript:void(0);"  onclick="load('${vo.ID}','${vo.ELECTIVEID}')">修改</a> |
+										 	<a href="javascript:void(0);"  onclick="deleteOne('${vo.ELECTIVEID}')">删除</a>
+										 </c:if>
 									</td>
 								</tr>
 							</c:forEach>
