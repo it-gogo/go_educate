@@ -35,7 +35,7 @@
 	<!-- 查询一个课表数据 -->
 	<select id="findOneSemester" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select *,(Select NAME From TBUSER Where ID=a.USERID) USERNAME ,
-	   (Select SUM(MUCHLESSON) From TELECTIVE Where ID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) MUCHLESSON,
+	   (Select count(*) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) MUCHLESSON,
 	   (Select min(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) FIRST,
 	   (Select max(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) LATEST
 	   From  TSEMESTER a Where ID  = #{SEMESTERID}
@@ -52,8 +52,12 @@
 	</select>
     <!-- 查询数据 -->
 	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
-	   select a.*,b.ID ELECTIVEID From TCURRICULUM a left join  TELECTIVE b on a.ID = b.CURRICULUMID And b.STATUS=0
+	   select a.*,b.ID ELECTIVEID From TCURRICULUM a left join  TELECTIVE b on a.ID = b.CURRICULUMID And b.STATUS=#{STATUS} And b.USERID=#{USERID}
+	   <if test="SEMESTERID!=null and SEMESTERID!=''">
+	   	And b.ID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID=#{SEMESTERID})
+	   </if>
 	   Where 1=1 And a.ISACTIVES=1 
+	   
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
 	

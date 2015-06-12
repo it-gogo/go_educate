@@ -82,7 +82,7 @@ public class ElectiveControl extends BaseController {
 		  Map<String,Object> elective=new HashMap<String,Object>();
 		  elective.put("USERID", user.get("ID"));//学生ID
 		  elective.put("CURRICULUMID", parameter.get("CURRICULUMID"));
-		  elective.put("MUCHLESSON", LESSONID.length);
+//		  elective.put("MUCHLESSON", LESSONID.length);
 		  elective.put("CREATEDATE", ExtendDate.getYMD_h_m_s(new Date()));
 		  elective.put("STATUS","0");
 		  if(isIDNull){
@@ -118,7 +118,9 @@ public class ElectiveControl extends BaseController {
 	  @RequestMapping("findList.do")
 	  public  String  findList(HttpServletRequest request, HttpServletResponse response,Model  model){
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
-//		  parameter.put("ISACTIVES", 1);
+		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
+		  parameter.put("USERID", user.get("ID"));
+		  parameter.put("STATUS", 0);
 		  PageBean<Map<String,Object>> pb = electiveService.findList(parameter);
 		  model.addAttribute("pageBean", pb);
 		  model.addAttribute("parameter", parameter);
@@ -143,19 +145,14 @@ public class ElectiveControl extends BaseController {
 	  @RequestMapping("generateTimetable.do")
 	  public  void  generateTimetable(HttpServletRequest request, HttpServletResponse response){
 		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
+		  if(!"2".equals(user.get("TYPE"))){//为不学生
+			  this.ajaxMessage(response, Syscontants.ERROE,"添加失败，只能学生操作。");
+			  return;
+		  }
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
 		  parameter=sqlUtil.setTableID(parameter);
 		  parameter.put("USERID", user.get("ID"));
 		  parameter.put("CREATEDATE",ExtendDate.getYMD_h_m_s(new Date()));
 		  this.ajaxMessage(response, Syscontants.MESSAGE, electiveService.generateTimetable(parameter));
-	  }
-	  
-	  @RequestMapping("lookTimetable.do")
-	  public String lookTimetable(HttpServletRequest request, HttpServletResponse response,Model  model){
-		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
-		  parameter.put("SEMESTERID", "fbfc19e3e4264c51b29e84774dc208fd");
-		  Map<String,Object> map=electiveService.findSelectedLesson(parameter);
-		  model.addAttribute("map", map);
-		  return  "attendance/elective/test";
 	  }
 }
