@@ -4,10 +4,19 @@
     <!-- 查询数据 -->
 	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select *,(Select NAME From TBUSER Where ID=a.USERID) USERNAME ,
-	   (Select SUM(MUCHLESSON) From TELECTIVE Where ID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) MUCHLESSON,
+	   (Select count(*) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) MUCHLESSON,
 	   (Select min(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) FIRST,
 	   (Select max(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) LATEST
 	   From  TSEMESTER a Where 1=1
+	   <if test="XSNAME!=null and XSNAME!=''">
+	   	And USERID In (Select ID From TBUSER Where NAME  like CONCAT('%','${XSNAME}','%' )  )
+	   </if>
+	   <if test="USERID!=null and USERID!=''"><!-- 学生 -->
+	   	And USERID =#{USERID}
+	   </if>
+	    <if test="LSUSERID!=null and LSUSERID!=''"><!-- 老师 -->
+	   	And ID In (Select SEMESTERID From TSEMESTERELECTIVE Where ELECTIVEID In (Select ELECTIVEID From TELECTIVELESSON Where TIMEID In (Select ID From TTEACHERTIME Where USERID=#{LSUSERID}))) 
+	   </if>
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
 	

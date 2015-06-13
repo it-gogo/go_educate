@@ -19,6 +19,9 @@ import com.go.service.base.BaseService;
 @Service
 public class SemesterService extends BaseService {
 
+	public void addSemesterElective(List<Map<String,Object>> parameter){
+		this.getBaseDao().insert("semesterelective.add", parameter);
+	}
 	/**
 	 * 查询已选择的课时
 	 * @param parameter

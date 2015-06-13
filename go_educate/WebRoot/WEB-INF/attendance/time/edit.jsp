@@ -64,7 +64,7 @@
 							<tr>
 								<td width="15%" align="right"><div align="right">日期：</div></td><%--{dateFmt:'HH:mm',disabledDates:['..\:1','..\:2','..\:4','..\:5','..\:6','..\:7','..\:8','..\:9','..\:^0']}--%>
 								<td>
-									<input size="25" name="DATE" value="${vo.DATE }" class="input_2 requires Wdate" onFocus="WdatePicker()"  />
+									<input size="25" name="DATE" value="${vo.DATE }" class="input_2 requires Wdate" onFocus="WdatePicker({minDate:'%y-%M-{%d+1}'})"  />
 									<input class="input2" type="button" value="添加时间段" onclick="addTime();" style="float: right;" />
 								</td>
 							</tr>

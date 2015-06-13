@@ -24,13 +24,13 @@ function modifyElective(id,userid){
  * 选课
  * @param id
  */
-function elective(curriculumid,semesterid){
-	location.href="add.do?SEMESTERID="+semesterid+"&ID="+curriculumid;
+function elective(curriculumid,userid,semesterid){
+	location.href="add.do?SEMESTERID="+semesterid+"&CURRICULUMID="+curriculumid+"&USERID="+userid;
 }
 
 /**
  * 导入数据
  */
-function load(id,electiveid){
-	location.href="load.do?ID="+id+"&ELECTIVEID="+electiveid;
+function load(curriculumid,electiveid,semesterid){
+	location.href="load.do?SEMESTERID="+semesterid+"&ELECTIVEID="+electiveid+"&CURRICULUMID="+curriculumid;
 }

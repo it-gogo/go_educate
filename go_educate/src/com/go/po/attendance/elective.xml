@@ -52,7 +52,7 @@
 	</select>
     <!-- 查询数据 -->
 	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
-	   select a.*,b.ID ELECTIVEID From TCURRICULUM a left join  TELECTIVE b on a.ID = b.CURRICULUMID And b.STATUS=#{STATUS} And b.USERID=#{USERID}
+	   select a.*,b.ID ELECTIVEID,'${USERID}' USERID From TCURRICULUM a left join  TELECTIVE b on a.ID = b.CURRICULUMID And b.STATUS=#{STATUS} And b.USERID=#{USERID}
 	   <if test="SEMESTERID!=null and SEMESTERID!=''">
 	   	And b.ID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID=#{SEMESTERID})
 	   </if>

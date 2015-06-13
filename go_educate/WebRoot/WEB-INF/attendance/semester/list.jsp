@@ -17,7 +17,7 @@
 				<div class="cztable">
 					<div class="tis">
 						<form action="findList.do" method="post" id="searchForm">
-							名称:<input size="20" name="NAME" value="${parameter.NAME }" class="input_2"  />
+							学生:<input size="20" name="XSNAME" value="${parameter.XSNAME }" class="input_2"  />
 							<input class="input2" type="submit" value="查询"   />
 							<input class="input2" type="button" value="清空"  onclick="clearData('searchForm')"  />
 						</form>
@@ -39,7 +39,7 @@
 									<td> ${vo.FIRST } - ${vo.LATEST }</td>
 									<td>
 										<a href="javascript:void(0);"  onclick="lookTimetable('${vo.ID}')">查看</a> |
-										<a href="javascript:void(0);"  onclick="modifyElective('${vo.ID}','${vo.USERID }')">修改</a> |
+										<a href="javascript:void(0);"  onclick="modifyElective('${vo.ID}','${vo.USERID }')">修改</a> 
 									</td>
 								</tr>
 							</c:forEach>
