@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="class">
+    <!-- 查询数据 -->
+	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select * From  TCLASS 
+	   Where 1=1
+	   limit  #{pageBean.startRowNum},#{pageBean.rows}
+	</select> 
+	
+	<select id="findall" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select * From  TCLASS 
+	   Where 1=1
+	   Order By STARTTIME asc
+	</select>
+	<!-- 查询记录数 -->
+	<select id="findcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
+	    Select count(1) From  TCLASS 
+	</select>
+	
+	<!-- 添加后台数据 -->
+	<insert id="add" parameterType="java.util.HashMap" >
+	   insert into TCLASS(ID,SEVERAL,LSUSERID,XSUSERID,DATE,CURRICULEMID,MUCHLESSON,STARTTIME,ENDTIME,CREATEDATE) 
+	   values(#{id},#{SEVERAL},#{LSUSERID},#{XSUSERID},#{DATE},#{CURRICULEMID},#{MUCHLESSON}#{STARTTIME},#{ENDTIME},#{CREATEDATE})
+	</insert>
+	
+	<!-- 添加后台数据 -->
+	<update id="update" parameterType="java.util.HashMap" >
+	   update TCLASS set  SEVERAL = #{SEVERAL},
+	   					LSUSERID = #{LSUSERID},
+	   					XSUSERID = #{XSUSERID},
+	   					DATE = #{DATE},
+	   					CURRICULEMID = #{CURRICULEMID},
+	   					MUCHLESSON = #{MUCHLESSON},
+	   					STARTTIME = #{STARTTIME},
+	   					ENDTIME = #{ENDTIME},
+                        CREATEDATE = #{CREATEDATE}
+        where  ID=#{ID} 
+	</update>
+	<!-- 导出数据 -->
+	<select id="load"  parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	   Select * From TCLASS  Where ID=#{ID}
+	</select>
+	<!-- 删除数据 -->
+	<delete id="delete"  parameterType = "java.util.List">
+	    delete From  TCLASS   Where 1 = 1
+	    And ID in 
+	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach>;
+	</delete>
+</mapper>

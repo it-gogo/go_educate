@@ -5,6 +5,9 @@
 	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select * From  TBUSER 
 	   Where 1=1
+	   <if test="TYPESTR!=NULL and TYPESTR!=''">
+	   	And TYPE = #{TYPESTR}
+	   </if>
 	   <if test="NAME!=NULL and NAME!=''">
 	   	And NAME like CONCAT('%','${NAME}','%' )  
 	   </if>
@@ -28,6 +31,9 @@
 	<select id="findcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
 	    Select count(1) From  TBUSER 
 	    where 1=1
+	     <if test="TYPESTR!=NULL and TYPESTR!=''">
+	   	And TYPE =#{TYPESTR}
+	   </if>
 	     <if test="NAME!=NULL and NAME!=''">
 	   	And NAME like CONCAT('%','${NAME}','%' )  
 	   </if>
