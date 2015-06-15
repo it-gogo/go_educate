@@ -8,7 +8,6 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.go.common.util.SqlUtil;
-import com.go.common.util.SysUtil;
 import com.go.po.common.PageBean;
 import com.go.service.base.BaseService;
 /**
@@ -42,6 +41,45 @@ public class ElectiveService extends BaseService {
 		}
 		this.getBaseDao().insert("semesterelective.add", arrayList);//添加学期更选课关联表
 		return "生成成功";
+	}
+	
+	private void getLXLesson(Map<String,Object> m,List<Map<String,Object>> list,List<Map<String,Object>> res){
+		res.add(m);
+		Object lsuserid=m.get("USERID");
+		Object date=m.get("DATE");
+		Object endtime=m.get("ENDTIME");
+		for(Map<String,Object> map:list){
+			Object lsuser1=map.get("USERID");
+			Object date1=map.get("DATE");
+			Object starttime=map.get("STARTTIME");
+			if(lsuserid.equals(lsuser1)){//同一个老师
+				if(date1.equals(date)){//同一天
+					if(starttime.equals(endtime)){//结束等于开始
+						getLXLesson(map, list,res);
+					}
+				}
+			}
+		}
+		return ;
+	}
+	/**
+	 * 生成节课
+	 * @param parameter
+	 * @return
+	 */
+	public List<Map<String,Object>> generateClass(Map<String,Object> parameter){
+		List<Map<String,Object>> list=this.getBaseDao().findList("elective.findClassElective", parameter);
+		List<Map<String,Object>> res=new ArrayList<Map<String,Object>>();
+		getClass(list,res);
+		return null;
+	}
+	private void getClass(List<Map<String,Object>> list,List<Map<String,Object>> res){
+		List<Map<String,Object>> arr=new ArrayList<Map<String,Object>>();
+		if(list.size()>0){
+			getLXLesson(list.get(0), list,arr);
+			list.removeAll(arr);
+			getClass(list,res);
+		}
 	}
 	/**
 	 * 查询选课超时的选课列表

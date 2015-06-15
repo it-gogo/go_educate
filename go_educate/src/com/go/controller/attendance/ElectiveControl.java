@@ -150,9 +150,15 @@ public class ElectiveControl extends BaseController {
 			  return;
 		  }
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
-		  parameter=sqlUtil.setTableID(parameter);
+//		  parameter=sqlUtil.setTableID(parameter);
+		  Object id=SqlUtil.uuid();
+		  parameter.put("id", id);
 		  parameter.put("USERID", user.get("ID"));
 		  parameter.put("CREATEDATE",ExtendDate.getYMD_h_m_s(new Date()));
 		  this.ajaxMessage(response, Syscontants.MESSAGE, electiveService.generateTimetable(parameter));
+		  
+		  Map<String,Object> n_parameter=new HashMap<String,Object>();
+		  n_parameter.put("SEMESTERID", id);
+//		  electiveService.findListBySemester(parameter);
 	  }
 }
