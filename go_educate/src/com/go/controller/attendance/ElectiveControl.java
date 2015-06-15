@@ -141,9 +141,10 @@ public class ElectiveControl extends BaseController {
 	   * 生成课表
 	   * @param request
 	   * @param response
+	 * @throws Exception 
 	   */
 	  @RequestMapping("generateTimetable.do")
-	  public  void  generateTimetable(HttpServletRequest request, HttpServletResponse response){
+	  public  void  generateTimetable(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
 		  if(!"2".equals(user.get("TYPE"))){//为不学生
 			  this.ajaxMessage(response, Syscontants.ERROE,"添加失败，只能学生操作。");
@@ -159,6 +160,6 @@ public class ElectiveControl extends BaseController {
 		  
 		  Map<String,Object> n_parameter=new HashMap<String,Object>();
 		  n_parameter.put("SEMESTERID", id);
-//		  electiveService.findListBySemester(parameter);
+		  electiveService.generateClass(n_parameter);
 	  }
 }

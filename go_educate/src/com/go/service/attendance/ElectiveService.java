@@ -1,12 +1,16 @@
 package com.go.service.attendance;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.go.common.util.ExtendDate;
 import com.go.common.util.SqlUtil;
 import com.go.po.common.PageBean;
 import com.go.service.base.BaseService;
@@ -46,16 +50,30 @@ public class ElectiveService extends BaseService {
 	private void getLXLesson(Map<String,Object> m,List<Map<String,Object>> list,List<Map<String,Object>> res){
 		res.add(m);
 		Object lsuserid=m.get("USERID");
+		Object xsuserid=m.get("XSUSERID");
 		Object date=m.get("DATE");
 		Object endtime=m.get("ENDTIME");
+		Object starttime=m.get("STARTTIME");
+		Object curriculumid=m.get("CURRICULUMID");
+		List<Map<String,Object>> remove=new ArrayList<Map<String,Object>>();
 		for(Map<String,Object> map:list){
 			Object lsuser1=map.get("USERID");
+			Object xsuserid1=map.get("XSUSERID");
 			Object date1=map.get("DATE");
-			Object starttime=map.get("STARTTIME");
-			if(lsuserid.equals(lsuser1)){//同一个老师
-				if(date1.equals(date)){//同一天
-					if(starttime.equals(endtime)){//结束等于开始
-						getLXLesson(map, list,res);
+			Object starttime1=map.get("STARTTIME");
+			Object endtime1=map.get("ENDTIME");
+			Object curriculumid1=map.get("CURRICULUMID");
+			if(curriculumid.equals(curriculumid1)){//同一个课程
+				if(lsuserid.equals(lsuser1)){//同一个老师
+					if(xsuserid.equals(xsuserid1)){//同一学生
+						if(date1.equals(date)){//同一天
+							if(starttime.equals(endtime1) || endtime.equals(starttime1)){//结束等于开始
+								if(res.contains(map)){
+								}else{
+									getLXLesson(map, list,res);
+								}
+							}
+						}
 					}
 				}
 			}
@@ -66,18 +84,76 @@ public class ElectiveService extends BaseService {
 	 * 生成节课
 	 * @param parameter
 	 * @return
+	 * @throws Exception 
 	 */
-	public List<Map<String,Object>> generateClass(Map<String,Object> parameter){
+	public List<Map<String,Object>> generateClass(Map<String,Object> parameter) throws Exception{
 		List<Map<String,Object>> list=this.getBaseDao().findList("elective.findClassElective", parameter);
-		List<Map<String,Object>> res=new ArrayList<Map<String,Object>>();
+		if(list==null || list.size()==0){
+			return null;
+		}
+		List<List<Map<String,Object>>> res=new ArrayList<List<Map<String,Object>>>();
 		getClass(list,res);
+		
+		Map<String,Object> n_parameter=new HashMap<String,Object>();
+		List<Map<String,Object>> classList=new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> classelList=new ArrayList<Map<String,Object>>();
+		for(List<Map<String,Object>> l:res){
+			if(l!=null && l.size()>0){
+				Map<String,Object> classm=new HashMap<String,Object>();
+				Map<String,Object> map=l.get(0);
+				classm.put("LSUSERID", map.get("USERID"));//老师ID
+				classm.put("XSUSERID", map.get("XSUSERID"));//学生ID
+				classm.put("DATE", map.get("DATE"));//老师ID
+				classm.put("CURRICULUMID", map.get("CURRICULUMID"));//课程ID
+				classm.put("MUCHLESSON", l.size());//多少节课
+				classm.put("CREATEDATE", ExtendDate.getYMD_h_m_s(new Date()));//创建时间
+				String id=SqlUtil.uuid();
+				classm.put("id", id);//id
+				String starttime="24:00";
+				String endtime="00:00";
+				for(Map<String,Object> m:l){
+					starttime=compareTime(starttime, m.get("STARTTIME").toString(), "0");//返回小值
+					endtime=compareTime(endtime, m.get("ENDTIME").toString(), "1");//返回大值
+					Map<String,Object> classel=new HashMap<String,Object>();
+					classel.put("id", SqlUtil.uuid());//id
+					classel.put("CLASSID", id);//CLASSID
+					classel.put("ELID", m.get("ID"));//ELID
+					classelList.add(classel);
+				}
+				classm.put("STARTTIME", starttime);//上课时间
+				classm.put("ENDTIME", endtime);//下课时间
+				classList.add(classm);
+			}
+		}
+		if(classList!=null && classList.size()>0){
+			n_parameter.put("classList", classList);
+			this.getBaseDao().insert("class.add", n_parameter);
+		}
+		if(classelList!=null && classelList.size()>0){
+			n_parameter.put("classelList", classelList);
+			this.getBaseDao().insert("classel.add", n_parameter);
+		}
 		return null;
 	}
-	private void getClass(List<Map<String,Object>> list,List<Map<String,Object>> res){
+	public static void main(String[] args) throws Exception {
+		System.out.println(compareTime("08:00","07:30","0"));
+	}
+	private static String compareTime(String time1,String time2,String type) throws Exception{
+		SimpleDateFormat sdf=new SimpleDateFormat("HH:ss");
+		Long l1=sdf.parse(time1).getTime();
+		Long l2=sdf.parse(time2).getTime();
+		if("1".equals(type)){//返回大值
+			return l1>l2?time1:time2;
+		}else{//返回小值
+			return l1<l2?time1:time2;
+		}
+	}
+	private void getClass(List<Map<String,Object>> list,List<List<Map<String,Object>>> res){
 		List<Map<String,Object>> arr=new ArrayList<Map<String,Object>>();
 		if(list.size()>0){
 			getLXLesson(list.get(0), list,arr);
 			list.removeAll(arr);
+			res.add(arr);
 			getClass(list,res);
 		}
 	}
@@ -91,11 +167,6 @@ public class ElectiveService extends BaseService {
 	public List<Map<String,Object>> findDelateOptionLesson(Map<String,Object> params){
 		List<Map<String,Object>> DelateList=this.getBaseDao().findList("elective.findDeLateList",params);
 		return DelateList;
-	}
-	public static void main(String[] args) {
-		System.out.println(1/2);
-		List<List<Map<String,Object>>> resList=new ArrayList<List<Map<String,Object>>>();
-		System.out.println(resList.size());
 	}
 	
 	
@@ -207,3 +278,4 @@ public class ElectiveService extends BaseService {
 		this.getBaseDao().delete("electivelesson.delete", parameter);
 	}
 }
+

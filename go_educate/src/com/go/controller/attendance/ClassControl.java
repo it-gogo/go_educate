@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.go.common.util.SysUtil;
 import com.go.controller.base.BaseController;
 import com.go.po.common.PageBean;
 import com.go.po.common.Syscontants;
@@ -79,6 +80,14 @@ public class ClassControl extends BaseController {
 	  @RequestMapping("findList.do")
 	  public  String  findList(HttpServletRequest request, HttpServletResponse response,Model  model){
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
+		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
+		  Object userid=user.get("ID");
+		  if("1".equals(user.get("TYPE"))){//老师
+			  parameter.put("LSUSERID", userid);
+		  }else if("2".equals(user.get("TYPE"))){//学生
+			  parameter.put("XSUSERID", userid);
+		  }else if("3".equals(user.get("TYPE"))){//管理员
+		  }
 		  PageBean<Map<String,Object>> pb = this.classService.findList(parameter);
 		  model.addAttribute("pageBean", pb);
 		  model.addAttribute("parameter", parameter);

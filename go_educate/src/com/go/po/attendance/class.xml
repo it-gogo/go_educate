@@ -3,8 +3,21 @@
 <mapper namespace="class">
     <!-- 查询数据 -->
 	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
-	   select * From  TCLASS 
+	   select *,(Select NAME From TBUSER Where ID = XSUSERID) XSNAME,(Select NAME From TBUSER Where ID = LSUSERID) LSNAME,(Select NAME From TCURRICULUM Where ID = CURRICULUMID) CURRICULUMNAME
+	    From  TCLASS 
 	   Where 1=1
+	   <if test="LSUSERID!=null and LSUSERID!=''">
+	    	And LSUSERID = #{LSUSERID}
+	    </if>
+	    <if test="XSUSERID!=null and XSUSERID!=''">
+	    	And XSUSERID = #{XSUSERID}
+	    </if>
+	   <if test="STARTDATE!=null and STARTDATE!=''">
+	    	And DATE >= #{STARTDATE}
+	    </if>
+	    <if test="ENDDATE!=null and ENDDATE!=''">
+	    	And DATE &lt;= #{ENDDATE}
+	    </if>
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
 	
@@ -15,13 +28,27 @@
 	</select>
 	<!-- 查询记录数 -->
 	<select id="findcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
-	    Select count(1) From  TCLASS 
+	    Select count(1) From  TCLASS Where 1=1
+	    <if test="LSUSERID!=null and LSUSERID!=''">
+	    	And LSUSERID = #{LSUSERID}
+	    </if>
+	    <if test="XSUSERID!=null and XSUSERID!=''">
+	    	And XSUSERID = #{XSUSERID}
+	    </if>
+	    <if test="STARTDATE!=null and STARTDATE!=''">
+	    	And DATE >= #{STARTDATE}
+	    </if>
+	    <if test="ENDDATE!=null and ENDDATE!=''">
+	    	And DATE &lt;= #{ENDDATE}
+	    </if>
 	</select>
 	
 	<!-- 添加后台数据 -->
 	<insert id="add" parameterType="java.util.HashMap" >
-	   insert into TCLASS(ID,SEVERAL,LSUSERID,XSUSERID,DATE,CURRICULEMID,MUCHLESSON,STARTTIME,ENDTIME,CREATEDATE) 
-	   values(#{id},#{SEVERAL},#{LSUSERID},#{XSUSERID},#{DATE},#{CURRICULEMID},#{MUCHLESSON}#{STARTTIME},#{ENDTIME},#{CREATEDATE})
+	<foreach collection="classList" item="vo"  open="" separator=";" close="">   
+	   insert into TCLASS(ID,SEVERAL,LSUSERID,XSUSERID,DATE,CURRICULUMID,MUCHLESSON,STARTTIME,ENDTIME,CREATEDATE) 
+	   values(#{vo.id},#{vo.SEVERAL},#{vo.LSUSERID},#{vo.XSUSERID},#{vo.DATE},#{vo.CURRICULUMID},#{vo.MUCHLESSON},#{vo.STARTTIME},#{vo.ENDTIME},#{vo.CREATEDATE})
+		</foreach>
 	</insert>
 	
 	<!-- 添加后台数据 -->

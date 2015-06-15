@@ -81,7 +81,11 @@
 	    And ID In (Select LESSONID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = #{SEMESTERID}))
 	</select>
 	<select id="findClassElective" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
-	   select a.*,b.*,c.*,a.ID ID,d.USERID XSUSERID From  TELECTIVELESSON a join TLESSON b on a.LESSONID=b.ID join TTEACHERTIME c on a.TIMEID=c.ID  join TELECTIVE d on a.ELECTIVEID =d.ID
+	   select a.*,b.*,c.*,a.ID ID,d.USERID XSUSERID,d.CURRICULUMID CURRICULUMID
+	   From  TELECTIVELESSON a 
+	   join TLESSON b on a.LESSONID=b.ID 
+	   join TTEACHERTIME c on a.TIMEID=c.ID  
+	   join TELECTIVE d on a.ELECTIVEID =d.ID
 	   Where 1=1
 	    And ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = #{SEMESTERID})
 	    Order By c.USERID desc,c.DATE desc,b.STARTTIME desc
