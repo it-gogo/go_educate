@@ -7,7 +7,18 @@
 	<script>
 		function sign(id){
 			$.ajax({
-				url:"sign/",
+				url:"../sign/doSign.do",
+				type:"POST",
+				data:"ID="+id,
+				success:function(message){
+					var msg = eval("("+message+")");
+					var result = msg.msg;
+					if(result=="200"){
+						location.reload();
+					}else{
+						jBox(result);
+					}
+				}
 			});
 		}
 	</script>
@@ -32,6 +43,7 @@
 							<input class="input2" type="button" value="删除" onclick="deleteAll()"  />--%>
 						</form>
 					</div>
+					<span style="color:red;"> 签到时间:课前25至2min,准时; 课前2至0分钟,警告; 课后0至15min,迟到; 课后15min后,忘记签到.</span>
 					<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						<tbody>
 							<tr style="height: 25px" align="center">
@@ -56,9 +68,15 @@
 									<td>${vo.CURRICULUMNAME }</td>
 									<td>${vo.STARTTIME }</td>
 									<td>${vo.ENDTIME }</td>
-									<td>${vo.sign =='1'?'已签到':'未签到'}</td>
+									<td>${vo.sign =="0"?"<span style='color:red;'>未签到</span>"
+												:vo.sign=="1"?"<span style='color:blue;'>已签</span>"
+												:vo.sign=="2"?"迟到"
+												:vo.sign=="3"?"<span style='color:red;'>警告</span>"
+												:"<span style='color:green;'>忘记签到</span>"
+										 }
+									</td>
 									<td>
-										<c:if test="${vo.DATE==today}">
+										<c:if test="${ vo.DATE==today and vo.sign =='0'}">
 											<a href="javascript:void(0);"  onclick="sign('${vo.ID}')">签到</a>
 										</c:if>
 									</td>

@@ -18,5 +18,11 @@ public class SignService extends BaseService{
 	public PageBean<Map<String, Object>> findList(Map<String, Object> parameter) {
 		return this.getBaseDao().findPageBean("class.findcount", "class.findlist", parameter);
 	}
+	public Map<String,Object> load(Map<String, Object> parameter) {
+		return (Map<String, Object>) this.getBaseDao().findOne("class.load", parameter);
+	}
+	public void updateSign(Map<String, Object> parameter) {
+		this.getBaseDao().update("class.updateSign", parameter);
+	}
 
 }

@@ -486,3 +486,6 @@ CREATE TABLE `tuserrole` (
 -- ----------------------------
 -- Records of tuserrole
 -- ----------------------------
+
+
+ALTER table tclass add COLUMN sign varchar(1) DEFAULT 0 comment '0未签到 1已签到 2迟到 3警告';

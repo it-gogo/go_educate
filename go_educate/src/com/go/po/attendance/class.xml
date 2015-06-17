@@ -18,8 +18,7 @@
 	    </if>
 	    <if test="ENDDATE!=null and ENDDATE!=''">
 	    	And DATE &lt;= #{ENDDATE}
-	    </if>
-	    
+	    </if>    
 	    order by date desc 
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
@@ -115,4 +114,9 @@
            #{id}  
         </foreach>;
 	</delete>
+	<!-- 签到type修改 -->
+	<update id="updateSign" parameterType="java.util.HashMap">
+		update TCLASS set sign = #{sign}
+		where id = #{ID}
+	</update>
 </mapper>
