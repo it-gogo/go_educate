@@ -40,7 +40,19 @@
 	   </if>
 	   Order By a.STARTTIME asc
 	</select>
-	
+	<!-- 管理员可选课时（允许查询被选中的课时） -->
+	<select id="findoptional1" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select a.*,c.ID TIMEID,c.USERID USERID,c.DATE DATE,(Select NAME From TBUSER Where ID=c.USERID) USERNAME 
+	   From  TLESSON a,TTIMELESSON b join TTEACHERTIME c on b.TIMEID=c.ID 
+	   Where a.STARTTIME>=b.STARTTIME And a.ENDTIME &lt;= b.ENDTIME 
+	   <if test="DATE!=NULL and DATE!=''">
+	   	And c.DATE =#{DATE}  
+	   </if>
+	   <if test="CURRICULUMID!=NULL and CURRICULUMID!=''">
+	   	And c.USERID In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{CURRICULUMID})
+	   </if>
+	   Order By a.STARTTIME asc
+	</select>
 	
 	
 	<!-- 查询记录数 -->

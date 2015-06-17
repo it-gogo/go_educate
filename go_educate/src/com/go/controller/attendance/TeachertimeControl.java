@@ -51,6 +51,22 @@ public class TeachertimeControl extends BaseController {
 	   * @param response
 	   * @return
 	   */
+	  @RequestMapping("look.do")
+	  public  String look(HttpServletRequest request, HttpServletResponse response,Model  model){
+		  Map<String,Object>  parameter = sqlUtil.setParameterInfo(request);
+		  Map<String,Object>  res = this.teachertimeService.load(parameter);
+		  model.addAttribute("vo", res);
+		  
+		  List<Map<String,Object>> list=this.teachertimeService.findTL(parameter);
+		  model.addAttribute("timelesson", JSONUtil.listToArray(list));
+		  return  "attendance/time/look";
+	  }
+	  /**
+	   * 导出数据
+	   * @param request
+	   * @param response
+	   * @return
+	   */
 	  @RequestMapping("load.do")
 	  public  String load(HttpServletRequest request, HttpServletResponse response,Model  model){
 		  Map<String,Object>  parameter = sqlUtil.setParameterInfo(request);

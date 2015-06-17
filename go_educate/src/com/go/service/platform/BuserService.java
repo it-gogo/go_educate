@@ -16,6 +16,14 @@ import com.go.service.base.BaseService;
 public class BuserService extends BaseService {
 
 	/**
+	 * 我的学员个数
+	 * @param parameter
+	 * @return
+	 */
+	public int myStudentCount(Map<String,Object> parameter){
+		return Integer.parseInt(this.getBaseDao().findOne("buser.findcount", parameter).toString());
+	}
+	/**
 	 * 分页查找数据
 	 * @param parameter
 	 * @return

@@ -3,7 +3,8 @@
 <mapper namespace="teachertime">
     <!-- 查询数据 -->
 	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
-	   select *,(Select NAME From TBUSER Where ID=USERID) as USERNAME From  TTEACHERTIME 
+	   select *,(Select NAME From TBUSER Where ID=USERID) as USERNAME,(Select count(*) From TELECTIVELESSON Where TIMEID=a.ID) ELECTIVENUM
+	    From  TTEACHERTIME a
 	   Where 1=1
 	   <if test="USERNAME!=NULL and USERNAME!=''">
 	   	And USERNAME like CONCAT('%','${USERNAME}','%' )  
@@ -17,7 +18,8 @@
 	   <if test="ENDDATE!=NULL and ENDDATE!=''">
 	   		And DATE &lt;= #{ENDDATE}  
 	   </if>
-	   Group By DATE
+	  <!--  Group By DATE -->
+	   Order By DATE desc
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
 	

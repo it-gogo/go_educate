@@ -1,5 +1,8 @@
 package com.go.controller.common;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.go.common.util.ExtendDate;
 import com.go.common.util.SysUtil;
 import com.go.common.util.Util;
 import com.go.controller.base.BaseController;
+import com.go.service.attendance.ClassService;
 import com.go.service.common.LoginService;
+import com.go.service.platform.BuserService;
 
 @Controller
 @RequestMapping("/common")
@@ -25,7 +31,10 @@ public class LoginController extends BaseController {
 
 	@Resource
 	private  LoginService  loginService;
-	
+	@Resource
+	  private  ClassService  classService;
+	@Resource
+	  private  BuserService  buserService;
 	/**
 	 * 登陆
 	 * @param request
@@ -84,8 +93,45 @@ public class LoginController extends BaseController {
 								    Model model,
 								    RedirectAttributes attr){
 		Map<String,Object> user=SysUtil.getSessionUsr(request, "user");
+		if(user==null){
+			return "redirect:../common/loginPage.do";
+		}
 		List<Map<String,Object>> list=loginService.findMenu(user);
 		user.put("menuList", list);
+		Map<String,Object> parameter=new HashMap<String,Object>();
+		parameter.put("LSUSERID", user.get("ID"));//老师ID
+		parameter.put("today", ExtendDate.getYMD(new Date()));
+		parameter.put("STATUS", 0);//未上课
+		list=classService.findNoClass(parameter);
+		model.addAttribute("classList", list);
+		int studentcount=buserService.myStudentCount(parameter);
+		model.addAttribute("studentcount", studentcount);
+//		parameter=new HashMap<String,Object>();
+		
+		 Calendar   cal_1=Calendar.getInstance();//获取当前日期 
+		 cal_1.add(Calendar.MONTH, -1);
+		 cal_1.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+		parameter.put("STARTDATE", ExtendDate.getYMD(cal_1));//本月第一天 
+		
+		cal_1= Calendar.getInstance();    
+		cal_1.set(Calendar.DAY_OF_MONTH, cal_1.getActualMaximum(Calendar.DAY_OF_MONTH));  
+		parameter.put("ENDDATE", ExtendDate.getYMD(cal_1));//本月最后一天
+		
+		parameter.put("STATUS", 1);//上课
+		model.addAttribute("attendcount", classService.findCount(parameter));//上课数
+		parameter.remove("STATUS");//已排课
+		model.addAttribute("alreadycount", classService.findCount(parameter));//已排课
+		
+		cal_1= Calendar.getInstance();    
+		cal_1.add(Calendar.MONTH, cal_1.get(Calendar.MONTH)+1);//下个月
+		 cal_1.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+		parameter.put("STARTDATE", ExtendDate.getYMD(cal_1));//下个月月第一天 
+		
+		cal_1= Calendar.getInstance();    
+		cal_1.add(Calendar.MONTH, cal_1.get(Calendar.MONTH)+1);//下个月
+		cal_1.set(Calendar.DAY_OF_MONTH, 0);
+		parameter.put("ENDDATE", ExtendDate.getYMD(cal_1));//下个月最后一天
+		model.addAttribute("nextcount", classService.findCount(parameter));//下个月排课
 		return "main";
 	}
 	

@@ -71,7 +71,8 @@ public class SemesterControl extends BaseController {
 		  res.put("today", ExtendDate.getYMD(new Date()));
 		  res.put("ID", parameter.get("CURRICULUMID"));//课程ID
 		  res.put("ELECTIVEID", parameter.get("ELECTIVEID"));//选课ID
-		   list=electiveService.findOptionalLesson(res);
+//		   list=electiveService.findOptionalLesson(res);//不可多学生上同一课时
+		  list=semesterService.findOptionalLesson(res);//可以多学生上同一课时
 		  model.addAttribute("timeList", list);
 		  
 		  model.addAttribute("parameter", parameter);

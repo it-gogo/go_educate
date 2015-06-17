@@ -35,7 +35,7 @@ function loginOut(){
 			</div>
 			<div class="blog_nav">
 				<ul>
-					<li><a href="Index.aspx.html">我的信息</a></li>
+					<li><a href="../common/loginSuccess.do">我的工作台</a></li>
 					<li><a href="EducationCenter/Score.aspx.html">教务中心</a></li>
 					<li><a href="MyAccount/wdcw.aspx.html">我的学费</a></li>
 					<li><a href="OnlineTeaching/StudentMaterial.aspx.html">资料中心</a>
