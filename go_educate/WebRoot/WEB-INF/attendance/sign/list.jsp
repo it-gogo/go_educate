@@ -68,6 +68,7 @@
 									<td>${vo.CURRICULUMNAME }</td>
 									<td>${vo.STARTTIME }</td>
 									<td>${vo.ENDTIME }</td>
+									<c:if test="${roleType =='1'}">
 									<td>${vo.sign =="0"?"<span style='color:red;'>未签到</span>"
 												:vo.sign=="1"?"<span style='color:blue;'>已签</span>"
 												:vo.sign=="2"?"迟到"
@@ -80,6 +81,21 @@
 											<a href="javascript:void(0);"  onclick="sign('${vo.ID}')">签到</a>
 										</c:if>
 									</td>
+									</c:if>
+									<c:if test="${roleType =='2'}">
+									<td>${vo.sign2 =="0"?"<span style='color:red;'>未签到</span>"
+												:vo.sign2=="1"?"<span style='color:blue;'>已签</span>"
+												:vo.sign2=="2"?"迟到"
+												:vo.sign2=="3"?"<span style='color:red;'>警告</span>"
+												:"<span style='color:green;'>忘记签到</span>"
+										 }
+									</td>
+									<td>
+										<c:if test="${ vo.DATE==today and vo.sign2 =='0'}">
+											<a href="javascript:void(0);"  onclick="sign('${vo.ID}')">签到</a>
+										</c:if>
+									</td>
+									</c:if>
 									</tr>
 							</c:forEach>
 						</tbody>

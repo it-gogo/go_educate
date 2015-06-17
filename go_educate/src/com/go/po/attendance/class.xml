@@ -116,7 +116,13 @@
 	</delete>
 	<!-- 签到type修改 -->
 	<update id="updateSign" parameterType="java.util.HashMap">
-		update TCLASS set sign = #{sign}
+		update TCLASS set 
+		<if test="sign!=null and sign!=''">
+			sign = #{sign}
+		</if>
+		<if test="sign2!=null and sign2!=''">
+			sign2 = #{sign2}
+		</if>
 		where id = #{ID}
 	</update>
 </mapper>
