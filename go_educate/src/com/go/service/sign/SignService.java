@@ -16,7 +16,7 @@ import com.go.service.base.BaseService;
 public class SignService extends BaseService{
 
 	public PageBean<Map<String, Object>> findList(Map<String, Object> parameter) {
-		return this.getBaseDao().findPageBean("sign.findcount", "sign.findlist", parameter);
+		return this.getBaseDao().findPageBean("class.findcount", "class.findlist", parameter);
 	}
 
 }

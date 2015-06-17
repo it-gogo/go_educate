@@ -18,6 +18,8 @@
 	    <if test="ENDDATE!=null and ENDDATE!=''">
 	    	And DATE &lt;= #{ENDDATE}
 	    </if>
+	    
+	    order by date desc 
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
 	
