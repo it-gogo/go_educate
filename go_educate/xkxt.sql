@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50027
 File Encoding         : 65001
 
-Date: 2015-06-15 17:58:19
+Date: 2015-06-17 17:59:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -43,12 +43,13 @@ INSERT INTO `tbmenu` VALUES ('bb0569c94a5b46a3b6042d4ced5a6115', '100102', '9e8b
 INSERT INTO `tbmenu` VALUES ('b387b35ee1ac46a18d26beb544aea8a7', '100103', '9e8b12537f03447596bedae9ed4aac32', '100', '课程管理', '../curriculum/findList.do', '2', '5', null);
 INSERT INTO `tbmenu` VALUES ('57d2bcff0d0a4af7bc3fc1e0b0f14798', '100104', '9e8b12537f03447596bedae9ed4aac32', '100', '修改密码', '../buser/modifypw.do', '2', '6', null);
 INSERT INTO `tbmenu` VALUES ('f35c46ae893d49608b9a65bce6a472e6', '100105', '9e8b12537f03447596bedae9ed4aac32', '100', '我的信息', '../buser/findInfo.do', '2', '7', null);
-INSERT INTO `tbmenu` VALUES ('ee942b37b08c4c0abea1520ff8595668', '101', null, null, '考勤管理', '#', '1', '8', null);
+INSERT INTO `tbmenu` VALUES ('ee942b37b08c4c0abea1520ff8595668', '101', null, null, '业务管理', '#', '1', '8', null);
 INSERT INTO `tbmenu` VALUES ('74de8845c1bb432a84c241fb03f5204b', '101100', 'ee942b37b08c4c0abea1520ff8595668', '101', '课时管理', '../lesson/findList.do', '2', '9', null);
 INSERT INTO `tbmenu` VALUES ('d45e5b2508764852bc680b6b7417bbdc', '101102', 'ee942b37b08c4c0abea1520ff8595668', '101', '选课管理', '../elective/findList.do', '2', '11', null);
 INSERT INTO `tbmenu` VALUES ('caa2c5466fcf41e4843866757e9022a5', '101103', 'ee942b37b08c4c0abea1520ff8595668', '101', '学期管理', '../semester/findList.do', '2', '12', null);
 INSERT INTO `tbmenu` VALUES ('be513030cafd4314a7fdf0989453a46f', '101104', 'ee942b37b08c4c0abea1520ff8595668', '101', '老师课表', '../teacherkb/findList.do', '2', '13', null);
 INSERT INTO `tbmenu` VALUES ('cd6ef124bb3644d897b5704262aafc49', '101105', 'ee942b37b08c4c0abea1520ff8595668', '101', '节课管理', '../class/findList.do', '2', '14', null);
+INSERT INTO `tbmenu` VALUES ('b3a9187ac098498aa97359c89727bc4c', '101106', 'ee942b37b08c4c0abea1520ff8595668', '101', '我的学生', '../myStudent/findList.do', '2', '15', null);
 
 -- ----------------------------
 -- Table structure for `tbuser`
@@ -78,7 +79,7 @@ INSERT INTO `tbuser` VALUES ('e2106767bfba4635a0a17e72436e8df1', 'eebc1fa86cdb4c
 INSERT INTO `tbuser` VALUES ('3936c04ff10d4824b7cf4c53f1591ffb', 'eebc1fa86cdb4c8d81901151bf37eeca', 'tkls', '听课老师', '4QrcOUm6Wau+VuBX8g+IPg==', null, null, null, null, '1', '1', '1');
 INSERT INTO `tbuser` VALUES ('fe56f71c6959401a9461565eb7faa60e', 'eebc1fa86cdb4c8d81901151bf37eeca', 'xkls', '写课老师', '4QrcOUm6Wau+VuBX8g+IPg==', null, null, null, null, '1', '1', '1');
 INSERT INTO `tbuser` VALUES ('dffcded4e07944f29987cc51036f910d', 'eebc1fa86cdb4c8d81901151bf37eeca', 'qnls', '全能老师', '4QrcOUm6Wau+VuBX8g+IPg==', null, null, null, null, '1', '1', '1');
-INSERT INTO `tbuser` VALUES ('90f07928223842a4893370c34e4c7578', 'eebc1fa86cdb4c8d81901151bf37eeca', 'xs', '学生', '4QrcOUm6Wau+VuBX8g+IPg==', null, null, null, null, '1', '2', '1');
+INSERT INTO `tbuser` VALUES ('90f07928223842a4893370c34e4c7578', 'eebc1fa86cdb4c8d81901151bf37eeca', 'xs', '学生', '4QrcOUm6Wau+VuBX8g+IPg==', null, '15080342450', '6414847388', null, '1', '2', '1');
 INSERT INTO `tbuser` VALUES ('377830a9209a47c29990ac4e308b6240', 'eebc1fa86cdb4c8d81901151bf37eeca', 'xxs', '小学生', '4QrcOUm6Wau+VuBX8g+IPg==', null, null, null, null, '1', '2', '1');
 
 -- ----------------------------
@@ -96,14 +97,17 @@ CREATE TABLE `tclass` (
   `STARTTIME` varchar(5) default NULL,
   `ENDTIME` varchar(5) default NULL,
   `CREATEDATE` varchar(20) default NULL,
+  `STATUS` char(1) default NULL,
   PRIMARY KEY  (`ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tclass
 -- ----------------------------
-INSERT INTO `tclass` VALUES ('32972f26d957496d9cf375ffc95b8097', null, 'dffcded4e07944f29987cc51036f910d', '90f07928223842a4893370c34e4c7578', '2015-06-16', 'a4e799b303e7473eb7a238de30090628', '1', '08:00', '08:30', '2015-06-15 11:21:30');
-INSERT INTO `tclass` VALUES ('f73d174bdd0c414989ac8b8f271e1c09', null, 'dffcded4e07944f29987cc51036f910d', '90f07928223842a4893370c34e4c7578', '2015-06-16', 'fd411d2711514405a4dfeb6c481a99fc', '2', '07:00', '08:00', '2015-06-15 11:21:30');
+INSERT INTO `tclass` VALUES ('32972f26d957496d9cf375ffc95b8097', null, 'dffcded4e07944f29987cc51036f910d', '90f07928223842a4893370c34e4c7578', '2015-06-16', 'a4e799b303e7473eb7a238de30090628', '1', '08:00', '08:30', '2015-06-15 11:21:30', null);
+INSERT INTO `tclass` VALUES ('f73d174bdd0c414989ac8b8f271e1c09', null, 'dffcded4e07944f29987cc51036f910d', '90f07928223842a4893370c34e4c7578', '2015-06-16', 'fd411d2711514405a4dfeb6c481a99fc', '2', '07:00', '08:00', '2015-06-15 11:21:30', null);
+INSERT INTO `tclass` VALUES ('8cc63797fc7246ac99f8be600b62afb3', null, '3936c04ff10d4824b7cf4c53f1591ffb', '377830a9209a47c29990ac4e308b6240', '2015-06-17', 'fd411d2711514405a4dfeb6c481a99fc', '6', '15:00', '18:00', '2015-06-16 10:32:08', null);
+INSERT INTO `tclass` VALUES ('13451ac17e974b8581fbeda0753ac0bd', null, '3936c04ff10d4824b7cf4c53f1591ffb', '377830a9209a47c29990ac4e308b6240', '2015-06-17', 'fd411d2711514405a4dfeb6c481a99fc', '6', '09:00', '12:00', '2015-06-16 10:32:08', null);
 
 -- ----------------------------
 -- Table structure for `tclassel`
@@ -122,6 +126,18 @@ CREATE TABLE `tclassel` (
 INSERT INTO `tclassel` VALUES ('cd4488f1ae624bc5916dacee8002750d', '32972f26d957496d9cf375ffc95b8097', '66a495b9c28a4e1bb723f6e5f819822a');
 INSERT INTO `tclassel` VALUES ('05d46bf93f0242889e78c8a557189868', 'f73d174bdd0c414989ac8b8f271e1c09', '7ab05ce274244519b3716e2ecedab9c5');
 INSERT INTO `tclassel` VALUES ('6975d6b34ce442aea68f6a26f2efe9db', 'f73d174bdd0c414989ac8b8f271e1c09', '623a0e7cfa9e495484f5f204d1c7f891');
+INSERT INTO `tclassel` VALUES ('f3848fc884a94af5b0495de801e2169d', '8cc63797fc7246ac99f8be600b62afb3', '8e43b4faaca24aecb6450967a06975be');
+INSERT INTO `tclassel` VALUES ('8c82e041c37145b0853e345b95eb72bc', '8cc63797fc7246ac99f8be600b62afb3', 'b35af7a5f76f45309581178f046b3976');
+INSERT INTO `tclassel` VALUES ('3b77324448bf480a997b711523ad08b1', '8cc63797fc7246ac99f8be600b62afb3', '6e29226fac6843ed8d82545f01763d9d');
+INSERT INTO `tclassel` VALUES ('0578be7a181945a997ca2e0bf79149c1', '8cc63797fc7246ac99f8be600b62afb3', '10fdedcbae5d4942905c46ad7d584a87');
+INSERT INTO `tclassel` VALUES ('84fba58a21314f91920c643fe5836996', '8cc63797fc7246ac99f8be600b62afb3', '3bf097d2b06041688f5a15f627a0373e');
+INSERT INTO `tclassel` VALUES ('ca074e9f7bea4d759e6f636ba70bb355', '8cc63797fc7246ac99f8be600b62afb3', 'a59b1c2416ac43ec89483961990398b3');
+INSERT INTO `tclassel` VALUES ('fb4afd0aa94f4672915910e96f30d42a', '13451ac17e974b8581fbeda0753ac0bd', '922400140af040be81a4397d56545f2b');
+INSERT INTO `tclassel` VALUES ('043241d14ad247d895e4966d7add13c7', '13451ac17e974b8581fbeda0753ac0bd', '53ba427808a64a5399e8fb54921b5fc2');
+INSERT INTO `tclassel` VALUES ('70f737b1cdf845fc82a45491f1d7ce58', '13451ac17e974b8581fbeda0753ac0bd', '7812ca4a9f014b6aaa056e43d1465a5b');
+INSERT INTO `tclassel` VALUES ('e6ecf89f3ca943ec866e8126a9e78c72', '13451ac17e974b8581fbeda0753ac0bd', 'cb5ad2b5dc664ad7a16aab78b09d95ee');
+INSERT INTO `tclassel` VALUES ('cf79c256cc6643bc827afa9bd551e263', '13451ac17e974b8581fbeda0753ac0bd', '8b329b73c6f849a484310d429884706f');
+INSERT INTO `tclassel` VALUES ('2bfe31bbdffd4a4e9cb46511740b4ddb', '13451ac17e974b8581fbeda0753ac0bd', '6600e61d5ec04975b630f6ab8932f9ee');
 
 -- ----------------------------
 -- Table structure for `tcurriculum`
@@ -157,8 +173,9 @@ CREATE TABLE `telective` (
 -- ----------------------------
 -- Records of telective
 -- ----------------------------
-INSERT INTO `telective` VALUES ('0c5e92d918a14977995515f4056fed75', '90f07928223842a4893370c34e4c7578', 'fd411d2711514405a4dfeb6c481a99fc', null, '2015-06-15 11:21:21', '1');
+INSERT INTO `telective` VALUES ('0c5e92d918a14977995515f4056fed75', '90f07928223842a4893370c34e4c7578', 'fd411d2711514405a4dfeb6c481a99fc', null, '2015-06-16 10:34:16', '1');
 INSERT INTO `telective` VALUES ('052bca64837a4379a0d25e0021fceaa6', '90f07928223842a4893370c34e4c7578', 'a4e799b303e7473eb7a238de30090628', null, '2015-06-15 11:21:26', '1');
+INSERT INTO `telective` VALUES ('aee1ed4e4605484bb89948a0f22e248f', '377830a9209a47c29990ac4e308b6240', 'fd411d2711514405a4dfeb6c481a99fc', null, '2015-06-16 10:32:05', '1');
 
 -- ----------------------------
 -- Table structure for `telectivelesson`
@@ -178,6 +195,30 @@ CREATE TABLE `telectivelesson` (
 INSERT INTO `telectivelesson` VALUES ('623a0e7cfa9e495484f5f204d1c7f891', '0c5e92d918a14977995515f4056fed75', '10489e6e7eec4b50a98d4a70508952f7', '61547659facb40e3a2f026cd161328f8');
 INSERT INTO `telectivelesson` VALUES ('7ab05ce274244519b3716e2ecedab9c5', '0c5e92d918a14977995515f4056fed75', 'ebe80b2bd714408b95c0fb6acdd88240', '61547659facb40e3a2f026cd161328f8');
 INSERT INTO `telectivelesson` VALUES ('66a495b9c28a4e1bb723f6e5f819822a', '052bca64837a4379a0d25e0021fceaa6', '25b401d281a54b739a66cf0ead20ab6c', '61547659facb40e3a2f026cd161328f8');
+INSERT INTO `telectivelesson` VALUES ('6600e61d5ec04975b630f6ab8932f9ee', 'aee1ed4e4605484bb89948a0f22e248f', 'e0c308f42aa447ca8984053279868b1c', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('8b329b73c6f849a484310d429884706f', 'aee1ed4e4605484bb89948a0f22e248f', '9e91abc9386b42799d634c07713ab7ed', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('cb5ad2b5dc664ad7a16aab78b09d95ee', 'aee1ed4e4605484bb89948a0f22e248f', '256663984daf43a79ea3e994dff21c22', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('7812ca4a9f014b6aaa056e43d1465a5b', 'aee1ed4e4605484bb89948a0f22e248f', '4dbd288e22894996a594e5333b3fae71', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('53ba427808a64a5399e8fb54921b5fc2', 'aee1ed4e4605484bb89948a0f22e248f', '3a4b0fd4754348138487df521c59486c', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('922400140af040be81a4397d56545f2b', 'aee1ed4e4605484bb89948a0f22e248f', '9f3e7a4eb1644c57a6b74dc819ee0772', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('a59b1c2416ac43ec89483961990398b3', 'aee1ed4e4605484bb89948a0f22e248f', 'e89309cd0c5a438d823fdfba6852095c', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('3bf097d2b06041688f5a15f627a0373e', 'aee1ed4e4605484bb89948a0f22e248f', 'b1c33eeee3664d1ba4c480bd24f49916', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('10fdedcbae5d4942905c46ad7d584a87', 'aee1ed4e4605484bb89948a0f22e248f', '8822d9a710d94067a34a8daa8c99eb5a', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('6e29226fac6843ed8d82545f01763d9d', 'aee1ed4e4605484bb89948a0f22e248f', '4b1d1cbeebff413581a48f71725f788d', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('b35af7a5f76f45309581178f046b3976', 'aee1ed4e4605484bb89948a0f22e248f', 'd1938fcfe12a40e1b5dafc3c68654373', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('8e43b4faaca24aecb6450967a06975be', 'aee1ed4e4605484bb89948a0f22e248f', '8a20992dc7bd4813b1d5e645e72b8ae8', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('509857dd3c694a1e9b8b491b3ba19b36', '0c5e92d918a14977995515f4056fed75', 'e0c308f42aa447ca8984053279868b1c', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('d00c79b64b164b04ae930f32ec08a2ed', '0c5e92d918a14977995515f4056fed75', '9e91abc9386b42799d634c07713ab7ed', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('e2238a121e604787b67c023abd70b824', '0c5e92d918a14977995515f4056fed75', '256663984daf43a79ea3e994dff21c22', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('e074b53a172541c09735fe7ffd5e8514', '0c5e92d918a14977995515f4056fed75', '4dbd288e22894996a594e5333b3fae71', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('bdfa4086b7e74a3c9e3d43d2184602fc', '0c5e92d918a14977995515f4056fed75', '3a4b0fd4754348138487df521c59486c', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('b3998808f55d47bea07725b18815a9b5', '0c5e92d918a14977995515f4056fed75', '9f3e7a4eb1644c57a6b74dc819ee0772', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('5b59e537f94e4b0eb049c3fe36aaff31', '0c5e92d918a14977995515f4056fed75', 'e89309cd0c5a438d823fdfba6852095c', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('55c58cb588bc4ffe91b1a26a37f4f7a4', '0c5e92d918a14977995515f4056fed75', 'b1c33eeee3664d1ba4c480bd24f49916', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('c6d229faeff24fe3a806d7693d0a9bf3', '0c5e92d918a14977995515f4056fed75', '8822d9a710d94067a34a8daa8c99eb5a', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('f485b6b436c34a3eaa0bd3a105e9eed5', '0c5e92d918a14977995515f4056fed75', '4b1d1cbeebff413581a48f71725f788d', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('2310a55088dd483c92d3510bbf7e8b0a', '0c5e92d918a14977995515f4056fed75', 'd1938fcfe12a40e1b5dafc3c68654373', '0227ff59ae394c7fa5f69ee0b04586fb');
+INSERT INTO `telectivelesson` VALUES ('73b17a485db6483c9b55369b788f0139', '0c5e92d918a14977995515f4056fed75', '8a20992dc7bd4813b1d5e645e72b8ae8', '0227ff59ae394c7fa5f69ee0b04586fb');
 
 -- ----------------------------
 -- Table structure for `tlesson`
@@ -261,20 +302,21 @@ CREATE TABLE `troleautority` (
 -- ----------------------------
 -- Records of troleautority
 -- ----------------------------
-INSERT INTO `troleautority` VALUES ('b60aceb2b52c43afb0f93adafc6abbd7', 'eebc1fa86cdb4c8d81901151bf37eeca', '57d2bcff0d0a4af7bc3fc1e0b0f14798');
-INSERT INTO `troleautority` VALUES ('006ca7504c0644df8ba39f76e824c1b2', 'eebc1fa86cdb4c8d81901151bf37eeca', 'b387b35ee1ac46a18d26beb544aea8a7');
-INSERT INTO `troleautority` VALUES ('9f1d24bae3d341879f480e7ead02719f', 'eebc1fa86cdb4c8d81901151bf37eeca', 'bb0569c94a5b46a3b6042d4ced5a6115');
-INSERT INTO `troleautority` VALUES ('2ae3490b14eb4dda92e35e95d97ec873', 'eebc1fa86cdb4c8d81901151bf37eeca', 'e6c87b15587b42ad8d985318b65c0595');
-INSERT INTO `troleautority` VALUES ('8436e8e79f714fb3b9001ad174ca4c21', 'eebc1fa86cdb4c8d81901151bf37eeca', '5b4f897fe9d744bf9be341860f3e61e6');
-INSERT INTO `troleautority` VALUES ('866ae3b9bdca4438aa1e5771e2f4691e', 'eebc1fa86cdb4c8d81901151bf37eeca', '9e8b12537f03447596bedae9ed4aac32');
-INSERT INTO `troleautority` VALUES ('b7adf827ee7b435b8d877f4e0f87c68c', 'eebc1fa86cdb4c8d81901151bf37eeca', 'cd6ef124bb3644d897b5704262aafc49');
-INSERT INTO `troleautority` VALUES ('546d6653c0b0468b8a7b76f387a53925', 'eebc1fa86cdb4c8d81901151bf37eeca', 'be513030cafd4314a7fdf0989453a46f');
-INSERT INTO `troleautority` VALUES ('57aeae9b1b2641af858906f4ba76f5a2', 'eebc1fa86cdb4c8d81901151bf37eeca', 'caa2c5466fcf41e4843866757e9022a5');
-INSERT INTO `troleautority` VALUES ('7510760775204aefa670a049139abe5a', 'eebc1fa86cdb4c8d81901151bf37eeca', 'd45e5b2508764852bc680b6b7417bbdc');
-INSERT INTO `troleautority` VALUES ('4ce485959b3a4af5b9aab6ba09e5fec9', 'eebc1fa86cdb4c8d81901151bf37eeca', '74de8845c1bb432a84c241fb03f5204b');
-INSERT INTO `troleautority` VALUES ('4570b855f257404a80a2a624a8dd80fd', 'eebc1fa86cdb4c8d81901151bf37eeca', '6b94a0cb88d24bada197ad92dfd63ad3');
-INSERT INTO `troleautority` VALUES ('609ccfb70de54154a1952e2188604d00', 'eebc1fa86cdb4c8d81901151bf37eeca', 'ee942b37b08c4c0abea1520ff8595668');
-INSERT INTO `troleautority` VALUES ('e848e4d720a64632ba0bbfa5b0369ce8', 'eebc1fa86cdb4c8d81901151bf37eeca', 'f35c46ae893d49608b9a65bce6a472e6');
+INSERT INTO `troleautority` VALUES ('9cf66cc515754a2488041573f756a7d4', 'eebc1fa86cdb4c8d81901151bf37eeca', '57d2bcff0d0a4af7bc3fc1e0b0f14798');
+INSERT INTO `troleautority` VALUES ('63083ce1643644e693429006f4b105c9', 'eebc1fa86cdb4c8d81901151bf37eeca', 'b387b35ee1ac46a18d26beb544aea8a7');
+INSERT INTO `troleautority` VALUES ('140d8040064a4b34b1a8c57358e5a856', 'eebc1fa86cdb4c8d81901151bf37eeca', 'bb0569c94a5b46a3b6042d4ced5a6115');
+INSERT INTO `troleautority` VALUES ('9cea5b786c4e4f7b90d55c3220564079', 'eebc1fa86cdb4c8d81901151bf37eeca', 'e6c87b15587b42ad8d985318b65c0595');
+INSERT INTO `troleautority` VALUES ('fb6da4accfe2422a9853ae2b0f18052a', 'eebc1fa86cdb4c8d81901151bf37eeca', '5b4f897fe9d744bf9be341860f3e61e6');
+INSERT INTO `troleautority` VALUES ('fbaede54e0c24d5f8eb8a9815fcc03cb', 'eebc1fa86cdb4c8d81901151bf37eeca', '9e8b12537f03447596bedae9ed4aac32');
+INSERT INTO `troleautority` VALUES ('a809b8d1788a4fdfb0669e1b5b875518', 'eebc1fa86cdb4c8d81901151bf37eeca', 'b3a9187ac098498aa97359c89727bc4c');
+INSERT INTO `troleautority` VALUES ('db98960dc6e644faa7bf75ef0284ee67', 'eebc1fa86cdb4c8d81901151bf37eeca', 'cd6ef124bb3644d897b5704262aafc49');
+INSERT INTO `troleautority` VALUES ('2427f8378429416b8701b7f9cc640708', 'eebc1fa86cdb4c8d81901151bf37eeca', 'be513030cafd4314a7fdf0989453a46f');
+INSERT INTO `troleautority` VALUES ('99f13cf1f0554429acaad63078de9cb6', 'eebc1fa86cdb4c8d81901151bf37eeca', 'caa2c5466fcf41e4843866757e9022a5');
+INSERT INTO `troleautority` VALUES ('f1ae93a0027f4190ba1196ddd2d735b7', 'eebc1fa86cdb4c8d81901151bf37eeca', 'd45e5b2508764852bc680b6b7417bbdc');
+INSERT INTO `troleautority` VALUES ('d4601a79e8bc493bad4138333be6a27e', 'eebc1fa86cdb4c8d81901151bf37eeca', '74de8845c1bb432a84c241fb03f5204b');
+INSERT INTO `troleautority` VALUES ('e88b038021274f1d80ab9d2985ba5ad8', 'eebc1fa86cdb4c8d81901151bf37eeca', '6b94a0cb88d24bada197ad92dfd63ad3');
+INSERT INTO `troleautority` VALUES ('301f1ccd2e69453782e6f47064b622eb', 'eebc1fa86cdb4c8d81901151bf37eeca', 'ee942b37b08c4c0abea1520ff8595668');
+INSERT INTO `troleautority` VALUES ('c9e377ce027c40e2a103996392cd1f06', 'eebc1fa86cdb4c8d81901151bf37eeca', 'f35c46ae893d49608b9a65bce6a472e6');
 
 -- ----------------------------
 -- Table structure for `tsemester`
@@ -292,6 +334,7 @@ CREATE TABLE `tsemester` (
 -- Records of tsemester
 -- ----------------------------
 INSERT INTO `tsemester` VALUES ('23a3eef37e25469b99f690b4b1fb81a4', '90f07928223842a4893370c34e4c7578', '2015-06-15 11:21:30', '1');
+INSERT INTO `tsemester` VALUES ('6b9c50ff6bd34846a432f654268201c8', '377830a9209a47c29990ac4e308b6240', '2015-06-16 10:32:08', '1');
 
 -- ----------------------------
 -- Table structure for `tsemesterelective`
@@ -309,6 +352,7 @@ CREATE TABLE `tsemesterelective` (
 -- ----------------------------
 INSERT INTO `tsemesterelective` VALUES ('0c5b4cd999e94994a92544eb7ef30db6', '23a3eef37e25469b99f690b4b1fb81a4', '0c5e92d918a14977995515f4056fed75');
 INSERT INTO `tsemesterelective` VALUES ('3c18ae16cdc549569ff50e191305a23d', '23a3eef37e25469b99f690b4b1fb81a4', '052bca64837a4379a0d25e0021fceaa6');
+INSERT INTO `tsemesterelective` VALUES ('8f259e1e22ac45b1bb8a56b2ae094f9e', '6b9c50ff6bd34846a432f654268201c8', 'aee1ed4e4605484bb89948a0f22e248f');
 
 -- ----------------------------
 -- Table structure for `tteachertime`

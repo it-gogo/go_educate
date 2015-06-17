@@ -19,6 +19,42 @@ import com.go.service.base.BaseService;
 @Service
 public class SemesterService extends BaseService {
 
+	/**
+	 * 查询可选课时。
+	 * @param parameter
+	 * @return
+	 */
+	public List<Map<String,Object>> findOptionalLesson(Map<String,Object> parameter){
+		Object curruculumid=parameter.get("ID");
+		Object electiveid=parameter.get("ELECTIVEID");
+		List<Map<String,Object>> list=this.getBaseDao().findList("elective.optionaldate", parameter);
+		List<Map<String,Object>> arrayList=new ArrayList<Map<String,Object>>();
+		for(Map<String,Object> map:list){
+			Map<Object,List<Map<String,Object>>> res=new HashMap<Object,List<Map<String,Object>>>();
+			map.put("CURRICULUMID", curruculumid);
+			map.put("ELECTIVEID", electiveid);
+			List<Map<String,Object>> lessonList=this.getBaseDao().findList("lesson.findoptional1",map);
+			if(lessonList==null || lessonList.size()==0){
+				arrayList.add(map);
+				continue;
+			}
+			for(Map<String,Object> lesson:lessonList){
+				Object username=lesson.get("USERNAME");
+				if(res.containsKey(username)){//存在
+					List<Map<String,Object>> l=res.get(username);
+					l.add(lesson);
+				}else{
+					List<Map<String,Object>> l=new ArrayList<Map<String,Object>>();
+					l.add(lesson);
+					res.put(username, l);
+				}
+			}
+			map.put("lessonList", res);
+		}
+		list.removeAll(arrayList);
+		return list;
+	}
+	
 	public void addSemesterElective(List<Map<String,Object>> parameter){
 		this.getBaseDao().insert("semesterelective.add", parameter);
 	}
@@ -28,7 +64,6 @@ public class SemesterService extends BaseService {
 	 * @return
 	 */
 	public  Map<String,Object> findSelectedLesson(Map<String,Object> parameter){
-//		Map<String,Object> res=new HashMap<String,Object>();
 		List<Map<String,Object>> lessonList=this.getBaseDao().findList("elective.findSelectedLesson", parameter);//已选课时
 		List<Map<String,Object>> dateList=this.getBaseDao().findList("elective.findSelectedDate", parameter);//已选日期
 		List<Map<String,Object>> list=this.getBaseDao().findList("elective.findSelected", parameter);//已选数据
@@ -85,6 +120,15 @@ public class SemesterService extends BaseService {
 	 */
 	public  PageBean<Map<String,Object>>  findList(Map<String,Object> parameter){
 		return this.getBaseDao().findPageBean("semester.findcount", "semester.findlist", parameter);
+	}
+	
+	/**
+	 * 分页查找数据
+	 * @param parameter
+	 * @return
+	 */
+	public  PageBean<Map<String,Object>>  myStudent(Map<String,Object> parameter){
+		return this.getBaseDao().findPageBean("semester.mystudentcount", "semester.mystudent", parameter);
 	}
 	
 	/**

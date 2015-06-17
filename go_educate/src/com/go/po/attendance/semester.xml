@@ -19,11 +19,44 @@
 	   </if>
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
+	<!-- 我的学生 -->
+	<select id="mystudent" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select a.*,b.*,b.ID XSUSERID,
+	   (Select count(*) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) ZLESSON,<!-- 总课时 -->
+	   (Select count(*) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID) And ID In (Select ELID From TCLASSEL Where CLASSID In (Select ID From TCLASS Where XSUSERID=b.ID And STATUS=1))) YDLESSON,<!-- 已读课时 -->
+	   (Select min(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) FIRST,
+	   (Select max(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) LATEST
+	   From  TSEMESTER a join TBUSER b on a.USERID=b.ID  Where 1=1
+	   <if test="XSNAME!=null and XSNAME!=''">
+	   	And USERID In (Select ID From TBUSER Where NAME  like CONCAT('%','${XSNAME}','%' )  )
+	   </if>
+	   <if test="XSUSERID!=null and XSUSERID!=''"><!-- 学生 -->
+	   	And USERID =#{XSUSERID}
+	   </if>
+	    <if test="LSUSERID!=null and LSUSERID!=''"><!-- 老师 -->
+	   	And a.ID In (Select SEMESTERID From TSEMESTERELECTIVE Where ELECTIVEID In (Select ELECTIVEID From TELECTIVELESSON Where TIMEID In (Select ID From TTEACHERTIME Where USERID=#{LSUSERID}))) 
+	   </if>
+	   limit  #{pageBean.startRowNum},#{pageBean.rows}
+	</select>
 	
 	<!-- 查询记录数 -->
 	<select id="findcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
 	    Select count(1) From  TSEMESTER 
 	    where 1=1
+	</select>
+	<!-- 查询我的学生记录数 -->
+	<select id="mystudentcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
+	    Select count(1) From  TSEMESTER 
+	    where 1=1
+	    <if test="XSNAME!=null and XSNAME!=''">
+	   	And USERID In (Select ID From TBUSER Where NAME  like CONCAT('%','${XSNAME}','%' )  )
+	   </if>
+	   <if test="XSUSERID!=null and XSUSERID!=''"><!-- 学生 -->
+	   	And USERID =#{XSUSERID}
+	   </if>
+	    <if test="LSUSERID!=null and LSUSERID!=''"><!-- 老师 -->
+	   	And ID In (Select SEMESTERID From TSEMESTERELECTIVE Where ELECTIVEID In (Select ELECTIVEID From TELECTIVELESSON Where TIMEID In (Select ID From TTEACHERTIME Where USERID=#{LSUSERID}))) 
+	   </if>
 	</select>
 	
 	<!-- 查询最大系列号 -->

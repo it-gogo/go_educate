@@ -16,6 +16,14 @@ import com.go.service.base.BaseService;
 public class ClassService extends BaseService {
 
 	/**
+	 * 记录数
+	 * @param parameter
+	 * @return
+	 */
+	public int findCount(Map<String,Object> parameter){
+		return Integer.parseInt(this.getBaseDao().findOne("class.findattencount", parameter).toString());
+	}
+	/**
 	 * 分页查找数据
 	 * @param parameter
 	 * @return
@@ -30,6 +38,14 @@ public class ClassService extends BaseService {
 	 */
 	public List<Map<String,Object>> findAll(Map<String,Object> parameter){
 		return this.getBaseDao().findList("class.findall", parameter);
+	}
+	/**
+	 *未上课
+	 * @param parameter
+	 * @return
+	 */
+	public List<Map<String,Object>> findNoClass(Map<String,Object> parameter){
+		return this.getBaseDao().findList("class.findNoClass", parameter);
 	}
 	
 	/**

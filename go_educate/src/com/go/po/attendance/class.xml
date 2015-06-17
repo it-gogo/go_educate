@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="class">
+	
     <!-- 查询数据 -->
 	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select *,(Select NAME From TBUSER Where ID = XSUSERID) XSNAME,(Select NAME From TBUSER Where ID = LSUSERID) LSNAME,(Select NAME From TCURRICULUM Where ID = CURRICULUMID) CURRICULUMNAME
@@ -20,6 +21,21 @@
 	    </if>
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
+	
+	<select id="findNoClass" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select *,(Select NAME From TBUSER Where ID = XSUSERID) XSNAME,(Select NAME From TBUSER Where ID = LSUSERID) LSNAME,(Select NAME From TCURRICULUM Where ID = CURRICULUMID) CURRICULUMNAME From  TCLASS 
+	   Where 1=1
+	   <if test="today!=null and today!=''">
+	   	And DATE &lt;#{today}
+	   </if>
+	   <if test="LSUSERID!=null and LSUSERID!=''">
+	   	And LSUSERID =#{LSUSERID}
+	   </if>
+	   <if test="STATUS!=null and STATUS!=''">
+	   	And STATUS =#{STATUS}
+	   </if>
+	   Order By STARTTIME asc
+	</select>
 	
 	<select id="findall" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select * From  TCLASS 
@@ -43,11 +59,31 @@
 	    </if>
 	</select>
 	
+	<!-- 查询上课记录数 -->
+	<select id="findattencount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
+	    Select count(1) From  TCLASS Where 1=1
+	    <if test="LSUSERID!=null and LSUSERID!=''">
+	    	And LSUSERID = #{LSUSERID}
+	    </if>
+	    <if test="XSUSERID!=null and XSUSERID!=''">
+	    	And XSUSERID = #{XSUSERID}
+	    </if>
+	     <if test="STATUS!=null and STATUS!=''">
+	    	And STATUS = #{STATUS}
+	    </if>
+	    <if test="STARTDATE!=null and STARTDATE!=''">
+	    	And DATE >= #{STARTDATE}
+	    </if>
+	    <if test="ENDDATE!=null and ENDDATE!=''">
+	    	And DATE &lt;= #{ENDDATE}
+	    </if>
+	</select>
+	
 	<!-- 添加后台数据 -->
 	<insert id="add" parameterType="java.util.HashMap" >
 	<foreach collection="classList" item="vo"  open="" separator=";" close="">   
-	   insert into TCLASS(ID,SEVERAL,LSUSERID,XSUSERID,DATE,CURRICULUMID,MUCHLESSON,STARTTIME,ENDTIME,CREATEDATE) 
-	   values(#{vo.id},#{vo.SEVERAL},#{vo.LSUSERID},#{vo.XSUSERID},#{vo.DATE},#{vo.CURRICULUMID},#{vo.MUCHLESSON},#{vo.STARTTIME},#{vo.ENDTIME},#{vo.CREATEDATE})
+	   insert into TCLASS(ID,SEVERAL,LSUSERID,XSUSERID,DATE,CURRICULUMID,MUCHLESSON,STARTTIME,ENDTIME,CREATEDATE,STATUS) 
+	   values(#{vo.id},#{vo.SEVERAL},#{vo.LSUSERID},#{vo.XSUSERID},#{vo.DATE},#{vo.CURRICULUMID},#{vo.MUCHLESSON},#{vo.STARTTIME},#{vo.ENDTIME},#{vo.CREATEDATE},#{STATUS})
 		</foreach>
 	</insert>
 	
@@ -61,7 +97,8 @@
 	   					MUCHLESSON = #{MUCHLESSON},
 	   					STARTTIME = #{STARTTIME},
 	   					ENDTIME = #{ENDTIME},
-                        CREATEDATE = #{CREATEDATE}
+                        CREATEDATE = #{CREATEDATE},
+                        STATUS = #{STATUS}
         where  ID=#{ID} 
 	</update>
 	<!-- 导出数据 -->

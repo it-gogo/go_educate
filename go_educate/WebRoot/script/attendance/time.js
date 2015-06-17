@@ -19,3 +19,10 @@ function beforeSubimt(eform){
 	jBox("至少选择一个课时。");
 	return false;
 }
+/**
+ * 查看
+ * @param id
+ */
+function look(id){
+	location.href="look.do?ID="+id;
+}

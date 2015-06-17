@@ -107,6 +107,7 @@ public class ElectiveService extends BaseService {
 				classm.put("CURRICULUMID", map.get("CURRICULUMID"));//课程ID
 				classm.put("MUCHLESSON", l.size());//多少节课
 				classm.put("CREATEDATE", ExtendDate.getYMD_h_m_s(new Date()));//创建时间
+				classm.put("STATUS", 0);//未上课
 				String id=SqlUtil.uuid();
 				classm.put("id", id);//id
 				String starttime="24:00";

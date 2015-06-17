@@ -38,7 +38,10 @@
 							</tr>
 							<c:forEach items="${pageBean.list }" var="vo" >
 								<tr align="center">
-									<td><input type="checkbox" name="ID" value="${vo.ID }" /></td>
+									<td>
+										<c:if test="${vo.ELECTIVENUM==0}"><input type="checkbox" name="ID" value="${vo.ID }" /></c:if>
+										<c:if test="${vo.ELECTIVENUM>0}">已选课</c:if>
+									</td>
 									<td>${vo.USERNAME }</td>
 									<td>${vo.DATE }</td>
 									<%-- <td>
@@ -52,8 +55,11 @@
 										</c:forEach>
 									</td>
 									<td>
-										<a href="javascript:void(0);"  onclick="loadxx('${vo.ID}')">修改</a> | 
-										<a href="javascript:void(0);" onclick="deleteOne('${vo.ID}')" >删除</a>
+										<c:if test="${vo.ELECTIVENUM==0}">
+											<a href="javascript:void(0);"  onclick="loadxx('${vo.ID}')">修改</a> | 
+											<a href="javascript:void(0);" onclick="deleteOne('${vo.ID}')" >删除</a>
+										</c:if>
+										<c:if test="${vo.ELECTIVENUM>0}"><a href="javascript:void(0);"  onclick="look('${vo.ID}')">查看</a></c:if>
 									</td>
 								</tr>
 							</c:forEach>
