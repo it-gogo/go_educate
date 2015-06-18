@@ -108,29 +108,42 @@ public class LoginController extends BaseController {
 		model.addAttribute("studentcount", studentcount);
 //		parameter=new HashMap<String,Object>();
 		
+		Map<String,Object> aready=new HashMap<String,Object>();
+		String str="";
 		 Calendar   cal_1=Calendar.getInstance();//获取当前日期 
-		 cal_1.add(Calendar.MONTH, -1);
+		 cal_1.add(Calendar.MONTH, 0);
 		 cal_1.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
-		parameter.put("STARTDATE", ExtendDate.getYMD(cal_1));//本月第一天 
+		 str=ExtendDate.getYMD(cal_1);
+		parameter.put("STARTDATE", str);//本月第一天 
+		aready.put("STARTDATE", str);
 		
 		cal_1= Calendar.getInstance();    
 		cal_1.set(Calendar.DAY_OF_MONTH, cal_1.getActualMaximum(Calendar.DAY_OF_MONTH));  
-		parameter.put("ENDDATE", ExtendDate.getYMD(cal_1));//本月最后一天
+		str=ExtendDate.getYMD(cal_1);
+		parameter.put("ENDDATE", str);//本月最后一天
+		aready.put("ENDDATE",str);
+		model.addAttribute("aready", aready);
 		
 		parameter.put("STATUS", 1);//上课
 		model.addAttribute("attendcount", classService.findCount(parameter));//上课数
 		parameter.remove("STATUS");//已排课
 		model.addAttribute("alreadycount", classService.findCount(parameter));//已排课
 		
+		Map<String,Object> next=new HashMap<String,Object>();
 		cal_1= Calendar.getInstance();    
-		cal_1.add(Calendar.MONTH, cal_1.get(Calendar.MONTH)+1);//下个月
-		 cal_1.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
-		parameter.put("STARTDATE", ExtendDate.getYMD(cal_1));//下个月月第一天 
+		cal_1.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+		cal_1.add(Calendar.MONTH, 1);//下个月
+		 str=ExtendDate.getYMD(cal_1);
+		parameter.put("STARTDATE", str);//下个月月第一天 
+		next.put("STARTDATE", str);
 		
 		cal_1= Calendar.getInstance();    
-		cal_1.add(Calendar.MONTH, cal_1.get(Calendar.MONTH)+1);//下个月
+		cal_1.set(Calendar.MONTH, cal_1.get(Calendar.MONTH)+2);//下个月
 		cal_1.set(Calendar.DAY_OF_MONTH, 0);
-		parameter.put("ENDDATE", ExtendDate.getYMD(cal_1));//下个月最后一天
+		str=ExtendDate.getYMD(cal_1);
+		parameter.put("ENDDATE", str);//下个月最后一天
+		next.put("ENDDATE", str);
+		model.addAttribute("next", next);
 		model.addAttribute("nextcount", classService.findCount(parameter));//下个月排课
 		return "main";
 	}

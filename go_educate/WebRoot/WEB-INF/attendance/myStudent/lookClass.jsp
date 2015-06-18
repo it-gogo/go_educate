@@ -13,7 +13,7 @@
 			<%@include file="/WEB-INF/common/nav.jsp"%>
 			<div class="rightbox">
 
-				<h2 class="mbx">考勤管理 &gt; 我的学生管理</h2>
+				<h2 class="mbx">考勤管理 &gt; 课程详情</h2>
 				<%@include file="/WEB-INF/platform/nav.jsp"%>
 				<div class="cztable">
 					<div class="tis">
@@ -26,24 +26,31 @@
 					<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						<tbody>
 							<tr style="height: 25px" align="center">
-								<th scope="col">姓名 </th>
-								<%--<th scope="col">状态 </th>
-								--%><th scope="col">电话 </th>
-								<th scope="col">QQ </th>
-								<th scope="col">总课时 </th>
-								<th scope="col">已读课时</th>
+								<th scope="col">课程科目 </th>
+								<th scope="col">老师姓名 </th>
+								<th scope="col">日期</th>
+								<th scope="col">课时段</th>
+								<th scope="col">上课状态 </th>
 								<th scope="col">操作</th>
 							</tr>
 							<c:forEach items="${pageBean.list }" var="vo" >
 								<tr align="center">
-									<td>${vo.NAME }</td>
-									<td>${vo.TELEPHONE }</td>
-									<td>${vo.QQ }</td>
-									<td>${vo.ZLESSON }</td>
-									<td>${vo.YDLESSON }</td>
+									<td>${vo.CURRICULUMNAME }</td>
+									<td>${vo.LSNAME }</td>
+									<td>${vo.DATE }</td>
+									<td>${vo.STARTTIME }-${vo.ENDTIME }</td>
 									<td>
-										<a href="javascript:void(0);"  onclick="lookClass('${vo.SEMESTERID}')">课程详情</a> | 
-										<a href="javascript:void(0);"  onclick="lookTimetable('${vo.SEMESTERID}')">查看课表</a>  
+										<c:if test="${vo.STATUS==null }">未上课</c:if>
+										<c:if test="${vo.STATUS==0 }">正常上课</c:if>
+										<c:if test="${vo.STATUS==1 }">学生未上课</c:if>
+										<c:if test="${vo.STATUS==2 }">老师未上课</c:if>
+										<c:if test="${vo.STATUS==3 }">学生请假</c:if>
+										<c:if test="${vo.STATUS==4 }">老师请假</c:if>
+										<c:if test="${vo.STATUS==5 }">已调课</c:if>
+									</td>
+									<td>
+										<c:if test="${vo.STATUS==0 }">正常上课</c:if>
+										<c:if test="${vo.STATUS!=0 }"><a href="javascript:void(0);"  onclick="transfer('${vo.ID}')">申请调课</a></c:if>
 									</td>
 								</tr>
 							</c:forEach>
@@ -57,3 +64,4 @@
 	</div>
 </body>
 </html>
+
