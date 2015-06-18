@@ -18,7 +18,11 @@
 	    </if>
 	    <if test="ENDDATE!=null and ENDDATE!=''">
 	    	And DATE &lt;= #{ENDDATE}
-	    </if>
+	    </if>    
+	     <if test="SEMESTERID!=null and SEMESTERID!=''">
+	    	And ID In (Select CLASSID From TCLASSEL Where ELID In (Select ID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID=#{SEMESTERID})))
+	    </if>    
+	    order by date desc 
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
 	
@@ -57,6 +61,9 @@
 	    <if test="ENDDATE!=null and ENDDATE!=''">
 	    	And DATE &lt;= #{ENDDATE}
 	    </if>
+	    <if test="SEMESTERID!=null and SEMESTERID!=''">
+	    	And ID In (Select CLASSID From TCLASSEL Where ELID In (Select ID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID=#{SEMESTERID})))
+	    </if> 
 	</select>
 	
 	<!-- 查询上课记录数 -->
@@ -93,17 +100,19 @@
 	   					LSUSERID = #{LSUSERID},
 	   					XSUSERID = #{XSUSERID},
 	   					DATE = #{DATE},
-	   					CURRICULEMID = #{CURRICULEMID},
+	   					CURRICULUMID = #{CURRICULUMID},
 	   					MUCHLESSON = #{MUCHLESSON},
 	   					STARTTIME = #{STARTTIME},
 	   					ENDTIME = #{ENDTIME},
                         CREATEDATE = #{CREATEDATE},
-                        STATUS = #{STATUS}
+                        STATUS = #{STATUS},
+                        REMARK= #{REMARK}
         where  ID=#{ID} 
 	</update>
 	<!-- 导出数据 -->
 	<select id="load"  parameterType="java.util.HashMap" resultType="java.util.HashMap">
-	   Select * From TCLASS  Where ID=#{ID}
+	   Select *,(Select NAME From TBUSER Where ID = XSUSERID) XSNAME,(Select NAME From TBUSER Where ID = LSUSERID) LSNAME,(Select NAME From TCURRICULUM Where ID = CURRICULUMID) CURRICULUMNAME
+	    From TCLASS  Where ID=#{ID}
 	</select>
 	<!-- 删除数据 -->
 	<delete id="delete"  parameterType = "java.util.List">
@@ -113,4 +122,15 @@
            #{id}  
         </foreach>;
 	</delete>
+	<!-- 签到type修改 -->
+	<update id="updateSign" parameterType="java.util.HashMap">
+		update TCLASS set 
+		<if test="sign!=null and sign!=''">
+			sign = #{sign}
+		</if>
+		<if test="sign2!=null and sign2!=''">
+			sign2 = #{sign2}
+		</if>
+		where id = #{ID}
+	</update>
 </mapper>

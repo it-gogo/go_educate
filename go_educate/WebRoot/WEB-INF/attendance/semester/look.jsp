@@ -16,7 +16,8 @@
 				<table width="100%" cellpadding="0" cellspacing="0">
 					<c:forEach items="${map.dateList }" var="dateList"  >
 						<tr>
-							<th></th>
+							<th style="padding:0px;">
+							</th>
 							<c:forEach items="${dateList }" var="date"  >
 								<th>${date.DATE }</th>
 							</c:forEach>

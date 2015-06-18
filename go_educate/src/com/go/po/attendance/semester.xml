@@ -21,7 +21,7 @@
 	</select> 
 	<!-- 我的学生 -->
 	<select id="mystudent" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
-	   select a.*,b.*,b.ID XSUSERID,
+	   select a.*,b.*,b.ID XSUSERID,a.ID SEMESTERID,
 	   (Select count(*) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) ZLESSON,<!-- 总课时 -->
 	   (Select count(*) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID) And ID In (Select ELID From TCLASSEL Where CLASSID In (Select ID From TCLASS Where XSUSERID=b.ID And STATUS=1))) YDLESSON,<!-- 已读课时 -->
 	   (Select min(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) FIRST,

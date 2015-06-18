@@ -15,8 +15,4 @@ public class BaseService {
 	public BaseDao getBaseDao() {
 		return baseDao;
 	}
-
-	
-	
-	
 }

@@ -32,6 +32,14 @@ public class BuserService extends BaseService {
 		return this.getBaseDao().findPageBean("buser.findcount", "buser.findlist", parameter);
 	}
 	/**
+	 * 我的老师
+	 * @param parameter
+	 * @return
+	 */
+	public  PageBean<Map<String,Object>>  myTeacher(Map<String,Object> parameter){
+		return this.getBaseDao().findPageBean("buser.myteachercount", "buser.myteacher", parameter);
+	}
+	/**
 	 * 根据条件查询所有数据
 	 * @param parameter
 	 * @return

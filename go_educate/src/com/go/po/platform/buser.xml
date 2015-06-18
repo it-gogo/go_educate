@@ -19,6 +19,14 @@
 	   </if>
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
+	<select id="myteacher" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select * From  TBUSER 
+	   Where 1=1
+	   <if test="XSUSERID!=NULL and XSUSERID!=''">
+	   	And ID In (Select USERID From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ID From TELECTIVE Where USERID = #{XSUSERID})))
+	   </if>
+	   limit  #{pageBean.startRowNum},#{pageBean.rows}
+	</select> 
 	<select id="findall" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select * From  TBUSER 
 	   Where 1=1
@@ -49,7 +57,13 @@
 	   	And ID In (Select USERID From TELECTIVE Where ID In (Select ELECTIVEID From TELECTIVELESSON Where TIMEID In (Select ID From TTEACHERTIME Where USERID = #{LSUSERID})))
 	   </if>
 	</select>
-	
+	<select id="myteachercount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
+	    Select count(1) From  TBUSER 
+	    where 1=1
+	    <if test="XSUSERID!=NULL and XSUSERID!=''">
+	   	And ID In (Select USERID From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ID From TELECTIVE Where USERID = #{XSUSERID})))
+	   </if>
+	</select>
 	
 	<!-- 添加后台数据 -->
 	<insert id="add" parameterType="java.util.HashMap" >
