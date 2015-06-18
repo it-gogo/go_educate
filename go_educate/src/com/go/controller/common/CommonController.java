@@ -135,8 +135,8 @@ public class CommonController extends BaseController{
 		if(suff.length>1){
 			filename +=  "."+suff[suff.length-1];
 		}
-		path="/task_file/"+month+"/"+user.get("ID")+"/"+filename;
-		taskParams.put("DOWN_LOAD_URL", path);
+		String down_path="/task_file/"+month+"/"+user.get("ID")+"/"+filename;
+		taskParams.put("DOWN_LOAD_URL", down_path);
 		try {
 			InputStream sbs = Filedata.getInputStream(); 
 			//文件上传保存
