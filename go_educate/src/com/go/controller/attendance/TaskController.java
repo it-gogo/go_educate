@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,6 +56,28 @@ public class TaskController extends BaseController {
 		  model.addAttribute("pageBean", pb);
 		  model.addAttribute("parameter", parameter);
 		return "attendance/task/list";
+	}
+	
+	/**
+	 * 根据课程时间获取作业列表
+	 * @author zhangjf
+	 * @create_date 2015-6-18 下午10:40:55
+	 * @param request
+	 * @param response
+	 * @param model
+	 * @param classID
+	 * @return
+	 */
+	@RequestMapping("findList.do")
+	public String findList(HttpServletRequest request, HttpServletResponse response,Model model,String classID){
+		if(StringUtils.isNotBlank(classID)){
+			Map<String,Object> parameter = sqlUtil.queryParameter(request);
+			parameter.put("CLASS_ID", classID);
+			PageBean<Map<String,Object>> pb =this.taskService.findList(parameter);
+			model.addAttribute("pageBean", pb);
+			model.addAttribute("parameter", parameter);
+		}
+		return "attendance/task/task_list";
 	}
 
 	

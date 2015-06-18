@@ -31,7 +31,8 @@
 		        'onUploadSuccess': function (file, data, response) {
 		        	console.log(data); 
 		        	if(isNaN(data)){
-		        		jBox.alert('上传失败', '错误');	
+		        		jBox.alert('上传失败', '错误');
+		        		
 		        	}else{
 		        		jBox.alert('上传成功', '提示');
 		        	}
@@ -71,7 +72,7 @@
 								<th scope="col">课程 </th>
 								<th scope="col">上课时间</th>
 								<th scope="col">下课时间</th>
-								<th scope="col">操作</th>
+								<th scope="col" colspan="2">操作</th>
 							</tr>
 							<c:forEach items="${pageBean.list }" var="vo" varStatus="pg">
 								<tr align="center">
@@ -85,6 +86,9 @@
 									<td>${vo.ENDTIME }</td>
 									<td>
 										<input type="text" remark="${vo.ID }" id="file_upload_${pg.index }"  alt="作业上传"/>
+									</td>
+									<td>
+										<a href="../task/findList.do?classID=${vo.ID }">作业列表</a>
 									</td>
 								</tr>
 							</c:forEach>

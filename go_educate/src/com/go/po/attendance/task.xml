@@ -9,11 +9,18 @@
 	
 	<!-- 查询数据 -->
 	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
-	   select T1.*,T2.NAME AS TEACHER_NAME From  TTASKLOG T1 LEFT JOIN TBUSER T2
+	   select T1.*,T2.NAME AS USER_NAME From  TTASKLOG T1 LEFT JOIN TBUSER T2
 	   ON T1.USER_ID=T2.ID
 	   Where 1=1
+	   
+	   <if test="CLASS_ID!=null">
+	   and T1.CLASS_ID='${CLASS_ID}'
+	   </if>
 	   <if test="USER_ID!=null">
 	   and T1.USER_ID='${USER_ID}'
+	   </if>
+	   <if test="USER_NAME!=null">
+	   	and T2.NAME='${USER_NAME}'
 	   </if>
 	   Order By CREATE_TIME asc
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
@@ -24,6 +31,15 @@
 	<select id="findcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
 	    Select count(1) From  TTASKLOG T1 LEFT JOIN TBUSER T2
 	   ON T1.USER_ID=T2.ID
+	   <if test="CLASS_ID!=null">
+	   and T1.CLASS_ID='${CLASS_ID}'
+	   </if>
+	   <if test="USER_ID!=null">
+	   and T1.USER_ID='${USER_ID}'
+	   </if>
+	   <if test="USER_NAME!=null">
+	   	and T2.NAME='${USER_NAME}'
+	   </if>
 	   Where 1=1 
 	</select>
 	
