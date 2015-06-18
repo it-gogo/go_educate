@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="task">
+	<!-- 添加数据 -->
+	<insert id="save" parameterType="java.util.HashMap" >
+	   insert into TTASKLOG(ID,CLASS_ID,USER_ID,TYPE,UPLOAD_TYPE,STATUS,CREATE_TIME,DOWN_LOAD_URL) 
+	   values(#{ID},#{CLASS_ID},#{USER_ID},#{TYPE},#{UPLOAD_TYPE},#{STATUS},#{CREATE_TIME},#{DOWN_LOAD_URL})
+	</insert>
+	
+	<!-- 查询数据 -->
+	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select T1.*,T2.NAME AS TEACHER_NAME From  TTASKLOG T1 LEFT JOIN TBUSER T2
+	   ON T1.USER_ID=T2.ID
+	   Where 1=1
+	   <if test="USER_ID!=null">
+	   and T1.USER_ID='${USER_ID}'
+	   </if>
+	   Order By CREATE_TIME asc
+	   limit  #{pageBean.startRowNum},#{pageBean.rows}
+	</select> 
+	
+	
+	<!-- 查询记录数 -->
+	<select id="findcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
+	    Select count(1) From  TTASKLOG T1 LEFT JOIN TBUSER T2
+	   ON T1.USER_ID=T2.ID
+	   Where 1=1 
+	</select>
+	
+</mapper>
