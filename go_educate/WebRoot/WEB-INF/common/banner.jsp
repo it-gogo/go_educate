@@ -14,11 +14,12 @@ function loginOut(){
 <div class="banner">
 	<div class="bgh">
 		<div class="page">
-			<div id="logo">
-				<a href="Index.aspx.html"> 
+			 <div id="logo">
+				 <%-- <a href="Index.aspx.html"> 
 					<img src="<%=request.getContextPath()%>/css/images/Student/logo.gif" alt="" width="165" height="48" /> 
-				</a>
-			</div>
+				</a>--%>
+				此处放logo图片
+			</div> 
 			<div class="topxx">
 				<%--<select onchange="changeCateory($(this))"
 					style="font-size: 11px; background: #4991cf; color: #fff;">

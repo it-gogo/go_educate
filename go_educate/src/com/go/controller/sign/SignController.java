@@ -121,6 +121,7 @@ public class SignController extends BaseController{
 				 
 				  String sign = (String) result.get("sign");//老师签到情况
 				  String sign1 = (String) result.get("sign2");//学生签到情况
+				  
 				  if(!"0".equals(sign) && "0".equals(sign1)){ //学生未上课
 					  parameter.put("STATUS", "1");
 				  }
