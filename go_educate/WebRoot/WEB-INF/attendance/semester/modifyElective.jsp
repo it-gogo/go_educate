@@ -17,6 +17,8 @@
 				<div class="cztable">
 					<div class="tis">
 						<form action="modifyElective.do" method="post" id="searchForm">
+							<input size="20" name="SEMESTERID" value="${parameter.SEMESTERID }" type="hidden" />
+							<input size="20" name="USERID" value="${parameter.USERID }" type="hidden" />
 							名称:<input size="20" name="NAME" value="${parameter.NAME }" class="input_2"  />
 							<input class="input2" type="submit" value="查询"   />
 							<input class="input2" type="button" value="清空"  onclick="clearData('searchForm')"  />

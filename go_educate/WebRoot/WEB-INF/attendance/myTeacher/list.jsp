@@ -26,6 +26,7 @@
 						<tbody>
 							<tr style="height: 25px" align="center">
 								<th scope="col">姓名 </th>
+								<th scope="col">课程</th>
 								<th scope="col">电话</th>
 								<th scope="col">身份证</th>
 								<th scope="col">QQ</th>
@@ -35,6 +36,11 @@
 							<c:forEach items="${pageBean.list }" var="vo" >
 								<tr align="center">
 									<td>${vo.NAME }</td>
+									<td>
+										<c:forEach items="${vo.curriculumList }" var="po"  >
+											(${po.NAME })
+										</c:forEach>
+									</td>
 									<td>${vo.TELEPHONE }</td>
 									<td>${vo.IDENF }</td>
 									<td>${vo.QQ }</td>

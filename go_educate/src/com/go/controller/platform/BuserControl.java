@@ -43,6 +43,8 @@ public class BuserControl extends BaseController {
 	  @RequestMapping("add.do")
 	  public  String add(HttpServletRequest request,HttpServletResponse response,Model  model){
 		  Map<String,Object> parameter=new HashMap<String,Object>();
+		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
+		  parameter.put("SUPERADMIN", user.get("SUPERADMIN"));
 		  parameter.put("ISACTIVES", 1);
 		  List<Map<String,Object>> list=roleService.findAll(parameter);
 		  model.addAttribute("roleList", list);
@@ -97,10 +99,10 @@ public class BuserControl extends BaseController {
 			  parameter.put("ID", n_parameter.get("id"));
 			  //添加菜单
 			  this.buserService.add(n_parameter);
-			  this.ajaxMessage(response, Syscontants.MESSAGE,"添加菜单成功");
+			  this.ajaxMessage(response, Syscontants.MESSAGE,"添加成功");
 		  }else{
 			  this.buserService.update(parameter);
-			  this.ajaxMessage(response, Syscontants.MESSAGE,"修改菜单成功");
+			  this.ajaxMessage(response, Syscontants.MESSAGE,"修改成功");
 		  }
 		  
 		  List<String> ll=new ArrayList<String>();
@@ -127,6 +129,8 @@ public class BuserControl extends BaseController {
 	  @RequestMapping("findList.do")
 	  public  String  findList(HttpServletRequest request, HttpServletResponse response,Model  model){
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
+		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
+		  parameter.put("SUPERADMIN", user.get("SUPERADMIN"));
 		  PageBean<Map<String,Object>> pb = this.buserService.findList(parameter);
 		  model.addAttribute("pageBean", pb);
 		  model.addAttribute("parameter", parameter);
@@ -158,6 +162,28 @@ public class BuserControl extends BaseController {
 			this.ajaxMessage(response, Syscontants.MESSAGE,"禁用成功");
 		}
 		this.buserService.updatestat(parameter);
+	}
+	
+	@RequestMapping("checkText.do")
+	public void checkText(HttpServletRequest request,HttpServletResponse response){
+		Map<String,Object> parameter = sqlUtil.setParameterInfo(request);
+		Object id=parameter.get("ID");
+		Map<String,Object> n_parameter=new HashMap<String,Object>();
+		n_parameter.put("TEXT", parameter.get("TEXT"));
+		 Map<String,Object>  res = this.buserService.load(n_parameter);
+		 if(res==null || res.size()==0){//不存在
+			 this.ajaxMessage(response, Syscontants.MESSAGE,"账号不存在");
+		 }else{
+			 if(id==null || "".equals(id)){
+				 this.ajaxMessage(response, Syscontants.ERROE,"账号存在");
+			 }else{
+				 if(id.equals(res.get("ID"))){
+					 this.ajaxMessage(response, Syscontants.MESSAGE,"账号不存在");
+				 }else{
+					 this.ajaxMessage(response, Syscontants.ERROE,"账号存在");
+				 }
+			 }
+		 }
 	}
 		
 	 /**

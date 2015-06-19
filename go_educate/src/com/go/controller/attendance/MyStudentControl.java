@@ -121,6 +121,7 @@ public class MyStudentControl extends BaseController {
 		  PageBean<Map<String,Object>> pb = this.classService.findList(parameter);
 		  model.addAttribute("pageBean", pb);
 		  model.addAttribute("parameter", parameter);
+		  model.addAttribute("pageUrl", "lookClass.do");
 		  return  "attendance/myStudent/lookClass";
 	  }
 }

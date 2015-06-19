@@ -5,6 +5,25 @@ function addxx(){
 	location.href="add.do";
 }
 /**
+ * 验证函数
+ * @param boolean
+ * @param str
+ * @param obj
+ * @returns {Boolean}
+ */
+function check(boolean,str,obj){
+	$(obj).parent().find(".error").remove();
+	if(boolean){
+		$(obj).parent().find(".error").remove();
+		return true;
+	}else{
+		if($(obj).parent().find(".error").size()==0){
+			$(obj).parent().append(" <label class=\"error\">"+str+"</label>");
+		}
+		return false;
+	}
+}
+/**
  * 后退
  */
 function back(){
@@ -41,6 +60,10 @@ function save(eform) {
 			}
 			return false;
 		}
+	}
+	if($(".error").size()!=0){
+		jBox.tip("存在错误操作，请根据提示修改。");
+		return false;
 	}
 	 if(typeof(beforeSubimt)=='function'){
 		 if(!beforeSubimt(eform)){
@@ -148,5 +171,12 @@ function clearData(formid){
 	var obj=$("input[type='text']","#"+formid);
 	for(var i=0;i<obj.size();i++){
 		obj.eq(i).val("");
+	}
+	var sel=$("select","#"+formid);//下拉框
+	for(var i=0;i<sel.size();i++){
+		var s=sel.get(i);
+		if(s.options[0].value==""){
+			s.options[0].selected=true;
+		}
 	}
 }

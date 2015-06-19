@@ -1,5 +1,6 @@
 package com.go.service.platform;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,17 @@ public class BuserService extends BaseService {
 	 * @return
 	 */
 	public  PageBean<Map<String,Object>>  myTeacher(Map<String,Object> parameter){
-		return this.getBaseDao().findPageBean("buser.myteachercount", "buser.myteacher", parameter);
+		PageBean<Map<String,Object>> pb=this.getBaseDao().findPageBean("buser.myteachercount", "buser.myteacher", parameter);
+		List<Map<String,Object>> list=pb.getList();
+		if(list!=null && list.size()>0){
+			for(Map<String,Object> map:list){
+				parameter=new HashMap<String,Object>();
+				parameter.put("LSUSERID", map.get("ID"));
+				List<Map<String,Object>> curriculumList=this.getBaseDao().findList("curriculum.findall", parameter);
+				map.put("curriculumList", curriculumList);
+			}
+		}
+		return pb;
 	}
 	/**
 	 * 根据条件查询所有数据

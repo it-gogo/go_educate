@@ -16,6 +16,9 @@
 	   <if test="ISACTIVES!=NULL and ISACTIVES!=''">
 	   	And ISACTIVES =#{ISACTIVES}  
 	   </if>
+	   <if test="LSUSERID!=null and LSUSERID!=''">
+	   	And ID In (Select CURRICULUMID From TUSERCURRICULUM Where USERID =#{LSUSERID})
+	   </if>
 	</select>
 	
 	<!-- 查询记录数 -->

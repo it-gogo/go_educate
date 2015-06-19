@@ -14,3 +14,6 @@
 <script src="<%=request.getContextPath()%>/script/jquery.jBox-zh-CN.js" type="text/javascript"></script>
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/script/common.js"></script>
+<style type="text/css">
+	.error{color: red;font-weight: bold;}
+</style>

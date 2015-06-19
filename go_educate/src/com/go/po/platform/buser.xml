@@ -17,11 +17,14 @@
 	   <if test="LSUSERID!=NULL and LSUSERID!=''">
 	   	And ID In (Select USERID From TELECTIVE Where ID In (Select ELECTIVEID From TELECTIVELESSON Where TIMEID In (Select ID From TTEACHERTIME Where USERID = #{LSUSERID})))
 	   </if>
+	   <if test="SUPERADMIN==NULL">
+	   	And SUPERADMIN is null
+	   </if>
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
 	<select id="myteacher" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select * From  TBUSER 
-	   Where 1=1
+	   Where 1=1 And TYPE=1
 	   <if test="XSUSERID!=NULL and XSUSERID!=''">
 	   	And ID In (Select USERID From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ID From TELECTIVE Where USERID = #{XSUSERID})))
 	   </if>
@@ -55,6 +58,9 @@
 	   </if>
 	   <if test="LSUSERID!=NULL and LSUSERID!=''">
 	   	And ID In (Select USERID From TELECTIVE Where ID In (Select ELECTIVEID From TELECTIVELESSON Where TIMEID In (Select ID From TTEACHERTIME Where USERID = #{LSUSERID})))
+	   </if>
+	    <if test="SUPERADMIN==NULL or SUPERADMIN!='1'">
+	   	And SUPERADMIN is null
 	   </if>
 	</select>
 	<select id="myteachercount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
@@ -96,7 +102,13 @@
 	</update>	
 	<!-- 导出数据 -->
 	<select id="load"  parameterType="java.util.HashMap" resultType="java.util.HashMap">
-	   Select * From TBUSER  Where ID=#{ID}
+	   Select * From TBUSER  Where 1=1 
+	   <if test="ID!=null and ID!=''">
+		 And  ID=#{ID}
+	   </if>
+	   <if test="TEXT!=null and TEXT!=''">
+		 And  TEXT=#{TEXT}
+	   </if>
 	</select>
 	<!-- 删除数据 -->
 	<delete id="delete"  parameterType = "java.util.List">

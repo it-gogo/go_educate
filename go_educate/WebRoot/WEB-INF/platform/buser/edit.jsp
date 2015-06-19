@@ -46,7 +46,7 @@
 				<div class="cztable">
 					<h2 class="mbx">用户管理 &gt; 用户编辑</h2>
 					<form action="save.do" method="post" id="eform">
-						<input type="hidden" name="ID" value="${vo.ID }" />
+						<input type="hidden" name="ID" value="${vo.ID }" id="ID" />
 						<input type="hidden" name="PASSWORD" value="${vo.PASSWORD }" />
 						<table width="100%" cellpadding="0" cellspacing="0">
 							<tr>
@@ -87,7 +87,9 @@
 							</tr>
 							<tr>
 								<td width="15%" align="right"><div align="right">账号：</div></td>
-								<td><input size="25" name="TEXT" value="${vo.TEXT }" class="input_2 requires"  /></td>
+								<td>
+									<input size="25" name="TEXT" value="${vo.TEXT }" class="input_2 requires"  onblur="checkText(this)"  />
+								</td>
 							</tr>
 							<tr>
 								<td width="15%" align="right"><div align="right">密码：</div></td>

@@ -16,6 +16,9 @@
 	   <if test="ISACTIVES!=NULL and ISACTIVES!=''">
 	   	And ISACTIVES =#{ISACTIVES}
 	   </if>
+	   <if test="SUPERADMIN==NULL">
+		   	And SUPERADMIN is null
+		   </if>
 	</select> 
 	
 	<!-- 查询记录数 -->

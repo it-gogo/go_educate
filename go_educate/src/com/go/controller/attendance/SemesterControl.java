@@ -183,6 +183,7 @@ public class SemesterControl extends BaseController {
 		  PageBean<Map<String,Object>> pb = electiveService.findList(parameter);
 		  model.addAttribute("pageBean", pb);
 		  model.addAttribute("parameter", parameter);
+		  model.addAttribute("pageUrl", "modifyElective.do");
 		  return  "attendance/semester/modifyElective";
 	  }
 }

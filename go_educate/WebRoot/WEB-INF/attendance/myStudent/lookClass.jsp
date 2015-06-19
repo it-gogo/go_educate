@@ -17,7 +17,8 @@
 				<%@include file="/WEB-INF/platform/nav.jsp"%>
 				<div class="cztable">
 					<div class="tis">
-						<form action="findList.do" method="post" id="searchForm">
+						<form action="lookClass.do" method="post" id="searchForm">
+							<input size="20" name="SEMESTERID" value="${parameter.SEMESTERID }" type="hidden" />
 							姓名:<input size="20" name="XSNAME" value="${parameter.XSNAME }" class="input_2"  />
 							<input class="input2" type="submit" value="查询"   />
 							<input class="input2" type="button" value="清空"  onclick="clearData('searchForm')"  />

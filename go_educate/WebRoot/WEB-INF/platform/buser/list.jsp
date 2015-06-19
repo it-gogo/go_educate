@@ -19,6 +19,12 @@
 						<form action="findList.do" method="post" id="searchForm">
 							姓名:<input size="20" name="NAME" value="${parameter.NAME }" class="input_2"  />
 							账号:<input size="20" name="TEXT" value="${parameter.TEXT }" class="input_2"  />
+							类型:<select name="TYPESTR">
+								<option value="">请选择类型</option>
+								<option value="1" <c:if test="${parameter.TYPESTR==1 }">selected="selected"</c:if> >老师</option>
+								<option value="2" <c:if test="${parameter.TYPESTR==2 }">selected="selected"</c:if>>学生</option>
+								<option value="3" <c:if test="${parameter.TYPESTR==3 }">selected="selected"</c:if>>管理员</option>
+							</select>
 							<input class="input2" type="submit" value="查询"   />
 							<input class="input2" type="button" value="清空"  onclick="clearData('searchForm')"  />
 							<input class="input2" type="button" value="添加" onclick="addxx()"  />

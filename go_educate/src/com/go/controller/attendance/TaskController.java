@@ -55,6 +55,7 @@ public class TaskController extends BaseController {
 		  PageBean<Map<String,Object>> pb = this.classService.findList(parameter);
 		  model.addAttribute("pageBean", pb);
 		  model.addAttribute("parameter", parameter);
+		  model.addAttribute("pageUrl", "ajax_list.do");
 		return "attendance/task/list";
 	}
 	

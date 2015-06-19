@@ -64,6 +64,7 @@
          <mvc:mapping path="/task/*.do"/>
          <mvc:mapping path="/myStudent/*.do"/>
          <mvc:mapping path="/myTeacher/*.do"/>
+         <mvc:mapping path="/sign/*.do"/>
          <bean class="com.go.common.interceptor.SessionInterceptor"></bean>
       </mvc:interceptor>
       <!-- 前台Session拦截器
