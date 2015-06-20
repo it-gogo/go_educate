@@ -114,6 +114,23 @@ public class SignController extends BaseController{
 					  parameter.put("sign2", signType);
 				  }
 				  signService.updateSign(parameter);
+				  /**修改class表的状态情况 */
+				  parameter.remove("sign");
+				  parameter.remove("sign2");
+				  result = signService.load(parameter);
+				 
+				  String sign = (String) result.get("sign");//老师签到情况
+				  String sign1 = (String) result.get("sign2");//学生签到情况
+				  if(!"0".equals(sign) && "0".equals(sign1)){ //学生未上课
+					  parameter.put("STATUS", "1");
+				  }
+				  if("0".equals(sign) && !"0".equals(sign1)){ //老师未上课
+					  parameter.put("STATUS", "2");
+				  }
+				  if(!"0".equals(sign) && !"0".equals(sign1)){ //正常
+					  parameter.put("STATUS", "0");
+				  }
+				  signService.updateStatus(parameter);
 				  this.ajaxMessage(response, "msg", "200");
 			  }else{
 				  this.ajaxMessage(response, "msg", "只能对当天要上的课进行签到！");

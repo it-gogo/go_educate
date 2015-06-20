@@ -133,4 +133,8 @@
 		</if>
 		where id = #{ID}
 	</update>
+	<!-- 状态修改 -->
+	<update id="updateStatus">
+		update TCLASS set status = #{STATUS} where id = #{ID}
+	</update>
 </mapper>

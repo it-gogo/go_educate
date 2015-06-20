@@ -55,7 +55,8 @@
 								<th scope="col">课程 </th>
 								<th scope="col">上课时间</th>
 								<th scope="col">下课时间</th>
-								<th scope="col">签到情况</th>
+								<th scope="col">老师签到情况</th>
+								<th scope="col">学生签到情况</th>
 								<th scope="col">操作</th>
 							</tr>
 							<c:forEach items="${pageBean.list }" var="vo" >
@@ -68,7 +69,6 @@
 									<td>${vo.CURRICULUMNAME }</td>
 									<td>${vo.STARTTIME }</td>
 									<td>${vo.ENDTIME }</td>
-									<c:if test="${roleType =='1'}">
 									<td>${vo.sign =="0"?"<span style='color:red;'>未签到</span>"
 												:vo.sign=="1"?"<span style='color:blue;'>已签</span>"
 												:vo.sign=="2"?"迟到"
@@ -76,13 +76,6 @@
 												:"<span style='color:green;'>忘记签到</span>"
 										 }
 									</td>
-									<td>
-										<c:if test="${ vo.DATE==today and vo.sign =='0'}">
-											<a href="javascript:void(0);"  onclick="sign('${vo.ID}')">签到</a>
-										</c:if>
-									</td>
-									</c:if>
-									<c:if test="${roleType =='2'}">
 									<td>${vo.sign2 =="0"?"<span style='color:red;'>未签到</span>"
 												:vo.sign2=="1"?"<span style='color:blue;'>已签</span>"
 												:vo.sign2=="2"?"迟到"
@@ -90,6 +83,14 @@
 												:"<span style='color:green;'>忘记签到</span>"
 										 }
 									</td>
+									<c:if test="${roleType =='1'}">
+									<td>
+										<c:if test="${ vo.DATE==today and vo.sign =='0'}">
+											<a href="javascript:void(0);"  onclick="sign('${vo.ID}')">签到</a>
+										</c:if>
+									</td>
+									</c:if>
+									<c:if test="${roleType =='2'}">
 									<td>
 										<c:if test="${ vo.DATE==today and vo.sign2 =='0'}">
 											<a href="javascript:void(0);"  onclick="sign('${vo.ID}')">签到</a>

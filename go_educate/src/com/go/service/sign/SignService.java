@@ -24,5 +24,9 @@ public class SignService extends BaseService{
 	public void updateSign(Map<String, Object> parameter) {
 		this.getBaseDao().update("class.updateSign", parameter);
 	}
+	public void updateStatus(Map<String, Object> parameter) {
+		this.getBaseDao().update("class.updateStatus", parameter);
+		
+	}
 
 }
