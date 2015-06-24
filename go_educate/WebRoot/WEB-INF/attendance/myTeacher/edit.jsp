@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<%@include file="/WEB-INF/common/head.jsp"%>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/script/platform/buser.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/script/attendance/myTeacher.js"></script>
 	<script type="text/javascript">
 	$(function(){
 		showCurriculum();
@@ -46,82 +46,40 @@
 				<div class="cztable">
 					<h2 class="mbx">用户管理 &gt; 用户编辑</h2>
 					<form action="save.do" method="post" id="eform">
-						<input type="hidden" name="ID" value="${vo.ID }" />
+						<input type="hidden" name="ID" value="${vo.ID }" id="ID" />
 						<input type="hidden" name="PASSWORD" value="${vo.PASSWORD }" />
+						<input type="hidden" name="SUPERADMIN" value="${user.SUPERADMIN }" />
 						<table width="100%" cellpadding="0" cellspacing="0">
 							<tr>
-								<td width="15%" align="right"><div align="right">类型：</div></td>
-								<td>
-									<select   name="TYPE" style="width: 168px;" id="TYPE" onchange="showCurriculum();"  >
-										<option value="1" <c:if test="${vo.TYPE==1 }">selected="selected"</c:if>>老师</option>
-										<option value="2" <c:if test="${vo.TYPE==2 }">selected="selected"</c:if>>学生</option>
-										<option value="3" <c:if test="${vo.TYPE==3 }">selected="selected"</c:if>>管理员</option>
-									</select>
-									<span id="TYPESPAN">
-										<c:forEach items="${curriculumList }" var="curriculum">
-										<input type="checkbox" value="${curriculum.ID }" name="CURRICULUMID" />${curriculum.NAME }
-										</c:forEach>
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td width="15%" align="right"><div align="right">角色：</div></td>
-								<td>
-									<select   name="ROLEID" style="width: 168px;"   >
-										<c:forEach items="${roleList }" var="role">
-											<option value="${role.ID }" <c:if test="${vo.ROLEID==role.ID }">selected="selected"</c:if>>${role.ROLETEXT }</option>
-										</c:forEach>
-									</select>
-								</td>
-							</tr>
-							<tr>
 								<td width="15%" align="right"><div align="right">姓名：</div></td>
-								<td><input size="25" name="NAME" value="${vo.NAME }" class="input_2 requires"  /></td>
+								<td>${vo.NAME }</td>
 							</tr>
 							<tr>
 								<td width="15%" align="right"><div align="right">性别：</div></td>
 								<td>
-									<input type="radio" value="1"  name="SEX" id="sex_1" checked="checked"/><label for="sex_1">男</label>
-									<input type="radio" value="0" name="SEX" id="sex_0" /><label for="sex_0">女</label>
+									<c:if test="${vo.SEX==1 }">男</c:if>
+									<c:if test="${vo.SEX==0 }">女</c:if>
 								</td>
-							</tr>
-							<tr>
-								<td width="15%" align="right"><div align="right">账号：</div></td>
-								<td><input size="25" name="TEXT" value="${vo.TEXT }" class="input_2 requires"  /></td>
-							</tr>
-							<tr>
-								<td width="15%" align="right"><div align="right">密码：</div></td>
-								<td>
-									<input size="25" type="password" name="newpw" value="" class="input_2"  />(默认:123456)
-								</td>
-							</tr>
-							<tr>
-								<td width="15%" align="right"><div align="right">身份证：</div></td>
-								<td><input size="25" name="IDENF" value="${vo.IDENF }" class="input_2"  /></td>
-							</tr>
-							<tr>
-								<td width="15%" align="right"><div align="right">电话：</div></td>
-								<td><input size="25" name="TELEPHONE" value="${vo.TELEPHONE }" class="input_2"  /></td>
 							</tr>
 							<tr>
 								<td width="15%" align="right"><div align="right">QQ：</div></td>
-								<td><input size="25" name="QQ" value="${vo.QQ }" class="input_2"  /></td>
+								<td>${vo.QQ }</td>
 							</tr>
 							<tr>
 								<td width="15%" align="right"><div align="right">电子邮箱：</div></td>
-								<td><input size="25" name="EMAIL" value="${vo.EMAIL }" class="input_2"  /></td>
+								<td>${vo.EMAIL }</td>
 							</tr>
 							<tr>
-								<td width="15%" align="right"><div align="right">是否启用：</div></td>
-								<td>
-									<input type="radio" value="1"  name="ISACTIVES" id="isactives_1" checked="checked"/><label for="isactives_1">是</label>
-									<input type="radio" value="0" name="ISACTIVES" id="isactives_0" /><label for="isactives_0">否</label>
-								</td>
+								<td width="15%" align="right"><div align="right">教学经验：</div></td>
+								<td><textarea name="EXPERIENCE"  cols="80" rows="6" class="input_2" readonly="readonly">${vo.EXPERIENCE }</textarea></td>
+							</tr>
+							<tr>
+								<td width="15%" align="right"><div align="right">备注：</div></td>
+								<td><textarea name="REMARK"  cols="80" rows="6" class="input_2" readonly="readonly">${vo.REMARK }</textarea></td>
 							</tr>
 							<tr>
 								<td colspan="2" align="center">
 									<div align="center">
-										<input type="button" value="提交" onclick="save('eform')" class="input2" /> 
 										<input type="button" value="返回" onclick="back()" class="input2" />
 									</div>
 								</td>
@@ -135,3 +93,4 @@
 	</div>
 </body>
 </html>
+

@@ -4,7 +4,7 @@
     <!-- 查询数据 -->
 	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select *,(Select NAME From TBUSER Where ID=a.USERID) USERNAME ,
-	   (Select count(*) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) MUCHLESSON,
+	   (Select FORMAT(count(*)/2,1) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) MUCHLESSON,
 	   (Select min(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) FIRST,
 	   (Select max(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) LATEST
 	   From  TSEMESTER a Where 1=1

@@ -27,12 +27,12 @@
 							<tr style="height: 25px" align="center">
 								<th scope="col">姓名 </th>
 								<th scope="col">课程</th>
-								<th scope="col">电话</th>
-								<th scope="col">身份证</th>
+								<%--<th scope="col">电话</th>
+								--%><th scope="col">身份证</th>
 								<th scope="col">QQ</th>
 								<th scope="col">电子邮箱</th>
-								<%--<th scope="col">操作</th>
-							--%></tr>
+								<th scope="col">操作</th>
+							</tr>
 							<c:forEach items="${pageBean.list }" var="vo" >
 								<tr align="center">
 									<td>${vo.NAME }</td>
@@ -41,15 +41,14 @@
 											(${po.NAME })
 										</c:forEach>
 									</td>
-									<td>${vo.TELEPHONE }</td>
-									<td>${vo.IDENF }</td>
+									<%--<td>${vo.TELEPHONE }</td>
+									--%><td>${vo.IDENF }</td>
 									<td>${vo.QQ }</td>
 									<td>${vo.EMAIL }</td>
-									<%--<td>
-										<a href="javascript:void(0);"  onclick="loadxx('${vo.ID}')">修改</a> | 
-										<a href="javascript:void(0);" onclick="deleteOne('${vo.ID}')" >删除</a>
+									<td>
+										<a href="javascript:void(0);"  onclick="loadxx('${vo.ID}')">详 情</a>
 									</td>
-								--%></tr>
+								</tr>
 							</c:forEach>
 						</tbody>
 					</table>

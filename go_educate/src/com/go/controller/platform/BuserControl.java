@@ -250,6 +250,6 @@ public class BuserControl extends BaseController {
 		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");
 		  user.putAll(parameter);
 		  this.buserService.update(user);
-		  this.ajaxMessage(response, Syscontants.MESSAGE,"修改菜单成功");
+		  this.ajaxMessage(response, Syscontants.MESSAGE,"修改成功");
 	  }
 }

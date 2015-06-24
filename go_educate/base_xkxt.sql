@@ -418,3 +418,6 @@ CREATE TABLE `tuserrole` (
 -- ----------------------------
 -- Records of tuserrole
 -- ----------------------------
+ALTER TABLE TBUSER ADD REMARK TEXT;
+ALTER TABLE TBUSER ADD EXPERIENCE TEXT;
+ALTER TABLE TCLASS MODIFY MUCHLESSON DOUBLE(11,1);

@@ -60,7 +60,7 @@
 	</select>
 	<!-- 查询老师课表已选择数据 -->
 	<select id="findTeacherkb" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
-	   select a.*,b.*,c.*,(Select NAME From TBUSER Where ID=c.USERID) USERNAME,(Select NAME From TCURRICULUM Where ID=(Select CURRICULUMID From TELECTIVE Where ID = a.ELECTIVEID)) CURRICULUMNAME
+	   select a.*,b.*,c.*,(Select NAME From TBUSER Where ID=c.USERID) USERNAME,(Select NAME From TCURRICULUM Where ID=(Select CURRICULUMID From TELECTIVE Where ID = a.ELECTIVEID)) CURRICULUMNAME,(Select NAME From TBUSER Where ID In (Select USERID From TELECTIVE Where ID = a.ELECTIVEID)) XSUSERNAME
 	   From  TELECTIVELESSON a join TLESSON b on a.LESSONID = b.id  join TTEACHERTIME c on a.TIMEID=c.ID 
 	   Where a.TIMEID In (Select ID From TTEACHERTIME Where 1=1
 	   <if test="USERID!=null and USERID!=''">
@@ -106,7 +106,7 @@
 	<!-- 查询一个课表数据 -->
 	<select id="findOneSemester" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select *,(Select NAME From TBUSER Where ID=a.USERID) USERNAME ,
-	   (Select count(*) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) MUCHLESSON,
+	   (Select FORMAT(count(*)/2,1) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) MUCHLESSON,
 	   (Select min(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) FIRST,
 	   (Select max(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) LATEST
 	   From  TSEMESTER a Where ID  = #{SEMESTERID}

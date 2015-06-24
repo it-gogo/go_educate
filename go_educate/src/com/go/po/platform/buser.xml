@@ -74,10 +74,10 @@
 	<!-- 添加后台数据 -->
 	<insert id="add" parameterType="java.util.HashMap" >
 	   insert into TBUSER(ID,NAME,PASSWORD,TEXT,SEX,ROLEID,TELEPHONE,EMAIL,
-                         QQ,TYPE,IDENF,ISACTIVES) 
+                         QQ,TYPE,IDENF,ISACTIVES,SUPERADMIN,EXPERIENCE,REMARK) 
 	   values(#{id},#{NAME},#{PASSWORD},#{TEXT},#{SEX},
 	          #{ROLEID},#{TELEPHONE},#{EMAIL},#{QQ},
-	          #{TYPE},#{IDENF},#{ISACTIVES})
+	          #{TYPE},#{IDENF},#{ISACTIVES},${SUPERADMIN},#{EXPERIENCE},#{REMARK})
 	</insert>
 	
 	<!-- 添加后台数据 -->
@@ -92,6 +92,9 @@
 	                    IDENF = #{IDENF},
                         QQ = #{QQ},
                         TYPE = #{TYPE},
+                        SUPERADMIN = #{SUPERADMIN},
+                        EXPERIENCE = #{EXPERIENCE},
+                        REMARK = #{REMARK},
                         ISACTIVES = #{ISACTIVES}
         where  ID=#{ID} 
 	</update>

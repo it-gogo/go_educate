@@ -64,6 +64,14 @@
 								<td><input size="25" name="EMAIL" value="${user.EMAIL }" class="input_2"  /></td>
 							</tr>
 							<tr>
+								<td width="15%" align="right"><div align="right">教学经验：</div></td>
+								<td><textarea name="EXPERIENCE"  cols="80" rows="6" class="input_2">${user.EXPERIENCE }</textarea></td>
+							</tr>
+							<tr>
+								<td width="15%" align="right"><div align="right">备注：</div></td>
+								<td><textarea name="REMARK"  cols="80" rows="6" class="input_2">${user.REMARK }</textarea></td>
+							</tr>
+							<tr>
 								<td colspan="2" align="center">
 									<div align="center">
 										<input type="button" value="提交" onclick="save('eform')" class="input2" /> 
@@ -80,3 +88,4 @@
 	</div>
 </body>
 </html>
+

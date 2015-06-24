@@ -105,7 +105,7 @@ public class ElectiveService extends BaseService {
 				classm.put("XSUSERID", map.get("XSUSERID"));//学生ID
 				classm.put("DATE", map.get("DATE"));//老师ID
 				classm.put("CURRICULUMID", map.get("CURRICULUMID"));//课程ID
-				classm.put("MUCHLESSON", l.size());//多少节课
+				classm.put("MUCHLESSON", l.size()/2.0);//多少节课
 				classm.put("CREATEDATE", ExtendDate.getYMD_h_m_s(new Date()));//创建时间
 //				classm.put("STATUS", 0);//未上课
 				String id=SqlUtil.uuid();
@@ -137,7 +137,8 @@ public class ElectiveService extends BaseService {
 		return null;
 	}
 	public static void main(String[] args) throws Exception {
-		System.out.println(compareTime("08:00","07:30","0"));
+//		System.out.println(compareTime("08:00","07:30","0"));
+		System.out.println(7/2.0);
 	}
 	private static String compareTime(String time1,String time2,String type) throws Exception{
 		SimpleDateFormat sdf=new SimpleDateFormat("HH:ss");

@@ -1,5 +1,6 @@
 package com.go.controller.attendance;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.go.common.util.JSONUtil;
 import com.go.common.util.SysUtil;
 import com.go.controller.base.BaseController;
 import com.go.po.common.PageBean;
@@ -33,6 +35,20 @@ public class MyTeacherControl extends BaseController {
 	  private  ClassService  classService;
 	  @Resource
 	  private  CurriculumService  curriculumService;
+	  
+	  /**
+	   * 导出数据
+	   * @param request
+	   * @param response
+	   * @return
+	   */
+	  @RequestMapping("load.do")
+	  public  String load(HttpServletRequest request, HttpServletResponse response,Model  model){
+		  Map<String,Object>  parameter = sqlUtil.setParameterInfo(request);
+		  Map<String,Object>  res = this.buserService.load(parameter);
+		  model.addAttribute("vo", res);
+		  return  "attendance/myTeacher/edit";
+	  }
 	  
 	  /**
 	   * 查询列表

@@ -48,6 +48,7 @@
 					<form action="save.do" method="post" id="eform">
 						<input type="hidden" name="ID" value="${vo.ID }" id="ID" />
 						<input type="hidden" name="PASSWORD" value="${vo.PASSWORD }" />
+						<input type="hidden" name="SUPERADMIN" value="${user.SUPERADMIN }" />
 						<table width="100%" cellpadding="0" cellspacing="0">
 							<tr>
 								<td width="15%" align="right"><div align="right">类型：</div></td>
@@ -112,6 +113,14 @@
 							<tr>
 								<td width="15%" align="right"><div align="right">电子邮箱：</div></td>
 								<td><input size="25" name="EMAIL" value="${vo.EMAIL }" class="input_2"  /></td>
+							</tr>
+							<tr>
+								<td width="15%" align="right"><div align="right">教学经验：</div></td>
+								<td><textarea name="EXPERIENCE"  cols="80" rows="6" class="input_2">${vo.EXPERIENCE }</textarea></td>
+							</tr>
+							<tr>
+								<td width="15%" align="right"><div align="right">备注：</div></td>
+								<td><textarea name="REMARK"  cols="80" rows="6" class="input_2">${vo.REMARK }</textarea></td>
 							</tr>
 							<tr>
 								<td width="15%" align="right"><div align="right">是否启用：</div></td>
