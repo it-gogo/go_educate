@@ -128,7 +128,8 @@ public class CommonController extends BaseController{
 		String month = current_time.split(" ")[0];
 		// 保存的位置
 		String path = "/task_file/"+month+"/"+user.get("ID")+"/";
-
+		String url=request.getSession().getServletContext().getRealPath("/");
+		System.out.println("session:"+url);
 		String suffix = StringUtils.isNotBlank(Filedata.getOriginalFilename())?Filedata.getOriginalFilename():"";
 		String[] suff = suffix.split("\\.");
 		String filename =  String.valueOf(System.currentTimeMillis());
@@ -140,7 +141,7 @@ public class CommonController extends BaseController{
 		try {
 			InputStream sbs = Filedata.getInputStream(); 
 			//文件上传保存
-			Util.saveFileFromInputStream(sbs, request.getServletContext().getRealPath("/")+path, filename);
+			Util.saveFileFromInputStream(sbs, /**request.getServletContext().getRealPath("/")**/url+path, filename);
 			result ="200";
 			taskParams.put("STATUS", "0");
 		} catch (IOException e) {
