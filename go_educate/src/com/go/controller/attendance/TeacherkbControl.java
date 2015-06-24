@@ -1,6 +1,7 @@
 package com.go.controller.attendance;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -72,6 +73,17 @@ public class TeacherkbControl extends BaseController {
 	  @RequestMapping("findList.do")
 	  public  String  findList(HttpServletRequest request, HttpServletResponse response,Model  model){
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
+		  if(!parameter.containsKey("STARTDATE")){
+			  Calendar   cal_1=Calendar.getInstance();//获取当前日期 
+			  cal_1.add(Calendar.MONTH, 0);
+			  cal_1.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+			  parameter.put("STARTDATE", ExtendDate.getYMD(cal_1));
+		  }
+		  if(!parameter.containsKey("ENDDATE")){
+			Calendar   cal_1= Calendar.getInstance();    
+			cal_1.set(Calendar.DAY_OF_MONTH, cal_1.getActualMaximum(Calendar.DAY_OF_MONTH));  
+			parameter.put("ENDDATE", ExtendDate.getYMD(cal_1));
+		  }
 		  parameter.put("TYPESTR", "1");
 		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
 		  Object userid=user.get("ID");
@@ -95,8 +107,20 @@ public class TeacherkbControl extends BaseController {
 	  @RequestMapping("lookTimetable.do")
 	  public String lookTimetable(HttpServletRequest request, HttpServletResponse response,Model  model){
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
+		  if(!parameter.containsKey("STARTDATE")){
+			  Calendar   cal_1=Calendar.getInstance();//获取当前日期 
+			  cal_1.add(Calendar.MONTH, 0);
+			  cal_1.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天 
+			  parameter.put("STARTDATE", ExtendDate.getYMD(cal_1));
+		  }
+		  if(!parameter.containsKey("ENDDATE")){
+			Calendar   cal_1= Calendar.getInstance();    
+			cal_1.set(Calendar.DAY_OF_MONTH, cal_1.getActualMaximum(Calendar.DAY_OF_MONTH));  
+			parameter.put("ENDDATE", ExtendDate.getYMD(cal_1));
+		  }
 		  Map<String,Object> map=teacherkbService.findKB(parameter);
 		  model.addAttribute("map", map);
+		  model.addAttribute("pageBean", map.get("pb"));
 		  model.addAttribute("parameter", parameter);
 		  return  "attendance/teacherkb/look";
 	  }

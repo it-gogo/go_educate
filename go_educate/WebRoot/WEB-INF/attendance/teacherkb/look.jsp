@@ -39,7 +39,7 @@
 									<c:forEach items="${dateList }" var="date" varStatus="j"  >
 										<td align="center">
 											<c:forEach items="${date[lesson.ID]}" var="vo" varStatus="j"  >
-											${vo.XSUSERNAME }(${vo.CURRICULUMNAME })
+											${vo.USERNAME }&nbsp;&nbsp;&nbsp;${vo.CURRICULUMNAME }&nbsp;&nbsp;&nbsp;${vo.XSUSERNAME }
 											</c:forEach>
 										</td>
 									</c:forEach>
