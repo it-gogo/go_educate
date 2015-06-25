@@ -85,14 +85,14 @@
 									</td>
 									<c:if test="${roleType =='1'}">
 									<td>
-										<c:if test="${ vo.DATE==today and vo.sign =='0'}">
+										<c:if test="${ vo.sign =='0'}">
 											<a href="javascript:void(0);"  onclick="sign('${vo.ID}')">签到</a>
 										</c:if>
 									</td>
 									</c:if>
 									<c:if test="${roleType =='2'}">
 									<td>
-										<c:if test="${ vo.DATE==today and vo.sign2 =='0'}">
+										<c:if test="${ vo.sign2 =='0'}">
 											<a href="javascript:void(0);"  onclick="sign('${vo.ID}')">签到</a>
 										</c:if>
 									</td>
