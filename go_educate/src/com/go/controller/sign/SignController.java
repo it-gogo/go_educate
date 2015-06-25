@@ -53,7 +53,7 @@ public class SignController extends BaseController{
 		  PageBean<Map<String,Object>> pb = this.signService.findList(parameter);
 		  model.addAttribute("pageBean", pb);
 		  model.addAttribute("parameter", parameter);
-		  model.addAttribute("today", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+//		  model.addAttribute("today", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 		  model.addAttribute("roleType", resMap.get("TYPE").toString());
 		  return  "attendance/sign/list";
 	  }
@@ -134,7 +134,7 @@ public class SignController extends BaseController{
 				  signService.updateStatus(parameter);
 				  this.ajaxMessage(response, "msg", "200");
 			  }else{
-				  this.ajaxMessage(response, "msg", "只能对当天要上的课进行签到！");
+				  this.ajaxMessage(response, "msg", "<span style='color:red;'>还未到签到时间</span>或者<span style='color:red;'>签到时间已过</span>！");
 				  return null;
 			  }
 		  }
