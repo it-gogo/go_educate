@@ -31,4 +31,13 @@
 	    	And TIMEID In (Select ID From TTEACHERTIME Where DATE >#{today})
 	    </if>
 	</delete>
+	<!-- 检查是否被选择 -->
+	<select id="check" resultType="java.util.HashMap" parameterType="java.util.List" >
+	   select b.*,(Select NAME From TBUSER Where ID=c.USERID) LSUSERNAME,c.*
+	   From  TELECTIVELESSON a Join TLESSON b On a.LESSONID=b.ID Join TTEACHERTIME c On a.TIMEID=c.ID
+	   Where 1=1 
+	   <foreach collection="list" item="vo"  open="And (" separator="Or" close=")">   
+	   (a.TIMEID=#{vo.TIMEID} And a.LESSONID=#{vo.LESSONID})
+	   </foreach>
+	</select>
 </mapper>

@@ -257,6 +257,10 @@ public class ElectiveService extends BaseService {
 	    this.getBaseDao().insert("electivelesson.add", parameter);
 	}
 	
+	public List<Map<String,Object>> checkElectiveLesson(List<Map<String,Object>> parameter){
+		return this.getBaseDao().findList("electivelesson.check", parameter);
+	}
+	
 	/**
 	 * 更新菜单
 	 * @param parameter

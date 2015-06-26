@@ -82,19 +82,14 @@ public class ElectiveControl extends BaseController {
 		  Map<String,Object> elective=new HashMap<String,Object>();
 		  elective.put("USERID", user.get("ID"));//学生ID
 		  elective.put("CURRICULUMID", parameter.get("CURRICULUMID"));
-//		  elective.put("MUCHLESSON", LESSONID.length);
 		  elective.put("CREATEDATE", ExtendDate.getYMD_h_m_s(new Date()));
 		  elective.put("STATUS","0");
 		  if(isIDNull){
 			  electiveid=SqlUtil.uuid();
 			  elective.put("id", electiveid);
-			  electiveService.add(elective);//添加选课
-			  this.ajaxMessage(response, Syscontants.MESSAGE,"添加成功");
 		  }else{
 			  electiveid=parameter.get("ID").toString();
 			  elective.put("ID", electiveid);
-			  electiveService.update(elective);//添加选课
-			  this.ajaxMessage(response, Syscontants.MESSAGE,"修改成功");
 		  }
 		  electiveService.deleteElectiveLesson(electiveid);//删除旧选课课时表
 		  List<Map<String,Object>> electiveLessonList=new ArrayList<Map<String,Object>>();
@@ -107,7 +102,23 @@ public class ElectiveControl extends BaseController {
 			  electiveLesson.put("id", SqlUtil.uuid());
 			  electiveLessonList.add(electiveLesson);
 		  }
+		  List<Map<String,Object>> list=electiveService.checkElectiveLesson(electiveLessonList);
+		  if(list!=null && list.size()>0){
+			  String res="已被选择的日期：</br>";
+			  for(Map<String,Object> vo:list){
+				  res+=vo.get("DATE").toString()+" "+vo.get("LSUSERNAME")+" "+vo.get("STARTTIME")+"~"+vo.get("ENDTIME")+"</br>";
+			  }
+			  this.ajaxMessage(response, Syscontants.ERROE,res);
+			  return;
+		  }
 		  electiveService.addElectiveLesson(electiveLessonList);
+		  if(isIDNull){
+			  electiveService.add(elective);//添加选课
+			  this.ajaxMessage(response, Syscontants.MESSAGE,"添加成功");
+		  }else{
+			  electiveService.update(elective);//添加选课
+			  this.ajaxMessage(response, Syscontants.MESSAGE,"修改成功");
+		  }
 		  
 	  }
 	  /**
