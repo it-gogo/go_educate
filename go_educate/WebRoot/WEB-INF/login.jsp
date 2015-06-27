@@ -7,81 +7,30 @@
 <link type="text/css" href="<%=request.getContextPath()%>/css/loginstyle.css"  rel="stylesheet"/>
 <script type="text/javascript" src="<%=request.getContextPath()%>/script/jquery-1.4.2.min.js"></script>
 <script language="javascript">
-var $main = $cloud = mainwidth = null;
-var offset1 = 450;
-var offset2 = 0;
-
-var offsetbg = 0;
-
-$(document).ready(
-    function () {
-        $main = $("#mainBody");
-		$body = $("body");
-        $cloud1 = $("#cloud1");
-		$cloud2 = $("#cloud2");
-		
-        mainwidth = $main.outerWidth();
-     
-    }
-);
-
-/// 飘动
-setInterval(function flutter() {
-    if (offset1 >= mainwidth) {
-        offset1 =  -580;
-    }
-
-    if (offset2 >= mainwidth) {
-		 offset2 =  -580;
-    }
-	
-    offset1 += 1.1;
-	offset2 += 1;
-    $cloud1.css("background-position", offset1 + "px 100px")
-	
-	$cloud2.css("background-position", offset2 + "px 460px")
-}, 70);
 
 
-setInterval(function bg() {
-    if (offsetbg >= mainwidth) {
-        offsetbg =  -580;
-    }
 
-    offsetbg += 0.9;
-    $body.css("background-position", -offsetbg + "px 0")
-}, 90 );
 
-	$(function(){
-    $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
-	$(window).resize(function(){  
-    $('.loginbox').css({'position':'absolute','left':($(window).width()-692)/2});
-    })  
-});  
+
+
+ 
 </script> 
 </head>
 
-<body style="background-color:#1c77ac; background-image:url('<%=request.getContextPath() %>/css/images/light.png'); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
-    <div id="mainBody">
-      <div id="cloud1" class="cloud"></div>
-      <div id="cloud2" class="cloud"></div>
-    </div>  
-    <form id="loginform" name="loginform" method="post" action="../common/login.do">
-    <div class="loginbody">
-    <span class="systemlogo"></span> 
-    <div class="loginbox">
-    <ul>
-    <li><input name="TEXT" type="text" class="loginuser" value="${vo.TEXT }" /></li>
-    <li><input name="PASSWORD" type="password" class="loginpwd" value="${vo.PASSWORD}"  /></li>
-    <li>
-    	<input name="" type="submit" class="loginbtn" value="登 录"    />
-    	<label><input name="" type="checkbox" value="" checked="checked" />记住密码</label>
-    	<label style="color:red;">${msg }</label>
-    </li>
-    </ul>
-    </div>
-    </div>
+<body style=" background-image:url('<%=request.getContextPath() %>/css/images/login.jpg'); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
+	<div style="margin-left:65%;margin-top: 20%;/* border: 3px #1f3345 solid;width: 30%; */">
+    <form id="loginform" name="loginform" method="post" action="../common/login.do" style="margin:0 auto">
+	    <ul>
+	    <li><input name="TEXT" type="text" class="loginuser" value="${vo.TEXT }" /></li>
+	    <li><input name="PASSWORD" type="password" class="loginpwd" value="${vo.PASSWORD}"  /></li>
+	    <li>
+	    	<input name="" type="submit" class="loginbtn" value="登 录"  />
+	    	<label><input name="" type="checkbox" value="" checked="checked" />记住密码</label>
+	    	<label style="color:red;">${msg}</label>
+	    </li>
+	    </ul>
     </form>
-    <div class="loginbm">版权所有  2015   北讯科技</div>
+    </div>
+    <div class="loginbm" >&copy;copyright 2015 <a href="http://www.snailforward.com/" target="_blank">上海语浩文化传播有限公司</a>  版权所有 </div>
 </body>
 </html>
