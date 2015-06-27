@@ -1,5 +1,6 @@
 package com.go.common.util;
 
+import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -35,6 +36,12 @@ public class SMSUtil {
 		System.out.println(result);
 		return result; //1代码发送成功
 	}
+	/**
+	 * 短信发送测试类
+	 * @author linyb
+	 * @date  2015-6-27下午3:11:28
+	 * @throws Exception
+	 */
 	@Test
 	public void sendSms() throws Exception{
 		HttpClient client = new HttpClient();
@@ -48,12 +55,12 @@ public class SMSUtil {
 		post.setRequestBody(data);
 
 		client.executeMethod(post);
-		//Header[] headers = post.getResponseHeaders();
-		/*int statusCode = */post.getStatusCode();
-		/*System.out.println("statusCode:"+statusCode);
+		Header[] headers = post.getResponseHeaders();
+		int statusCode = post.getStatusCode();
+		System.out.println("statusCode:"+statusCode);
 		for(Header h : headers){
 			System.out.println(h.toString());
-		}*/
+		}
 		String result = new String(post.getResponseBodyAsString().getBytes("gbk"));
 		System.out.println(result);
 		post.releaseConnection();

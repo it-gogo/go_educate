@@ -69,14 +69,21 @@ public class SmsQuart implements Runnable{
 						//发送短信
 						if(ls.get("TELEPHONE")!=null){
 							try {
-								SMSUtil.sendSms("您在"+map.get("STARTTIME")+"有一堂课，请做好授课准备！", ls.get("TELEPHONE").toString());
+								SMSUtil.sendSms(
+										"上课提醒：亲爱的"+ls.get("NAME")+"老师 ，" 
+									    +"您好！你在今天"+map.get("STARTTIME")+"有一节"+map.get("CURRICULUMNAME")+"课程，" 
+										+"请做好授课准备，课前和学生做好沟通，课后别忘了布置作业和课程反馈，保持良好心情，准备上课哦！"
+										, ls.get("TELEPHONE").toString()
+									);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}							
 						}
 						if(xs.get("TELEPHONE")!=null){
 							try {
-								SMSUtil.sendSms("您在"+map.get("STARTTIME")+"有一堂课要上，请做好上课准备！", xs.get("TELEPHONE").toString());
+								SMSUtil.sendSms(
+										"上课提醒：亲爱的"+xs.get("NAME")+"同学，您在今天"+map.get("STARTTIME")+"有一节"+map.get("CURRICULUMNAME")+"课程，请做好上课准备，保持美好心情，准备上课咯！"
+										, xs.get("TELEPHONE").toString());
 							} catch (Exception e) {
 								e.printStackTrace();
 							}							
@@ -87,6 +94,7 @@ public class SmsQuart implements Runnable{
 				}
 			}
 		}
+		System.out.println("定时短信任务结束！");
 	}
 
 }

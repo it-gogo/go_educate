@@ -76,7 +76,6 @@
 		<!-- 不并发运行
 		<property name="concurrent" value="false" />  -->
 	</bean>
-	<!-- 定时删除选课超过两个小时未生成课表的课时 -->
 	<!-- 定义触发时间 -->
 	<bean id="SmsRun" class="org.springframework.scheduling.quartz.CronTriggerBean">
 		<property name="jobDetail">
@@ -84,7 +83,7 @@
 		</property>
 		<!-- 30分钟执行一次 -->
 		<property name="cronExpression">
-				<value>0 */1 * * * ?</value>
+				<value>0 */30 * * * ?</value>
 		</property>
 	</bean>
 	
