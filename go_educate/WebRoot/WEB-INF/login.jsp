@@ -3,30 +3,30 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>威信平台理系统</title>
+<title>蜗牛上树管理系统</title>
 <link type="text/css" href="<%=request.getContextPath()%>/css/loginstyle.css"  rel="stylesheet"/>
 <script type="text/javascript" src="<%=request.getContextPath()%>/script/jquery-1.4.2.min.js"></script>
 <script language="javascript">
 
-
-
-
-
-
- 
 </script> 
+<style>
+	
+</style>
 </head>
 
-<body style=" background-image:url('<%=request.getContextPath() %>/css/images/login.jpg'); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
-	<div style="margin-left:65%;margin-top: 20%;/* border: 3px #1f3345 solid;width: 30%; */">
-    <form id="loginform" name="loginform" method="post" action="../common/login.do" style="margin:0 auto">
+<body>
+	<img src="<%=request.getContextPath() %>/css/images/login.jpg" style="position:absolute;left:0px;top:0px;width:100%;height:100%;z-Index:-1; border:1px solid blue"/>
+	<div style="margin-left:60%;margin-top: 12%;border: 3px #298d69 solid;width: 25%;">
+    <form id="loginform" name="loginform" method="post" action="../common/login.do" style="margin-top: 10%;margin-bottom: 10%;" >
 	    <ul>
-	    <li><input name="TEXT" type="text" class="loginuser" value="${vo.TEXT }" /></li>
-	    <li><input name="PASSWORD" type="password" class="loginpwd" value="${vo.PASSWORD}"  /></li>
+	    <li><span style="color:blue;margin-left: 8%;font-size: 15pt;color: #298d69;">欢迎登录蜗牛</span></li>
+	    <li><input name="TEXT" type="text" class="loginuser" value="${vo.TEXT }" style="width: 80%;margin-left: 5%;"/></li>
+	    <li><input name="PASSWORD" type="password" class="loginpwd" value="${vo.PASSWORD}"  style="width: 80%;;margin-left: 5%;" /></li>
+	   	<li>
+	   		<label><input name="" type="checkbox" value="" checked="checked" style="margin-left: 70%;margin-top: 4%;"/>记住登录状态</label>
+	    	<label style="color:red;">${msg}</label></li>
 	    <li>
-	    	<input name="" type="submit" class="loginbtn" value="登 录"  />
-	    	<label><input name="" type="checkbox" value="" checked="checked" />记住密码</label>
-	    	<label style="color:red;">${msg}</label>
+	    	<input name="" type="submit" class="loginbtn" value="登 录"  style="margin-left: 10%;margin-top: 2%;background-color: #298d69;width: 80%;border-radius:5px" />
 	    </li>
 	    </ul>
     </form>
