@@ -5,7 +5,7 @@
 function loginOut(){
 	jBox.confirm('您是否要退出系统？', '询问', function(v, h, f) {
 		  if(v=="ok"){
-			  location.href="../common/loginOUT.do"
+			  location.href="../common/loginOUT.do";
 		  }
 	  });
 }
@@ -15,10 +15,9 @@ function loginOut(){
 	<div class="bgh">
 		<div class="page">
 			 <div id="logo">
-				 <%-- <a href="Index.aspx.html"> 
-					<img src="<%=request.getContextPath()%>/css/images/Student/logo.gif" alt="" width="165" height="48" /> 
-				</a>--%>
-				此处放logo图片
+				  <a href="javascrpt:void(0);"> 
+					<img src="<%=request.getContextPath()%>/css/images//logo.png" alt="" width="148" height="48" /> 
+				</a>
 			</div> 
 			<div class="topxx">
 				<%--<select onchange="changeCateory($(this))"

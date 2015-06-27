@@ -140,4 +140,7 @@
 	<update id="setFeedBackId">
 		update TCLASS SET FEEDBACKID = #{FEEDBACKID} WHERE id = #{ID}
 	</update>
+	<select id="findListByParams" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select * from  TCLASS ${where}
+	</select>
 </mapper>

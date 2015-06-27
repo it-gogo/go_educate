@@ -84,4 +84,8 @@ public class ClassService extends BaseService {
 	public void setFeedBackId(Map<String, Object> parameter) {
 		this.getBaseDao().delete("class.setFeedBackId", parameter);
 	}
+	public List<Map<String,Object>> findListByParams(Map<String, Object> params) {
+		return this.getBaseDao().findList("class.findListByParams", params);
+		
+	}
 }

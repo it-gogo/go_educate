@@ -62,6 +62,32 @@
 		</property>
 	</bean>
 	
+	<!-- 上课通知定时发送短信 -->
+	<!-- 要调用的工作类 -->
+	<bean id="SmsClazz" class="com.go.quart.SmsQuart"></bean>
+	<!-- 定义调用对象和调用对象的方法 -->
+	<bean id="SmsJob"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject" ref="SmsClazz" />		
+		<!-- 调用的方法 -->
+		<property name="targetMethod" value="excute" />
+		
+		<!-- 不并发运行
+		<property name="concurrent" value="false" />  -->
+	</bean>
+	<!-- 定时删除选课超过两个小时未生成课表的课时 -->
+	<!-- 定义触发时间 -->
+	<bean id="SmsRun" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="SmsJob" />
+		</property>
+		<!-- 30分钟执行一次 -->
+		<property name="cronExpression">
+				<value>0 */1 * * * ?</value>
+		</property>
+	</bean>
+	
 	
 	
 	<!-- spring管理 -->
@@ -71,6 +97,7 @@
 			<list>
 				<ref bean="doDelete" />
 				<ref bean="fileDelete" />
+				<ref bean="SmsRun" />
 			</list>
 		</property>
 	</bean>
