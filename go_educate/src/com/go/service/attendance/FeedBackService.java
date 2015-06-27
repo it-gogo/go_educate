@@ -13,7 +13,7 @@ import com.go.service.base.BaseService;
  *
  */
 @Service
-public class ClassService extends BaseService {
+public class FeedBackService extends BaseService {
 
 	/**
 	 * 记录数
@@ -29,7 +29,7 @@ public class ClassService extends BaseService {
 	 * @return
 	 */
 	public  PageBean<Map<String,Object>>  findList(Map<String,Object> parameter){
-		return this.getBaseDao().findPageBean("class.findcount", "class.findlist", parameter);
+		return this.getBaseDao().findPageBean("feedback.findcount", "feedback.findlist", parameter);
 	}
 	/**
 	 * 根据条件查询所有数据
@@ -54,7 +54,7 @@ public class ClassService extends BaseService {
 	 * @return
 	 */
 	public  Map<String,Object>  load(Map<String,Object> parameter){
-		return this.getBaseDao().loadEntity("class.load", parameter);
+		return this.getBaseDao().loadEntity("feedback.load", parameter);
 	}
 	/**
 	 * 添加菜单
@@ -62,7 +62,7 @@ public class ClassService extends BaseService {
 	 * @return
 	 */
 	public  void  add(Map<String,Object> parameter){
-	    this.getBaseDao().insert("class.add", parameter);
+	    this.getBaseDao().insert("feedback.add", parameter);
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class ClassService extends BaseService {
 	 * @param parameter
 	 */
 	public  void  update(Map<String,Object> parameter){
-		this.getBaseDao().update("class.update", parameter);
+		this.getBaseDao().update("feedback.update", parameter);
 	}
 	
 	
@@ -80,8 +80,5 @@ public class ClassService extends BaseService {
 	 */
 	public  void  delete(List<String> parameter){
 		this.getBaseDao().delete("class.delete", parameter);
-	}
-	public void setFeedBackId(Map<String, Object> parameter) {
-		this.getBaseDao().delete("class.setFeedBackId", parameter);
 	}
 }

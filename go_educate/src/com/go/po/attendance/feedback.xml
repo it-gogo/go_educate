@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="feedback">
+	
+    <!-- 查询数据 -->
+	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select *,(Select NAME From TBUSER Where ID = XSUSERID) XSNAME,(Select NAME From TBUSER Where ID = LSUSERID) LSNAME,(Select NAME From TCURRICULUM Where ID = CURRICULUMID) CURRICULUMNAME
+	    From  TCLASS 
+	   Where 1=1
+	   <if test="LSUSERID!=null and LSUSERID!=''">
+	    	And LSUSERID = #{LSUSERID}
+	    </if>
+	    <if test="XSUSERID!=null and XSUSERID!=''">
+	    	And XSUSERID = #{XSUSERID}
+	    </if>
+	   <if test="STARTDATE!=null and STARTDATE!=''">
+	    	And DATE >= #{STARTDATE}
+	    </if>
+	    <if test="ENDDATE!=null and ENDDATE!=''">
+	    	And DATE &lt;= #{ENDDATE}
+	    </if>    
+	     <if test="SEMESTERID!=null and SEMESTERID!=''">
+	    	And ID In (Select CLASSID From TCLASSEL Where ELID In (Select ID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID=#{SEMESTERID})))
+	    </if>    
+	    order by date desc 
+	   limit  #{pageBean.startRowNum},#{pageBean.rows}
+	</select> 
+	
+
+	<!-- 查询上课记录数 -->
+	<select id="findcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
+	    Select count(1) From  TCLASS Where 1=1
+	    <if test="LSUSERID!=null and LSUSERID!=''">
+	    	And LSUSERID = #{LSUSERID}
+	    </if>
+	    <if test="XSUSERID!=null and XSUSERID!=''">
+	    	And XSUSERID = #{XSUSERID}
+	    </if>
+	     <if test="STATUS!=null and STATUS!=''">
+	    	And STATUS = #{STATUS}
+	    </if>
+	    <if test="STARTDATE!=null and STARTDATE!=''">
+	    	And DATE >= #{STARTDATE}
+	    </if>
+	    <if test="ENDDATE!=null and ENDDATE!=''">
+	    	And DATE &lt;= #{ENDDATE}
+	    </if>
+	</select>
+	
+	<!-- 添加后台数据 -->
+	<insert id="add" parameterType="java.util.HashMap" >
+	  	 insert into TFEEDBACK(ID,WORKSTATUS,WORKDESC,CLASSCONTEXT,WORK,STUDENTDESC) 
+	   		values(#{id},#{WORKSTATUS},#{WORKDESC},#{CLASSCONTEXT},#{WORK},#{STUDENTDESC})
+	</insert>
+	
+	<!-- 添加后台数据 -->
+	<update id="update" parameterType="java.util.HashMap" >
+	   update TFEEDBACK set  WORKSTATUS = #{WORKSTATUS},
+	   					WORKDESC = #{WORKDESC},
+	   					CLASSCONTEXT = #{CLASSCONTEXT},
+	   					WORK = #{WORK},
+	   					STUDENTDESC = #{STUDENTDESC}
+        where  ID=#{ID} 
+	</update>
+	<!-- 导出数据 -->
+	<select id="load"  parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	   Select * From TFEEDBACK  Where ID=#{fbid}
+	</select>
+	<!-- 删除数据 -->
+	<delete id="delete"  parameterType = "java.util.List">
+	    delete From  TCLASS   Where 1 = 1
+	    And ID in 
+	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach>;
+	</delete>
+	<!-- 签到type修改 -->
+	<update id="updateSign" parameterType="java.util.HashMap">
+		update TCLASS set 
+		<if test="sign!=null and sign!=''">
+			sign = #{sign}
+		</if>
+		<if test="sign2!=null and sign2!=''">
+			sign2 = #{sign2}
+		</if>
+		where id = #{ID}
+	</update>
+	<!-- 状态修改 -->
+	<update id="updateStatus">
+		update TCLASS set status = #{STATUS} where id = #{ID}
+	</update>
+</mapper>

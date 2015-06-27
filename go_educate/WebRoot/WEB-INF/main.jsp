@@ -22,7 +22,7 @@
 					</div>
 				</div>
 			    <div class="xxlc">
-			        <strong class="lcbt">未上课学员</strong>
+			        <strong class="lcbt">最近情况</strong>
 			    </div>
 			    <div class="cztable">
 			    	<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -34,6 +34,7 @@
 								<th scope="col">课程 </th>
 								<th scope="col">课时段</th>
 								<th scope="col">上课状态</th>
+								<th scope="col">操作</th>
 								</tr>
 							<c:forEach items="${classList}" var="vo" >
 								<tr align="center">
@@ -42,7 +43,12 @@
 									<td>${vo.MUCHLESSON }</td>
 									<td>${vo.CURRICULUMNAME }</td>
 									<td>${vo.STARTTIME }-${vo.ENDTIME }</td>
-									<td>未上课</td>
+									<td>${vo.STATUS=='0'?'正常':'未上课'}</td>
+									<td>
+										<a href="<%=request.getContextPath()%>/feedback/add.do?fbid=${vo.FEEDBACKID}&classId=${vo.ID}">
+											反馈
+										</a>
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>

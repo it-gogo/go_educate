@@ -101,7 +101,7 @@ public class LoginController extends BaseController {
 		Map<String,Object> parameter=new HashMap<String,Object>();
 		parameter.put("LSUSERID", user.get("ID"));//老师ID
 		parameter.put("today", ExtendDate.getYMD(new Date()));
-		parameter.put("STATUS", 0);//未上课
+		//parameter.put("STATUS", 0);//未上课
 		list=classService.findNoClass(parameter);
 		model.addAttribute("classList", list);
 		int studentcount=buserService.myStudentCount(parameter);

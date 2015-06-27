@@ -137,4 +137,7 @@
 	<update id="updateStatus">
 		update TCLASS set status = #{STATUS} where id = #{ID}
 	</update>
+	<update id="setFeedBackId">
+		update TCLASS SET FEEDBACKID = #{FEEDBACKID} WHERE id = #{ID}
+	</update>
 </mapper>

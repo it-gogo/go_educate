@@ -421,3 +421,15 @@ CREATE TABLE `tuserrole` (
 ALTER TABLE TBUSER ADD REMARK TEXT;
 ALTER TABLE TBUSER ADD EXPERIENCE TEXT;
 ALTER TABLE TCLASS MODIFY MUCHLESSON DOUBLE(11,1);
+ALTER table tclass add COLUMN FEEDBACKID VARCHAR(100);
+
+DROP TABLE IF EXISTS `tfeedback`;
+CREATE table `tfeedback`(
+  `ID` varchar(100) NOT NULL,
+  `WORKSTATUS` varchar(1) default '0' COMMENT '0good 1fair 2bad 3unfinish',
+  `WORKDESC` varchar(100) default NULL COMMENT '作业评语',
+	`CLASSCONTEXT` varchar(100) default NULL COMMENT '课程内容',
+	`WORK` varchar(100) default NULL COMMENT '本堂课后作业',
+	`STUDENTDESC` varchar(100) default NULL COMMENT '学员反馈信息及进度小结',
+  PRIMARY KEY  (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
