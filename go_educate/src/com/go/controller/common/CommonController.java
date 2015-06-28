@@ -24,12 +24,16 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.go.common.util.ContextUtil;
+import com.go.common.util.SendMailUtil;
 import com.go.common.util.SqlUtil;
 import com.go.common.util.SysUtil;
 import com.go.common.util.Util;
 import com.go.common.util.ValidateCode;
 import com.go.controller.base.BaseController;
+import com.go.service.attendance.ClassService;
 import com.go.service.attendance.TaskService;
+import com.go.service.platform.BuserService;
+import com.go.thread.SendMailThread;
 
 /***
  * 常用工具控制器
@@ -42,6 +46,10 @@ public class CommonController extends BaseController{
 
 	@Resource
 	private TaskService taskService;
+	@Resource
+	private  BuserService userService;
+	@Resource
+	private ClassService classService;
 	
 	/**
 	 * 
@@ -105,6 +113,7 @@ public class CommonController extends BaseController{
 	@RequestMapping("task_upload.do")
 	public @ResponseBody String task_upload(HttpServletRequest request,@RequestPart MultipartFile Filedata,String classID){
 		String result="";
+		String currentUserType="";
 		Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
 		/**
 		 * 创建作业日志对象
@@ -116,14 +125,16 @@ public class CommonController extends BaseController{
 		taskParams.put("USER_ID", user.get("ID"));//设置节课ID
 		taskParams.put("CREATE_TIME",current_time );//设置节课ID
 		if("1".equals(user.get("TYPE"))){//老师
+			currentUserType="老师";
 			taskParams.put("TYPE", user.get("TYPE"));
 			taskParams.put("UPLOAD_TYPE", "0");
 		  }else if("2".equals(user.get("TYPE"))){//学生
+			  currentUserType="学生";
 			  taskParams.put("TYPE", user.get("TYPE"));
 			  taskParams.put("UPLOAD_TYPE", "1");
 		  }else{
 			  taskParams.put("TYPE", user.get("TYPE"));
-			  taskParams.put("UPLOAD_TYPE", "0");
+			  taskParams.put("UPLOAD_TYPE", "2");
 		  }
 		String month = current_time.split(" ")[0];
 		// 保存的位置
@@ -150,6 +161,41 @@ public class CommonController extends BaseController{
 			taskParams.put("STATUS", "1");
 		}
 		taskService.add(taskParams);
+		/**
+		 * zhangjf 2015-06-28 进行邮件发送start
+		 */
+		//1.先查询当前课表的信息
+		Map<String,Object> params=new HashMap<String, Object>();
+		params.put("ID", classID);
+		Map<String,Object> classObj=classService.load(params);
+		File file=new File(url+path+File.separator+filename);
+		Map<String,Object>recevier=null;
+		if(file.exists()){
+			if("老师".equals(currentUserType)){
+				params=new HashMap<String, Object>();
+				params.put("ID", classObj.get("XSUSERID"));
+				recevier=userService.load(params);
+				if(StringUtils.isNotBlank(recevier.get("EMAIL").toString())){
+					SendMailThread thread=new SendMailThread(recevier, "老师作业上传", file);
+					thread.start();
+				}
+				
+			}else if("学生".equals(currentUserType)){
+				params=new HashMap<String, Object>();
+				params.put("ID", classObj.get("LSUSERID"));
+				recevier=userService.load(params);	
+				if(StringUtils.isNotBlank(recevier.get("EMAIL").toString())){
+					SendMailThread thread=new SendMailThread(recevier, "学生作业上传", file);
+					thread.start();
+				}
+				
+			}
+			/*SendMailUtil sender=new SendMailUtil(true);
+			sender.sendMail("邮件提醒", "您对应的课程存在作业上传,请及时登录查看下载！", "zjf890811@sina.com", file);*/
+		}
+		/**
+		 * zhangjf 2015-06-28 进行邮件发送end
+		 */
 		return result;
 	}
 	

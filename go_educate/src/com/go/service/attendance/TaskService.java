@@ -73,5 +73,15 @@ public class TaskService extends BaseService {
 	public  void  delete(List<String> parameter){
 		this.getBaseDao().delete("task.delete", parameter);
 	}
+	
+	/**
+	 * 根据开始时间结束时间删除作业列表
+	 * @author zhangjf
+	 * @create_date 2015-6-28 下午4:21:10
+	 * @param params
+	 */
+	public void delTaskByParams(Map<String,Object> params){
+		this.getBaseDao().delete("task.delTaskByParams", params);
+	}
 
 }
