@@ -176,7 +176,7 @@ public class CommonController extends BaseController{
 				params.put("ID", classObj.get("XSUSERID"));
 				recevier=userService.load(params);
 				if(StringUtils.isNotBlank(recevier.get("EMAIL").toString())){
-					SendMailThread thread=new SendMailThread(recevier, "老师作业上传", file);
+					SendMailThread thread=new SendMailThread(recevier, "老师:"+user.get("NAME")+"作业上传", file);
 					thread.start();
 				}
 				
@@ -185,7 +185,7 @@ public class CommonController extends BaseController{
 				params.put("ID", classObj.get("LSUSERID"));
 				recevier=userService.load(params);	
 				if(StringUtils.isNotBlank(recevier.get("EMAIL").toString())){
-					SendMailThread thread=new SendMailThread(recevier, "学生作业上传", file);
+					SendMailThread thread=new SendMailThread(recevier, "学生:"+user.get("NAME")+"作业上传", file);
 					thread.start();
 				}
 				

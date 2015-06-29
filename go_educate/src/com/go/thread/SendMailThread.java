@@ -3,6 +3,7 @@ package com.go.thread;
 import java.io.File;
 import java.util.Map;
 
+import com.go.common.util.JavaMail;
 import com.go.common.util.SendMailUtil;
 
 /**
@@ -24,7 +25,18 @@ public class SendMailThread  extends Thread{
 	 */
 	@Override
 	public void run() {
-		SendMailUtil sender=new SendMailUtil(false);
-		sender.sendMail(subject, "有新的作业文件上传,请及时登录下载", user.get("EMAIL").toString(), file);
+		String url=file.getPath();
+		String name=url.substring(url.lastIndexOf("\\")+1, url.length());
+		JavaMail.setAffix(url, name);
+		JavaMail.sendMail(user.get("EMAIL").toString(),subject, "有新的作业文件上传,请及时登录下载");
+//		SendMailUtil sender=new SendMailUtil(false);
+//		sender.sendMail(subject, "有新的作业文件上传,请及时登录下载", user.get("EMAIL").toString(), file);
+	}
+	
+	public static void main(String[] args) {
+		File f=new File("D:/2013-02.jpg");
+		String url=f.getPath();
+		System.out.println(f.getPath());
+		System.out.println(url.substring(url.lastIndexOf("\\")+1, url.length()));
 	}
 }
