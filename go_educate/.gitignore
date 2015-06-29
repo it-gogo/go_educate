@@ -15,3 +15,4 @@ Thumbs.db
 *.BAK
 *.svn
 *~
+/base_xkxt.sql
