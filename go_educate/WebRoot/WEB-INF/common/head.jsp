@@ -2,7 +2,8 @@
 <%@ taglib uri="/WEB-INF/tld/c.tld" prefix="c"%>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title></title>
+<title>System</title>
+<link rel="shortcut icon" href="http://www.snailforward.com/wp-content/uploads/2015/03/logo777.png" type="image/gif" />
 <link href="<%=request.getContextPath()%>/css/StudentStyle.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath()%>/css/jbox.css" rel="stylesheet" type="text/css" />
 <link href="<%=request.getContextPath()%>/css/ks.css" rel="stylesheet" type="text/css" />

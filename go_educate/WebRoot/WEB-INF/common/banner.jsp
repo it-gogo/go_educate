@@ -11,6 +11,9 @@ function loginOut(){
 }
 //-->
 </script>
+<head>
+<link rel="shortcut icon" href="http://www.snailforward.com/wp-content/uploads/2015/03/logo777.png" type="image/gif" />
+</head>
 <div class="banner">
 	<div class="bgh">
 		<div class="page">

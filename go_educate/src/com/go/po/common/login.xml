@@ -12,6 +12,7 @@
 	   select *
 	   From  TBUSER 
 	   Where TEXT=#{TEXT}
+	   limit 0,1
 	</select> 
 	
 	

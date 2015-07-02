@@ -4,6 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>蜗牛上树管理系统</title>
+<link rel="shortcut icon" href="http://www.snailforward.com/wp-content/uploads/2015/03/logo777.png" type="image/gif" />
 <link type="text/css" href="<%=request.getContextPath()%>/css/loginstyle.css"  rel="stylesheet"/>
 <script type="text/javascript" src="<%=request.getContextPath()%>/script/jquery-1.4.2.min.js"></script>
 <script language="javascript">
