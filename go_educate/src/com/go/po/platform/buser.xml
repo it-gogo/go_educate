@@ -59,7 +59,7 @@
 	   <if test="LSUSERID!=NULL and LSUSERID!=''">
 	   	And ID In (Select USERID From TELECTIVE Where ID In (Select ELECTIVEID From TELECTIVELESSON Where TIMEID In (Select ID From TTEACHERTIME Where USERID = #{LSUSERID})))
 	   </if>
-	    <if test="SUPERADMIN==NULL or SUPERADMIN!='1'">
+	    <if test="SUPERADMIN==NULL">
 	   	And SUPERADMIN is null
 	   </if>
 	</select>
