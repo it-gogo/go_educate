@@ -114,10 +114,12 @@
 								<td width="15%" align="right"><div align="right">电子邮箱：</div></td>
 								<td><input size="25" name="EMAIL" value="${vo.EMAIL }" class="input_2"  /></td>
 							</tr>
-							<tr>
-								<td width="15%" align="right"><div align="right">教学经验：</div></td>
-								<td><textarea name="EXPERIENCE"  cols="80" rows="6" class="input_2">${vo.EXPERIENCE }</textarea></td>
-							</tr>
+							<c:if test="${vo.TYPE=='1' }">
+								<tr>
+									<td width="15%" align="right"><div align="right">教学经验：</div></td>
+									<td><textarea name="EXPERIENCE"  cols="80" rows="6" class="input_2">${vo.EXPERIENCE }</textarea></td>
+								</tr>
+							</c:if>
 							<tr>
 								<td width="15%" align="right"><div align="right">备注：</div></td>
 								<td><textarea name="REMARK"  cols="80" rows="6" class="input_2">${vo.REMARK }</textarea></td>
