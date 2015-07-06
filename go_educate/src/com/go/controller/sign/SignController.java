@@ -50,6 +50,12 @@ public class SignController extends BaseController{
 		  if("2".equals(resMap.get("TYPE").toString())){//学生
 			  parameter.put("XSUSERID", resMap.get("ID").toString());
 		  }
+		  
+		  //不是按照开始于结束时间搜索，就从今天的数据开始取升序
+		  if(parameter.get("STARTDATE")==null && parameter.get("ENDDATE")==null){
+			  parameter.put("STARTDATE", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		  }
+		  
 		  PageBean<Map<String,Object>> pb = this.signService.findList(parameter);
 		  model.addAttribute("pageBean", pb);
 		  model.addAttribute("parameter", parameter);
