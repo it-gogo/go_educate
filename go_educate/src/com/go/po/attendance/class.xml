@@ -22,7 +22,7 @@
 	     <if test="SEMESTERID!=null and SEMESTERID!=''">
 	    	And ID In (Select CLASSID From TCLASSEL Where ELID In (Select ID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID=#{SEMESTERID})))
 	    </if>    
-	    order by date desc 
+	    order by date asc 
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
 	
