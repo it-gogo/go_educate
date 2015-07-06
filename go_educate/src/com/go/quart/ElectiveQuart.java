@@ -15,8 +15,8 @@ import com.go.service.attendance.ElectiveService;
  */
 public class ElectiveQuart implements Runnable {
 
-	public static int DEFAULT_NUM=5;
-	public static String DEFAULT_TYPE="minute";
+	public static int DEFAULT_NUM=2;
+	public static String DEFAULT_TYPE="HOUR";
 	@Resource
 	private ElectiveService electiveService;
 	
