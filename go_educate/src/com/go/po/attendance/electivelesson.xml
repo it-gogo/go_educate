@@ -28,7 +28,7 @@
 	    delete From  TELECTIVELESSON   Where 1 = 1
 	    And ELECTIVEID = #{id}  
 	    <if test="today!=null and today!=''">
-	    	And TIMEID In (Select ID From TTEACHERTIME Where DATE >#{today})
+	    	And TIMEID In (Select ID From TTEACHERTIME Where DATE >=#{today})
 	    </if>
 	</delete>
 	<!-- 检查是否被选择 -->

@@ -117,7 +117,7 @@
 	<select id="optionaldate" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select * From  TTEACHERTIME 
 	   Where 1=1 
-	   And DATE > #{today} 
+	   And DATE >= #{today} 
 	   And USERID In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{ID})
 	   Group By DATE
 	</select>

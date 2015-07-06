@@ -41,6 +41,7 @@
 										<a href="javascript:void(0);"  onclick="lookTimetable('${vo.ID}')">查看</a> 
 										<c:if test="${user.TYPE!=2 }">
 										| <a href="javascript:void(0);"  onclick="modifyElective('${vo.ID}','${vo.USERID }')">修改</a> 
+										| <a href="javascript:void(0);"  onclick="deleteOne('${vo.ID}')">删除</a>
 										</c:if>
 									</td>
 								</tr>

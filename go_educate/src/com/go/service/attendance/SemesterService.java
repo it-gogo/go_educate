@@ -149,10 +149,21 @@ public class SemesterService extends BaseService {
 	}
 	
 	/**
+	 * 上过课记录
+	 * @param parameter
+	 * @return
+	 */
+	public long findsgkcount(List<String> parameter){
+		return (Long) this.getBaseDao().findOne("semester.findsgkcount", parameter);
+	}
+	/**
 	 * 删除数据
 	 * @param parameter
 	 */
 	public  void  delete(List<String> parameter){
+		this.getBaseDao().delete("semester.deleteclass", parameter);
+		this.getBaseDao().delete("semester.deletelesson", parameter);
+		this.getBaseDao().delete("semesterelective.delete", parameter);
 		this.getBaseDao().delete("semester.delete", parameter);
 	}
 	/**

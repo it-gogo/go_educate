@@ -28,7 +28,7 @@
 								<th scope="col">姓名 </th>
 								<th scope="col">课程</th>
 								<%--<th scope="col">电话</th>
-								--%><th scope="col">身份证</th>
+								--%><th scope="col">性别</th>
 								<th scope="col">QQ</th>
 								<th scope="col">电子邮箱</th>
 								<th scope="col">操作</th>
@@ -42,7 +42,10 @@
 										</c:forEach>
 									</td>
 									<%--<td>${vo.TELEPHONE }</td>
-									--%><td>${vo.IDENF }</td>
+									--%><td>${vo.IDENF }
+										<c:if test="#{vo.SEX==1 }">男</c:if>
+										<c:if test="#{vo.SEX==0 }">女</c:if>
+									</td>
 									<td>${vo.QQ }</td>
 									<td>${vo.EMAIL }</td>
 									<td>

@@ -22,8 +22,8 @@
 	<!-- 我的学生 -->
 	<select id="mystudent" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select a.*,b.*,b.ID XSUSERID,a.ID SEMESTERID,
-	   (Select count(*) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) ZLESSON,<!-- 总课时 -->
-	   (Select count(*) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID) And ID In (Select ELID From TCLASSEL Where CLASSID In (Select ID From TCLASS Where XSUSERID=b.ID And STATUS=1))) YDLESSON,<!-- 已读课时 -->
+	   (Select count(*)/2 From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) ZLESSON,<!-- 总课时 -->
+	   (Select count(*)/2 From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID) And ID In (Select ELID From TCLASSEL Where CLASSID In (Select ID From TCLASS Where XSUSERID=b.ID And STATUS=1))) YDLESSON,<!-- 已读课时 -->
 	   (Select min(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) FIRST,
 	   (Select max(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) LATEST
 	   From  TSEMESTER a join TBUSER b on a.USERID=b.ID  Where 1=1
@@ -64,6 +64,18 @@
 	    Select max(SEVERAL)  From  TSEMESTER 
 	    Where 1=1 And USERID=#{USERID}
 	</select>
+	<!-- 查询上过课记录 -->
+	<select id="findsgkcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
+	    Select count(*)  From  TCLASS 
+	    Where 1=1 And STATUS is not null 
+	    and ID in (select CLASSID From TCLASSEL Where ELID In 
+	    (Select ID From TELECTIVELESSON Where ELECTIVEID In 
+	    (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID in
+	     <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach>
+        )))
+	</select>
 	
 	<!-- 添加后台数据 -->
 	<insert id="add" parameterType="java.util.HashMap" >
@@ -82,5 +94,31 @@
 	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
            #{id}  
         </foreach>;
+	</delete>
+	<!-- 删除class -->
+	<delete id="deleteclass"  parameterType = "java.util.List">
+	    delete From  TCLASS   Where 1 = 1
+	    And ID in (select CLASSID From TCLASSEL Where ELID In 
+	    (Select ID From TELECTIVELESSON Where ELECTIVEID In 
+	    (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID in
+	     <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach>
+        )))
+	</delete>
+	
+	<delete id="deletelesson"  parameterType = "java.util.List">
+		delete From  TELECTIVE   Where 1 = 1
+	    And ID in   (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID in
+	      <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach>
+        );
+        delete From  TELECTIVELESSON   Where 1 = 1
+	    And ELECTIVEID in (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID in
+	      <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach>
+        );
 	</delete>
 </mapper>
