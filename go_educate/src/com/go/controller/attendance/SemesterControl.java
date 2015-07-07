@@ -86,6 +86,7 @@ public class SemesterControl extends BaseController {
 	   */
 	  @RequestMapping("save.do")
 	  public  void save(HttpServletRequest request, HttpServletResponse response,String[] LESSONID) throws Exception{
+		  
 		  //获取请求参数
 		  Map<String,Object> parameter = sqlUtil.setParameterInfo(request);
 		  boolean  isIDNull = sqlUtil.isIDNull(parameter,"ID");
@@ -95,6 +96,11 @@ public class SemesterControl extends BaseController {
 		  elective.put("CURRICULUMID", parameter.get("CURRICULUMID"));//课程ID
 		  elective.put("CREATEDATE", ExtendDate.getYMD_h_m_s(new Date()));//当前时间
 		  elective.put("STATUS","1");//已生成课表
+		  
+		  Map<String,Object> n_parameter=new HashMap<String, Object>();
+		  n_parameter.put("today", ExtendDate.getYMD(new Date()));
+		  n_parameter.put("SEMESTERID", parameter.get("SEMESTERID"));
+		  
 		  if(isIDNull){
 			  electiveid=SqlUtil.uuid();
 			  elective.put("id", electiveid);
@@ -109,6 +115,8 @@ public class SemesterControl extends BaseController {
 			  l.add(se);
 			  semesterService.addSemesterElective(l);
 		  }else{
+			  electiveService.getBaseDao().delete("semester.deleteclassdtoday", n_parameter);
+			  
 			  electiveid=parameter.get("ID").toString();
 			  elective.put("ID", electiveid);
 			  electiveService.update(elective);//修改选课（只能修改今天之后的课时）
@@ -129,6 +137,8 @@ public class SemesterControl extends BaseController {
 			  electiveLessonList.add(electiveLesson);
 		  }
 		  electiveService.addElectiveLesson(electiveLessonList);
+		  
+		  electiveService.generateClass(n_parameter);
 	  }
 	  /**
 	   * 查询课程列表

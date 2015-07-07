@@ -88,6 +88,9 @@
 	   join TELECTIVE d on a.ELECTIVEID =d.ID
 	   Where 1=1
 	    And ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = #{SEMESTERID})
+	    <if test="today!=null and today!=''">
+	    	And c.DATE>=#{today}
+	    </if>
 	    Order By c.USERID desc,c.DATE desc,b.STARTTIME desc
 	</select>
 	<!-- 查询已选择的日期 -->

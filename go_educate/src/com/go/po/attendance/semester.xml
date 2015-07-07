@@ -106,6 +106,17 @@
         </foreach>
         )))
 	</delete>
+	<!-- 删除大于今天 -->
+	<delete id="deleteclassdtoday"  parameterType = "java.util.HashMap">
+	    delete From  TCLASS   Where 1 = 1
+	    And ID in (select CLASSID From TCLASSEL Where ELID In 
+	    (Select ID From TELECTIVELESSON Where ELECTIVEID In 
+	    (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID =#{SEMESTERID}  
+        )))
+        <if test="today!=null and today!=''">
+        	And DATE>=#{today}
+        </if>
+	</delete>
 	
 	<delete id="deletelesson"  parameterType = "java.util.List">
 		delete From  TELECTIVE   Where 1 = 1
