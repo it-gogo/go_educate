@@ -99,7 +99,16 @@ public class LoginController extends BaseController {
 		List<Map<String,Object>> list=loginService.findMenu(user);
 		user.put("menuList", list);
 		Map<String,Object> parameter=new HashMap<String,Object>();
-		parameter.put("LSUSERID", user.get("ID"));//老师ID
+		Object type=user.get("TYPE");
+		if("1".equals(type)){//老师
+			parameter.put("LSUSERID", user.get("ID"));//老师ID
+		}else if("2".equals(type)){//学生
+			parameter.put("XSUSERID", user.get("ID"));//学生ID
+		}else if("3".equals(type)){//管理员
+			parameter.put("TYPESTR", "2");//查找学生
+			parameter.put("SUPERADMIN", user.get("SUPERADMIN"));//
+		}
+//		parameter.put("LSUSERID", user.get("ID"));//老师ID
 		parameter.put("today", ExtendDate.getYMD(new Date()));
 		//parameter.put("STATUS", 0);//未上课
 		list=classService.findNoClass(parameter);

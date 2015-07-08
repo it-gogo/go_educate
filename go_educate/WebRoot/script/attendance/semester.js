@@ -41,7 +41,7 @@ function deleteOneElective(strID){
 	  jBox.confirm('您是否要删除当前记录？', '询问', function(v, h, f) {
 		  if(v=="ok"){
 			  $.ajax({
-				  url:"../elective/delete.do",
+				  url:"deleteElective.do",
 				  data:"id="+id.join(','),
 				  success:function(data){
 					  var json=eval("("+data+")");

@@ -14,12 +14,27 @@
             <div class="rightbox">
 	    		<h2 class="mbx">我的工作台&nbsp;&nbsp;&nbsp;&nbsp;</h2>
 			  	<div class="dhbg">
+					<c:if test="${user.TYPE==1 }">
 			    	<div class="dhwz" style="padding: 0px 0 0 120px;">
-						<p>我的学员：<span class="red"><a href="../myStudent/findList.do">${studentcount }</a></span></p>
+						<p>我的学员：<span class="red">
+							<a href="../myStudent/findList.do">${studentcount }</a>
+						</span></p>
 						<p>本月已上课数：<span class="red">${attendcount } </span></p>
-						<p>本月已排课数：<span class="red"><a href="../teacherkb/findList.do?STARTDATE=${aready.STARTDATE }&ENDDATE=${aready.ENDDATE }">${alreadycount }</a></span></p>
+						<p>本月已排课数：<span class="red">
+							
+							<a href="../teacherkb/findList.do?STARTDATE=${aready.STARTDATE }&ENDDATE=${aready.ENDDATE }">${alreadycount }</a>
+						</span></p>
 						<p>下月已排课数：<span class="red"><a href="../teacherkb/findList.do?STARTDATE=${next.STARTDATE }&ENDDATE=${next.ENDDATE }">${nextcount }</a></span></p>
 					</div>
+					</c:if>
+					<c:if test="${user.TYPE!=1 }">
+						<div class="dhwz" style="padding: 0px 0 0 120px;">
+						<p>我的学员：<span class="red">${studentcount }</span></p>
+						<p>本月已上课数：<span class="red">${attendcount } </span></p>
+						<p>本月已排课数：<span class="red">${alreadycount }</span></p>
+						<p>下月已排课数：<span class="red">${nextcount }</span></p>
+					</div>
+					</c:if>
 				</div>
 			    <div class="xxlc">
 			        <strong class="lcbt">最近情况</strong>

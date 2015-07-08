@@ -97,18 +97,35 @@
 	</delete>
 	<!-- 删除class -->
 	<delete id="deleteclass"  parameterType = "java.util.List">
-	    delete From  TCLASS   Where 1 = 1
+	    delete  from TCLASS   Where 1 = 1
 	    And ID in (select CLASSID From TCLASSEL Where ELID In 
 	    (Select ID From TELECTIVELESSON Where ELECTIVEID In 
 	    (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID in
 	     <foreach collection="list" item="id"  open="(" separator="," close=")">   
            #{id}  
         </foreach>
-        )))
+        )));
+        delete from  TCLASSEL   Where 1 = 1
+	    And ELID In (Select ID From TELECTIVELESSON Where ELECTIVEID In 
+	    (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID in
+	     <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach>
+        ));
 	</delete>
 	<!-- 删除大于今天 -->
-	<delete id="deleteclassdtoday"  parameterType = "java.util.HashMap">
-	    delete From  TCLASS   Where 1 = 1
+	<delete id="deleteclasstoday"  parameterType = "java.util.HashMap">
+	    delete  from TCLASS   Where 1 = 1
+	    And ID in (select CLASSID From TCLASSEL Where ELID In 
+	    (Select ID From TELECTIVELESSON Where ELECTIVEID In 
+	    (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID =#{SEMESTERID}  
+        )))
+        <if test="today!=null and today!=''">
+        	And DATE>=#{today}
+        </if>;
+	</delete>
+	<select id="findclassidtoday"  parameterType = "java.util.HashMap" resultType="java.lang.String">
+	    select ID id from TCLASS   Where 1 = 1
 	    And ID in (select CLASSID From TCLASSEL Where ELID In 
 	    (Select ID From TELECTIVELESSON Where ELECTIVEID In 
 	    (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID =#{SEMESTERID}  
@@ -116,6 +133,21 @@
         <if test="today!=null and today!=''">
         	And DATE>=#{today}
         </if>
+	</select>
+	<delete id="deleteclassbyelective"  parameterType = "java.util.List">
+	    delete From  TCLASS   Where 1 = 1
+	    And ID in (select CLASSID From TCLASSEL Where ELID In 
+	    (Select ID From TELECTIVELESSON Where ELECTIVEID In 
+	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach>
+        ));
+        delete From  TCLASSEL   Where 1 = 1
+	    And ELID in (Select ID From TELECTIVELESSON Where ELECTIVEID In 
+	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach>
+        );
 	</delete>
 	
 	<delete id="deletelesson"  parameterType = "java.util.List">

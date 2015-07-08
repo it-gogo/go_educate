@@ -162,6 +162,7 @@ public class SemesterService extends BaseService {
 	 */
 	public  void  delete(List<String> parameter){
 		this.getBaseDao().delete("semester.deleteclass", parameter);
+		
 		this.getBaseDao().delete("semester.deletelesson", parameter);
 		this.getBaseDao().delete("semesterelective.delete", parameter);
 		this.getBaseDao().delete("semester.delete", parameter);

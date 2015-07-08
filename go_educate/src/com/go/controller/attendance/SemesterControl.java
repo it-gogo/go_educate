@@ -100,7 +100,9 @@ public class SemesterControl extends BaseController {
 		  Map<String,Object> n_parameter=new HashMap<String, Object>();
 		  n_parameter.put("today", ExtendDate.getYMD(new Date()));
 		  n_parameter.put("SEMESTERID", parameter.get("SEMESTERID"));
-		  
+		  List list=electiveService.getBaseDao().findList("semester.findclassidtoday", n_parameter);//获取要删除的class表 ID
+		  electiveService.getBaseDao().delete("semester.deleteclasstoday", n_parameter);//删除今天之后的class表
+		  electiveService.getBaseDao().delete("classel.delete", list);//删除关联表
 		  if(isIDNull){
 			  electiveid=SqlUtil.uuid();
 			  elective.put("id", electiveid);
@@ -115,8 +117,6 @@ public class SemesterControl extends BaseController {
 			  l.add(se);
 			  semesterService.addSemesterElective(l);
 		  }else{
-			  electiveService.getBaseDao().delete("semester.deleteclassdtoday", n_parameter);
-			  
 			  electiveid=parameter.get("ID").toString();
 			  elective.put("ID", electiveid);
 			  electiveService.update(elective);//修改选课（只能修改今天之后的课时）
@@ -176,6 +176,19 @@ public class SemesterControl extends BaseController {
 			  return ;
 		  }
 		  this.semesterService.delete(parameter);
+		  this.ajaxMessage(response, Syscontants.MESSAGE, "删除成功");
+	  }
+	  
+	  /**
+	   * 删除数据
+	   * @param request
+	   * @param response
+	   */
+	  @RequestMapping("deleteElective.do")
+	  public  void  deleteElective(HttpServletRequest request, HttpServletResponse response){
+		  List<String> parameter = sqlUtil.getIdsParameter(request);
+		  electiveService.getBaseDao().delete("semester.deleteclassbyelective", parameter);
+		  this.electiveService.delete(parameter);
 		  this.ajaxMessage(response, Syscontants.MESSAGE, "删除成功");
 	  }
 	  
