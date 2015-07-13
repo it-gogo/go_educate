@@ -42,10 +42,27 @@
 										</c:forEach>
 									</td>
 									<%--<td>${vo.TELEPHONE }</td>
+<<<<<<< HEAD
 									--%><td>${vo.IDENF }
 										<c:if test="${vo.SEX==1 }">男</c:if>
 										<c:if test="${vo.SEX==0 }">女</c:if>
+=======
+									--%><td>
+									<c:choose>
+										<c:when test="${!empty vo.SEX && vo.SEX==1 }">
+											男
+										</c:when>
+										<c:otherwise>
+											女
+										</c:otherwise>
+									</c:choose>
+									<!-- 
+										<c:if test="#{vo.SEX==1 }">男</c:if>
+										<c:if test="#{vo.SEX==0 }">女</c:if>
+									-->
+>>>>>>> branch 'master' of ssh://git@github.com/it-gogo/go_educate.git
 									</td>
+									
 									<td>${vo.QQ }</td>
 									<td>${vo.EMAIL }</td>
 									<td>
