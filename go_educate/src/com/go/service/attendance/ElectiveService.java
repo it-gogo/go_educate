@@ -217,7 +217,7 @@ public class ElectiveService extends BaseService {
 			Map<Object,List<Map<String,Object>>> res=new HashMap<Object,List<Map<String,Object>>>();
 			map.put("CURRICULUMID", curruculumid);
 			map.put("ELECTIVEID", electiveid);
-			List<Map<String,Object>> lessonList=this.getBaseDao().findList("lesson.findoptional",map);
+			List<Map<String,Object>> lessonList=this.getBaseDao().findList("lesson.findoptional2",map);
 			if(lessonList==null || lessonList.size()==0){
 				arrayList.add(map);
 				continue;

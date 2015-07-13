@@ -42,6 +42,7 @@ public class ElectiveControl extends BaseController {
 	   */
 	  @RequestMapping("add.do")
 	  public  String add(HttpServletRequest request,HttpServletResponse response,Model  model){
+		  long l1=System.currentTimeMillis();
 		  System.out.println("++++++++++++++++++++++++++++"+System.currentTimeMillis());
 		  Map<String,Object>  parameter = sqlUtil.setParameterInfo(request);
 		  parameter.put("today", ExtendDate.getYMD(new Date()));
@@ -49,10 +50,12 @@ public class ElectiveControl extends BaseController {
 		  model.addAttribute("timeList", list);
 		  model.addAttribute("parameter", parameter);
 		  System.out.println("++++++++++++++++++++++++++++"+System.currentTimeMillis());
+		  System.out.println("-------------------------------------"+(System.currentTimeMillis()-l1));
 		  return  "attendance/elective/edit";
 	  }  
 	  @RequestMapping("add1.do")
 	  public  String add1(HttpServletRequest request,HttpServletResponse response,Model  model){
+		  long l1=System.currentTimeMillis();
 		  System.out.println("++++++++++++++++++++++++++++"+System.currentTimeMillis());
 		  Map<String,Object>  parameter = sqlUtil.setParameterInfo(request);
 		  parameter.put("today", ExtendDate.getYMD(new Date()));
@@ -66,7 +69,8 @@ public class ElectiveControl extends BaseController {
 		  }
 		  model.addAttribute("lessonMap", lessonMap);
 		  System.out.println("++++++++++++++++++++++++++++"+System.currentTimeMillis());
-		  return  "attendance/elective/edit1";
+		  System.out.println("-------------------------------------"+(System.currentTimeMillis()-l1));
+		  return  "attendance/elective/edit";
 	  }  
 	  /**
 	   * 导出数据
