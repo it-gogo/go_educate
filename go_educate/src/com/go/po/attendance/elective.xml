@@ -124,6 +124,12 @@
 	   And USERID In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{ID})
 	   Group By DATE
 	</select>
+	<select id="optionallesson" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select ID From  TLESSON  a
+	   Where 1=1 
+	   (Select count(*) From TELECTIVELESSON Where TIMEID=#{TIMEID} And LESSONID = a.ID) = 0 
+	   And a.STATETIME>= 
+	</select>
     <!-- 查询数据 -->
 	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select a.*,b.ID ELECTIVEID,'${USERID}' USERID From TCURRICULUM a left join  TELECTIVE b on a.ID = b.CURRICULUMID And b.STATUS=#{STATUS} And b.USERID=#{USERID}

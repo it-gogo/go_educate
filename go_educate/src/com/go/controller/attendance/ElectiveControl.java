@@ -22,6 +22,7 @@ import com.go.controller.base.BaseController;
 import com.go.po.common.PageBean;
 import com.go.po.common.Syscontants;
 import com.go.service.attendance.ElectiveService;
+import com.go.service.attendance.LessonService;
 import com.go.service.platform.CurriculumService;
 /**
  * 选课控制类
@@ -33,18 +34,39 @@ import com.go.service.platform.CurriculumService;
 public class ElectiveControl extends BaseController {
 	  @Resource
 	  private  ElectiveService  electiveService;
+	  @Resource
+	  private  LessonService  lessonService;
 	  /**
 	   * 添加数据页面
 	   * @return
 	   */
 	  @RequestMapping("add.do")
 	  public  String add(HttpServletRequest request,HttpServletResponse response,Model  model){
+		  System.out.println("++++++++++++++++++++++++++++"+System.currentTimeMillis());
 		  Map<String,Object>  parameter = sqlUtil.setParameterInfo(request);
 		  parameter.put("today", ExtendDate.getYMD(new Date()));
 		  List<Map<String,Object>> list=electiveService.findOptionalLesson(parameter);
 		  model.addAttribute("timeList", list);
 		  model.addAttribute("parameter", parameter);
+		  System.out.println("++++++++++++++++++++++++++++"+System.currentTimeMillis());
 		  return  "attendance/elective/edit";
+	  }  
+	  @RequestMapping("add1.do")
+	  public  String add1(HttpServletRequest request,HttpServletResponse response,Model  model){
+		  System.out.println("++++++++++++++++++++++++++++"+System.currentTimeMillis());
+		  Map<String,Object>  parameter = sqlUtil.setParameterInfo(request);
+		  parameter.put("today", ExtendDate.getYMD(new Date()));
+		  List<Map<String,Object>> list=electiveService.findOptionalLesson1(parameter);
+		  model.addAttribute("timeList", list);
+		  model.addAttribute("parameter", parameter);
+		  List<Map<String,Object>> lessonList=lessonService.findAll(null);
+		  Map<Object,Map<String,Object>> lessonMap=new HashMap<Object, Map<String,Object>>();
+		  for(Map<String,Object> m:lessonList){
+			  lessonMap.put(m.get("ID"), m);
+		  }
+		  model.addAttribute("lessonMap", lessonMap);
+		  System.out.println("++++++++++++++++++++++++++++"+System.currentTimeMillis());
+		  return  "attendance/elective/edit1";
 	  }  
 	  /**
 	   * 导出数据

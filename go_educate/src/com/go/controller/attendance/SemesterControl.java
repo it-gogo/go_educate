@@ -169,12 +169,12 @@ public class SemesterControl extends BaseController {
 	  @RequestMapping("delete.do")
 	  public  void  delete(HttpServletRequest request, HttpServletResponse response){
 		  List<String> parameter = sqlUtil.getIdsParameter(request);
-		  Map<String,Object> res=new HashMap<String, Object>();
-		  long count=this.semesterService.findsgkcount(parameter);
-		  if(count>0){
-			  this.ajaxMessage(response, Syscontants.ERROE, "删除失败，该课表已上过课。");
-			  return ;
-		  }
+//		  Map<String,Object> res=new HashMap<String, Object>();
+//		  long count=this.semesterService.findsgkcount(parameter);
+//		  if(count>0){
+//			  this.ajaxMessage(response, Syscontants.ERROE, "删除失败，该课表已上过课。");
+//			  return ;
+//		  }
 		  this.semesterService.delete(parameter);
 		  this.ajaxMessage(response, Syscontants.MESSAGE, "删除成功");
 	  }

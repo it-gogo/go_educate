@@ -98,6 +98,7 @@ public class TeacherkbControl extends BaseController {
 			  return  "attendance/teacherkb/list";
 		  }else if("3".equals(user.get("TYPE"))){//管理员
 		  }
+		  parameter.put("SUPERADMIN", user.get("SUPERADMIN"));
 		  PageBean<Map<String,Object>> pb = teacherkbService.findList(parameter);
 		  model.addAttribute("pageBean", pb);
 		  model.addAttribute("parameter", parameter);

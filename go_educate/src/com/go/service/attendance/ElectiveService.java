@@ -207,6 +207,39 @@ public class ElectiveService extends BaseService {
 		list.removeAll(arrayList);
 		return list;
 	}
+	
+	public List<Map<String,Object>> findOptionalLesson1(Map<String,Object> parameter){
+		Object curruculumid=parameter.get("ID");
+		Object electiveid=parameter.get("ELECTIVEID");
+		List<Map<String,Object>> list=this.getBaseDao().findList("elective.optionaldate", parameter);
+		List<Map<String,Object>> arrayList=new ArrayList<Map<String,Object>>();
+		for(Map<String,Object> map:list){
+			Map<Object,List<Map<String,Object>>> res=new HashMap<Object,List<Map<String,Object>>>();
+			map.put("CURRICULUMID", curruculumid);
+			map.put("ELECTIVEID", electiveid);
+			List<Map<String,Object>> lessonList=this.getBaseDao().findList("lesson.findoptional",map);
+			if(lessonList==null || lessonList.size()==0){
+				arrayList.add(map);
+				continue;
+			}
+			map.put("lessonIdList", lessonList);
+//			for(Map<String,Object> lesson:lessonList){
+//				Object username=lesson.get("USERNAME");
+//				if(res.containsKey(username)){//存在
+//					List<Map<String,Object>> l=res.get(username);
+//					l.add(lesson);
+//				}else{
+//					List<Map<String,Object>> l=new ArrayList<Map<String,Object>>();
+//					l.add(lesson);
+//					res.put(username, l);
+//				}
+//			}
+//			map.put("lessonList", res);
+		}
+		list.removeAll(arrayList);
+		return list;
+	}
+	
 	/**
 	 * 分页查找数据
 	 * @param parameter
