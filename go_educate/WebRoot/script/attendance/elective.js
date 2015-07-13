@@ -9,7 +9,7 @@ function back(){
  * @param id
  */
 function elective(id){
-	location.href="add1.do?ID="+id;
+	location.href="add.do?ID="+id;
 }
 
 /**

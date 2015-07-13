@@ -124,6 +124,13 @@
 	   And USERID In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{ID})
 	   Group By DATE
 	</select>
+	<select id="optionaldate1" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select *,(Select NAME From TBUSER Where ID=USERID) USERNAME From  TTEACHERTIME 
+	   Where 1=1 
+	   And DATE >= #{today} 
+	   And USERID In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{ID})
+	   Order By DATE
+	</select>
 	<select id="optionallesson" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select ID From  TLESSON  a
 	   Where 1=1 

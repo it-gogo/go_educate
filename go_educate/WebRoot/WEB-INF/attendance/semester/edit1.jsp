@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<%@include file="/WEB-INF/common/head.jsp"%>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/script/attendance/elective.js"></script>
+	<script type="text/javascript" src="<%=request.getContextPath()%>/script/attendance/semester.js"></script>
 	<script src="<%=request.getContextPath() %>/My97DatePicker/WdatePicker.js"></script>
 	<script type="text/javascript">
 	$(function(){
@@ -60,6 +60,9 @@
 			}
 		}
 	}
+	function back(){
+		location.href="modifyElective.do?SEMESTERID=${parameter.SEMESTERID }&USERID=${vo.USERID }";
+	}
 	</script>
 	<style type="text/css">
 	.float{ width:100%; clear:both; line-height:26px; color:#000; text-align:center; margin-top:10px;}
@@ -85,8 +88,10 @@
 				<div class="cztable">
 					<h2 class="mbx">课时管理 &gt; 课时编辑</h2>
 					<form action="save.do" method="post" id="eform">
-						<input type="hidden" name="CURRICULUMID" value="${parameter.ID }" />
+						<input type="hidden" name="CURRICULUMID" value="${vo.CURRICULUMID }" />
 						<input type="hidden" name="ID" value="${vo.ID }" />
+						<input type="hidden" name="USERID" value="${vo.USERID }" />
+						<input type="hidden" name="SEMESTERID" value="${parameter.SEMESTERID }" />
 						<table width="100%" cellpadding="0" cellspacing="0">
 							<c:forEach items="${timeList }" var="time" varStatus="i" >
 								<tr>
@@ -104,29 +109,9 @@
 									</td>
 								</tr>
 							</c:forEach>
-							<%--<tr>
-								<td width="15%" align="right"><div align="right">开始时间：</div></td>
-								<td><input size="25" name="STARTTIME" value="${vo.STARTTIME }" class="input_2 requires Wdate"  /></td>
-							</tr>
-							<tr>
-								<td width="15%" align="right"><div align="right">结束时间：</div></td>
-								<td><input size="25" name="ENDTIME" value="${vo.ENDTIME }" class="input_2 requires Wdate"  /></td>
-							</tr>
-							<tr>
-								<td width="15%" align="right"><div align="right">是否启用：</div></td>
-								<td>
-									<input type="radio" value="1"  name="ISACTIVES" id="isactives_1" checked="checked"/><label for="isactives_1">是</label>
-									<input type="radio" value="0" name="ISACTIVES" id="isactives_0" /><label for="isactives_0">否</label>
-								</td>
-							</tr>--%>
-							<%--<tr>
-								<td colspan="2" align="center">
-									
-								</td>
-							</tr>--%>
 						</table>
 						<div align="center" class="float">
-							<input type="button" value="提交" onclick="jBox.confirm('您是否要提交选课？', '询问', function(v, h, f) {if(v=='ok'){save('eform');}});" class="input2" /> 
+							<input  type="button" value="提交" onclick="jBox.confirm('您是否要提交选课？', '询问', function(v, h, f) {if(v=='ok'){save('eform');}});" class="input2" /> 
 							<input type="button" value="返回" onclick="back()" class="input2" />
 						</div>
 					</form>

@@ -43,8 +43,8 @@
 									</td>
 									<%--<td>${vo.TELEPHONE }</td>
 									--%><td>${vo.IDENF }
-										<c:if test="#{vo.SEX==1 }">男</c:if>
-										<c:if test="#{vo.SEX==0 }">女</c:if>
+										<c:if test="${vo.SEX==1 }">男</c:if>
+										<c:if test="${vo.SEX==0 }">女</c:if>
 									</td>
 									<td>${vo.QQ }</td>
 									<td>${vo.EMAIL }</td>

@@ -28,6 +28,9 @@
 	   <if test="XSUSERID!=NULL and XSUSERID!=''">
 	   	And ID In (Select USERID From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ID From TELECTIVE Where USERID = #{XSUSERID})))
 	   </if>
+	  <if test="NAME!=NULL and NAME!=''">
+	   	And NAME like CONCAT('%','${NAME}','%' )  
+	   </if>
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
 	<select id="findall" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
@@ -68,6 +71,9 @@
 	    where 1=1
 	    <if test="XSUSERID!=NULL and XSUSERID!=''">
 	   	And ID In (Select USERID From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ID From TELECTIVE Where USERID = #{XSUSERID})))
+	   </if>
+	   <if test="NAME!=NULL and NAME!=''">
+	   	And NAME like CONCAT('%','${NAME}','%' )  
 	   </if>
 	</select>
 	

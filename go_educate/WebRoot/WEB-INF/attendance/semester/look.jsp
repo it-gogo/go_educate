@@ -11,7 +11,7 @@
 	--%><div class="page">
 		<div class="box mtop">
 				<div class="cztable">
-				<div  align="center" style="margin-bottom: 20px;"><h1>${map.USERNAME }（第 ${map.SEVERAL } 学期课表）</h1></div>
+				<div  align="center" style="margin-bottom: 20px;"><h1>${map.USERNAME }（第 ${map.SEVERAL } 科目课表）</h1></div>
 				<div  align="left" style="font-size:18px;">上课时间从 ${map.FIRST } 到 ${map.LATEST } 一共 ${map.MUCHLESSON } 课时</div>
 				<table width="100%" cellpadding="0" cellspacing="0">
 					<c:forEach items="${map.dateList }" var="dateList"  >

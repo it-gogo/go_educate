@@ -26,7 +26,7 @@
 						<tbody>
 							<tr style="height: 25px" align="center">
 								<th scope="col">学员 </th>
-								<th scope="col">学期 </th>
+								<th scope="col">科目 </th>
 								<th scope="col">课时 </th>
 								<th scope="col">日期 </th>
 								<th scope="col">操作</th>
@@ -34,7 +34,7 @@
 							<c:forEach items="${pageBean.list }" var="vo" >
 								<tr align="center">
 									<td>${vo.USERNAME }</td>
-									<td>第 ${vo.SEVERAL } 学期</td>
+									<td>第 ${vo.SEVERAL } 科目</td>
 									<td>${vo.MUCHLESSON }</td>
 									<td> ${vo.FIRST } - ${vo.LATEST }</td>
 									<td>

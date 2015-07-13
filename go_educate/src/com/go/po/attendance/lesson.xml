@@ -43,17 +43,15 @@
 	<select id="findoptional2" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	    select a.*
 	   From  TLESSON a  
-	   Where EXISTS(select b.ID from TTIMELESSON b join TTEACHERTIME c on b.TIMEID=c.ID where a.STARTTIME>=b.STARTTIME And a.ENDTIME &lt;= b.ENDTIME 
-	    And Not EXISTS (Select d.ID From TELECTIVELESSON d Where d.TIMEID=c.ID And d.LESSONID=a.ID
+	   Where EXISTS(select b.ID from TTIMELESSON b  where a.STARTTIME>=b.STARTTIME And a.ENDTIME &lt;= b.ENDTIME 
+	    And Not EXISTS (Select d.ID From TELECTIVELESSON d Where d.TIMEID=#{TIMEID} And d.LESSONID=a.ID
 	   	<if test="ELECTIVEID!=NULL and ELECTIVEID!=''">
 	   	And ELECTIVEID != #{ELECTIVEID} 
 	   	</if>
 	  	 ) 
-	   <if test="DATE!=NULL and DATE!=''">
-	   	And c.DATE =#{DATE}  
-	   </if>
+	   	And b.TIMEID =#{TIMEID}  
 	   <if test="CURRICULUMID!=NULL and CURRICULUMID!=''">
-	   	And c.USERID In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{CURRICULUMID})
+	   	And #{USERID} In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{CURRICULUMID})
 	   </if>
 	   ) 
 	   Order By a.STARTTIME asc
@@ -69,6 +67,17 @@
 	   <if test="CURRICULUMID!=NULL and CURRICULUMID!=''">
 	   	And c.USERID In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{CURRICULUMID})
 	   </if>
+	   Order By a.STARTTIME asc
+	</select>
+	<select id="findoptional3" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	    select a.*
+	   From  TLESSON a  
+	   Where EXISTS(select b.ID from TTIMELESSON b  where a.STARTTIME>=b.STARTTIME And a.ENDTIME &lt;= b.ENDTIME 
+	   	And b.TIMEID =#{TIMEID}  
+	   <if test="CURRICULUMID!=NULL and CURRICULUMID!=''">
+	   	And #{USERID} In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{CURRICULUMID})
+	   </if>
+	   ) 
 	   Order By a.STARTTIME asc
 	</select>
 	

@@ -40,37 +40,23 @@ public class ElectiveControl extends BaseController {
 	   * 添加数据页面
 	   * @return
 	   */
-	  @RequestMapping("add.do")
-	  public  String add(HttpServletRequest request,HttpServletResponse response,Model  model){
-		  long l1=System.currentTimeMillis();
-		  System.out.println("++++++++++++++++++++++++++++"+System.currentTimeMillis());
+	  @RequestMapping("add1.do")
+	  public  String add1(HttpServletRequest request,HttpServletResponse response,Model  model){
 		  Map<String,Object>  parameter = sqlUtil.setParameterInfo(request);
 		  parameter.put("today", ExtendDate.getYMD(new Date()));
 		  List<Map<String,Object>> list=electiveService.findOptionalLesson(parameter);
 		  model.addAttribute("timeList", list);
 		  model.addAttribute("parameter", parameter);
-		  System.out.println("++++++++++++++++++++++++++++"+System.currentTimeMillis());
-		  System.out.println("-------------------------------------"+(System.currentTimeMillis()-l1));
 		  return  "attendance/elective/edit";
 	  }  
-	  @RequestMapping("add1.do")
-	  public  String add1(HttpServletRequest request,HttpServletResponse response,Model  model){
-		  long l1=System.currentTimeMillis();
-		  System.out.println("++++++++++++++++++++++++++++"+System.currentTimeMillis());
+	  @RequestMapping("add.do")
+	  public  String add(HttpServletRequest request,HttpServletResponse response,Model  model){
 		  Map<String,Object>  parameter = sqlUtil.setParameterInfo(request);
 		  parameter.put("today", ExtendDate.getYMD(new Date()));
-		  List<Map<String,Object>> list=electiveService.findOptionalLesson1(parameter);
+		  Map<Object,List<Map<String,Object>>> list=electiveService.findOptionalLesson1(parameter);
 		  model.addAttribute("timeList", list);
 		  model.addAttribute("parameter", parameter);
-		  List<Map<String,Object>> lessonList=lessonService.findAll(null);
-		  Map<Object,Map<String,Object>> lessonMap=new HashMap<Object, Map<String,Object>>();
-		  for(Map<String,Object> m:lessonList){
-			  lessonMap.put(m.get("ID"), m);
-		  }
-		  model.addAttribute("lessonMap", lessonMap);
-		  System.out.println("++++++++++++++++++++++++++++"+System.currentTimeMillis());
-		  System.out.println("-------------------------------------"+(System.currentTimeMillis()-l1));
-		  return  "attendance/elective/edit";
+		  return  "attendance/elective/edit1";
 	  }  
 	  /**
 	   * 导出数据

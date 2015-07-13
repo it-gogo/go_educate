@@ -208,36 +208,34 @@ public class ElectiveService extends BaseService {
 		return list;
 	}
 	
-	public List<Map<String,Object>> findOptionalLesson1(Map<String,Object> parameter){
+	public Map<Object,List<Map<String,Object>>> findOptionalLesson1(Map<String,Object> parameter){
 		Object curruculumid=parameter.get("ID");
 		Object electiveid=parameter.get("ELECTIVEID");
-		List<Map<String,Object>> list=this.getBaseDao().findList("elective.optionaldate", parameter);
-		List<Map<String,Object>> arrayList=new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> list=this.getBaseDao().findList("elective.optionaldate1", parameter);
+		Map<Object,List<Map<String,Object>>> resMap=new HashMap<Object,List<Map<String,Object>>>();
 		for(Map<String,Object> map:list){
 			Map<Object,List<Map<String,Object>>> res=new HashMap<Object,List<Map<String,Object>>>();
-			map.put("CURRICULUMID", curruculumid);
-			map.put("ELECTIVEID", electiveid);
-			List<Map<String,Object>> lessonList=this.getBaseDao().findList("lesson.findoptional2",map);
+			Map<String,Object> n_parameter=new HashMap<String, Object>();
+			n_parameter.put("CURRICULUMID", curruculumid);
+			n_parameter.put("ELECTIVEID", electiveid);
+			n_parameter.put("TIMEID", map.get("ID"));
+			n_parameter.put("USERID", map.get("USERID"));
+			List<Map<String,Object>> lessonList=this.getBaseDao().findList("lesson.findoptional2",n_parameter);
 			if(lessonList==null || lessonList.size()==0){
-				arrayList.add(map);
 				continue;
 			}
 			map.put("lessonIdList", lessonList);
-//			for(Map<String,Object> lesson:lessonList){
-//				Object username=lesson.get("USERNAME");
-//				if(res.containsKey(username)){//存在
-//					List<Map<String,Object>> l=res.get(username);
-//					l.add(lesson);
-//				}else{
-//					List<Map<String,Object>> l=new ArrayList<Map<String,Object>>();
-//					l.add(lesson);
-//					res.put(username, l);
-//				}
-//			}
-//			map.put("lessonList", res);
+			Object date=map.get("DATE");
+			if(resMap.containsKey(date)){//存在日期
+				List<Map<String,Object>> l=resMap.get(date);
+				l.add(map);
+			}else{
+				List<Map<String,Object>> l=new ArrayList<Map<String,Object>>();
+				l.add(map);
+				resMap.put(date, l);
+			}
 		}
-		list.removeAll(arrayList);
-		return list;
+		return resMap;
 	}
 	
 	/**

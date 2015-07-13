@@ -45,6 +45,18 @@ public class SemesterControl extends BaseController {
 		  Map<String,Object> res=new HashMap<String,Object>();
 		  res.put("today", ExtendDate.getYMD(new Date()));
 		  res.put("ID", parameter.get("CURRICULUMID"));//课程ID
+		  Map<Object,List<Map<String,Object>>> list=electiveService.findOptionalLesson1(res );
+		  model.addAttribute("timeList", list);
+		  model.addAttribute("vo", parameter);
+		  model.addAttribute("parameter", parameter);
+		  return  "attendance/semester/edit1";
+	  }  
+	  @RequestMapping("add1.do")
+	  public  String add1(HttpServletRequest request,HttpServletResponse response,Model  model){
+		  Map<String,Object>  parameter = sqlUtil.setParameterInfo(request);
+		  Map<String,Object> res=new HashMap<String,Object>();
+		  res.put("today", ExtendDate.getYMD(new Date()));
+		  res.put("ID", parameter.get("CURRICULUMID"));//课程ID
 		  List<Map<String,Object>> list=electiveService.findOptionalLesson(res );
 		  model.addAttribute("timeList", list);
 		  model.addAttribute("vo", parameter);
@@ -72,11 +84,11 @@ public class SemesterControl extends BaseController {
 		  res.put("ID", parameter.get("CURRICULUMID"));//课程ID
 		  res.put("ELECTIVEID", parameter.get("ELECTIVEID"));//选课ID
 //		   list=electiveService.findOptionalLesson(res);//不可多学生上同一课时
-		  list=semesterService.findOptionalLesson(res);//可以多学生上同一课时
-		  model.addAttribute("timeList", list);
+		  Map<Object,List<Map<String,Object>>> resMap=semesterService.findOptionalLesson1(res);//可以多学生上同一课时
+		  model.addAttribute("timeList", resMap);
 		  
 		  model.addAttribute("parameter", parameter);
-		  return  "attendance/semester/edit";
+		  return  "attendance/semester/edit1";
 	  }
 	  /**
 	   * 保存后台的菜单

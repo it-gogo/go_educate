@@ -54,6 +54,35 @@ public class SemesterService extends BaseService {
 		list.removeAll(arrayList);
 		return list;
 	}
+	public Map<Object,List<Map<String,Object>>> findOptionalLesson1(Map<String,Object> parameter){
+		Object curruculumid=parameter.get("ID");
+		Object electiveid=parameter.get("ELECTIVEID");
+		List<Map<String,Object>> list=this.getBaseDao().findList("elective.optionaldate1", parameter);
+		Map<Object,List<Map<String,Object>>> resMap=new HashMap<Object,List<Map<String,Object>>>();
+		for(Map<String,Object> map:list){
+			Map<Object,List<Map<String,Object>>> res=new HashMap<Object,List<Map<String,Object>>>();
+			Map<String,Object> n_parameter=new HashMap<String, Object>();
+			n_parameter.put("CURRICULUMID", curruculumid);
+			n_parameter.put("ELECTIVEID", electiveid);
+			n_parameter.put("TIMEID", map.get("ID"));
+			n_parameter.put("USERID", map.get("USERID"));
+			List<Map<String,Object>> lessonList=this.getBaseDao().findList("lesson.findoptional2",n_parameter);
+			if(lessonList==null || lessonList.size()==0){
+				continue;
+			}
+			map.put("lessonIdList", lessonList);
+			Object date=map.get("DATE");
+			if(resMap.containsKey(date)){//存在日期
+				List<Map<String,Object>> l=resMap.get(date);
+				l.add(map);
+			}else{
+				List<Map<String,Object>> l=new ArrayList<Map<String,Object>>();
+				l.add(map);
+				resMap.put(date, l);
+			}
+		}
+		return resMap;
+	}
 	
 	public void addSemesterElective(List<Map<String,Object>> parameter){
 		this.getBaseDao().insert("semesterelective.add", parameter);
