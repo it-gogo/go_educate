@@ -42,10 +42,21 @@
 										</c:forEach>
 									</td>
 									<%--<td>${vo.TELEPHONE }</td>
-									--%><td>${vo.IDENF }
+									--%><td>
+									<c:choose>
+										<c:when test="${!empty vo.SEX && vo.SEX==1 }">
+											男
+										</c:when>
+										<c:otherwise>
+											女
+										</c:otherwise>
+									</c:choose>
+									<!-- 
 										<c:if test="#{vo.SEX==1 }">男</c:if>
 										<c:if test="#{vo.SEX==0 }">女</c:if>
+									-->
 									</td>
+									
 									<td>${vo.QQ }</td>
 									<td>${vo.EMAIL }</td>
 									<td>
