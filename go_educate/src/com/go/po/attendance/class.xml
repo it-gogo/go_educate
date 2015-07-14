@@ -146,6 +146,17 @@
 	</select>
 	<!-- 删除数据 -->
 	<delete id="delete"  parameterType = "java.util.List">
+		delete From  TELECTIVELESSON   Where 1 = 1
+	    And ID in (Select ELID From TCLASSEL Where CLASSID In 
+	    	<foreach collection="list" item="id"  open="(" separator="," close=")">   
+          	 #{id}  
+        	</foreach>
+	    );
+	     delete From  TCLASSEL   Where 1 = 1
+	    And CLASSID in 
+	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach>;
 	    delete From  TCLASS   Where 1 = 1
 	    And ID in 
 	    <foreach collection="list" item="id"  open="(" separator="," close=")">   

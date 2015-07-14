@@ -114,7 +114,9 @@ public class SemesterControl extends BaseController {
 		  n_parameter.put("SEMESTERID", parameter.get("SEMESTERID"));
 		  List list=electiveService.getBaseDao().findList("semester.findclassidtoday", n_parameter);//获取要删除的class表 ID
 		  electiveService.getBaseDao().delete("semester.deleteclasstoday", n_parameter);//删除今天之后的class表
-		  electiveService.getBaseDao().delete("classel.delete", list);//删除关联表
+		  if(list!=null && list.size()>0){
+			  electiveService.getBaseDao().delete("classel.delete", list);//删除关联表
+		  }
 		  if(isIDNull){
 			  electiveid=SqlUtil.uuid();
 			  elective.put("id", electiveid);

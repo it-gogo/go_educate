@@ -51,7 +51,10 @@
 									</td>
 									<td>
 										<c:if test="${vo.STATUS==0 }">正常上课</c:if>
-										<c:if test="${vo.STATUS!=0 }"><a href="javascript:void(0);"  onclick="transfer('${vo.ID}')">申请调课</a></c:if>
+										<c:if test="${vo.STATUS!=0 }">
+											<a href="javascript:void(0);"  onclick="transfer('${vo.ID}')">申请调课</a> |
+											<a href="javascript:void(0);"  onclick="deleteOne('${vo.ID}')">删除</a>
+										</c:if>
 									</td>
 								</tr>
 							</c:forEach>

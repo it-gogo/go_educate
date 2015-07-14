@@ -135,7 +135,7 @@ public class MyStudentControl extends BaseController {
 	  @RequestMapping("delete.do")
 	  public  void  delete(HttpServletRequest request, HttpServletResponse response){
 		  List<String> parameter = sqlUtil.getIdsParameter(request);
-		  this.classService.delete(parameter);
+		 this.classService.delete(parameter);
 		  this.ajaxMessage(response, Syscontants.MESSAGE, "删除成功");
 	  }
 }
