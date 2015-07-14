@@ -103,7 +103,7 @@ public class LoginController extends BaseController {
 		if("1".equals(type)){//老师
 			parameter.put("LSUSERID", user.get("ID"));//老师ID
 		}else if("2".equals(type)){//学生
-			parameter.put("XSUSERID", user.get("ID"));//学生ID
+			parameter.put("LSUSERID", user.get("ID"));//学生ID
 		}else if("3".equals(type)){//管理员
 			parameter.put("TYPESTR", "2");//查找学生
 		}

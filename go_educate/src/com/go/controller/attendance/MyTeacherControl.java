@@ -57,6 +57,7 @@ public class MyTeacherControl extends BaseController {
 	   */
 	  @RequestMapping("findList.do")
 	  public  String  findList(HttpServletRequest request, HttpServletResponse response,Model  model){
+		  long l=System.currentTimeMillis();
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
 		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");//当前用户
 		  Object userid=user.get("ID");
@@ -70,6 +71,7 @@ public class MyTeacherControl extends BaseController {
 		  PageBean<Map<String,Object>> pb = this.buserService.myTeacher(parameter);
 		  model.addAttribute("pageBean", pb);
 		  model.addAttribute("parameter", parameter);
+		  System.out.println("--------------------"+(System.currentTimeMillis()-l));
 		  return  "attendance/myTeacher/list";
 	  }
 }
