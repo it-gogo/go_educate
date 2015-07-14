@@ -18,6 +18,7 @@
 				<div class="cztable">
 					<div class="tis">
 						<form action="findList.do" method="post" id="searchForm">
+							老师姓名:<input size="20" name="LSUSERNAME" value="${parameter.LSUSERNAME }" class="input_2"  />
 							从:<input size="20" name="STARTDATE" value="${parameter.STARTDATE }" class="input_2 Wdate"  />
 							到:<input size="20" name="ENDDATE" value="${parameter.ENDDATE }" class="input_2 Wdate"  />
 							<input class="input2" type="submit" value="查询"   />
@@ -37,6 +38,7 @@
 								<th scope="col">课程 </th>
 								<th scope="col">上课时间</th>
 								<th scope="col">下课时间</th>
+								<th scope="col">状态</th>
 								<%--<th scope="col">操作</th>
 							--%></tr>
 							<c:forEach items="${pageBean.list }" var="vo" >
@@ -49,6 +51,16 @@
 									<td>${vo.CURRICULUMNAME }</td>
 									<td>${vo.STARTTIME }</td>
 									<td>${vo.ENDTIME }</td>
+									<td>
+										<c:if test="${vo.STATUS==0 }">正常</c:if>
+										<c:if test="${vo.STATUS==1 }">学生未上课</c:if>
+										<c:if test="${vo.STATUS==2 }">老师未上课</c:if>
+										<c:if test="${vo.STATUS==3 }">学生请假</c:if>
+										<c:if test="${vo.STATUS==4 }">老师请假</c:if>
+										<c:if test="${vo.STATUS==5 }">调课</c:if>
+										<c:if test="${vo.STATUS==null }">未上课</c:if>
+										<c:if test="${vo.STATUS=='' }">未上课</c:if>
+									</td>
 									<%--<td>
 										<a href="javascript:void(0);"  onclick="loadxx('${vo.ID}')">修改</a> | 
 										<a href="javascript:void(0);" onclick="deleteOne('${vo.ID}')" >删除</a>

@@ -106,12 +106,16 @@ public class LoginController extends BaseController {
 			parameter.put("XSUSERID", user.get("ID"));//学生ID
 		}else if("3".equals(type)){//管理员
 			parameter.put("TYPESTR", "2");//查找学生
-			parameter.put("SUPERADMIN", user.get("SUPERADMIN"));//
 		}
-//		parameter.put("LSUSERID", user.get("ID"));//老师ID
-		parameter.put("today", ExtendDate.getYMD(new Date()));
+		parameter.put("SUPERADMIN", user.get("SUPERADMIN"));//
+		Calendar c=Calendar.getInstance();
+		c.add(Calendar.DATE, -7);
+		parameter.put("STARTDATE", ExtendDate.getYMD(c));
+		c=Calendar.getInstance();
+		c.add(Calendar.DATE, 7);
+		parameter.put("ENDDATE", ExtendDate.getYMD(c));
 		//parameter.put("STATUS", 0);//未上课
-		list=classService.findNoClass(parameter);
+		list=classService.findNoClass(parameter);//前后七天数据
 		model.addAttribute("classList", list);
 		int studentcount=buserService.myStudentCount(parameter);
 		model.addAttribute("studentcount", studentcount);
@@ -133,9 +137,8 @@ public class LoginController extends BaseController {
 		aready.put("ENDDATE",str);
 		model.addAttribute("aready", aready);
 		
-		parameter.put("STATUS", 1);//上课
-		model.addAttribute("attendcount", classService.findCount(parameter));//上课数
-		parameter.remove("STATUS");//已排课
+		model.addAttribute("attendcount", classService.findSgkCount(parameter));//上课数
+		
 		model.addAttribute("alreadycount", classService.findCount(parameter));//已排课
 		
 		Map<String,Object> next=new HashMap<String,Object>();

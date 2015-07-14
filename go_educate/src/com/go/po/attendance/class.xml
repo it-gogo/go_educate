@@ -10,6 +10,9 @@
 	   <if test="LSUSERID!=null and LSUSERID!=''">
 	    	And LSUSERID = #{LSUSERID}
 	    </if>
+	    <if test="LSUSERNAME!=null and LSUSERNAME!=''">
+	    	And LSUSERID In (Select ID From TBUSER Where NAME like CONCAT('%','${LSUSERNAME}','%' )   )
+	    </if>
 	    <if test="XSUSERID!=null and XSUSERID!=''">
 	    	And XSUSERID = #{XSUSERID}
 	    </if>
@@ -41,7 +44,13 @@
 	   <if test="STATUS!=null and STATUS!=''">
 	   	And STATUS =#{STATUS}
 	   </if>
-	   Order By STARTTIME asc
+	   <if test="STARTDATE!=null and STARTDATE!=''">
+	    	And DATE >= #{STARTDATE}
+	    </if>
+	    <if test="ENDDATE!=null and ENDDATE!=''">
+	    	And DATE &lt;= #{ENDDATE}
+	    </if>
+	   Order By DATE,STARTTIME asc
 	</select>
 	
 	<select id="findall" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
@@ -54,6 +63,9 @@
 	    Select count(1) From  TCLASS Where 1=1
 	    <if test="LSUSERID!=null and LSUSERID!=''">
 	    	And LSUSERID = #{LSUSERID}
+	    </if>
+	    <if test="LSUSERNAME!=null and LSUSERNAME!=''">
+	    	And LSUSERID In (Select ID From TBUSER Where NAME like CONCAT('%','${LSUSERNAME}','%' )   )
 	    </if>
 	    <if test="XSUSERID!=null and XSUSERID!=''">
 	    	And XSUSERID = #{XSUSERID}
@@ -80,6 +92,21 @@
 	    </if>
 	     <if test="STATUS!=null and STATUS!=''">
 	    	And STATUS = #{STATUS}
+	    </if>
+	    <if test="STARTDATE!=null and STARTDATE!=''">
+	    	And DATE >= #{STARTDATE}
+	    </if>
+	    <if test="ENDDATE!=null and ENDDATE!=''">
+	    	And DATE &lt;= #{ENDDATE}
+	    </if>
+	</select>
+	<select id="findsgkcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
+	    Select count(1) From  TCLASS Where 1=1 And (sign!=0 Or sign2!=0)
+	    <if test="LSUSERID!=null and LSUSERID!=''">
+	    	And LSUSERID = #{LSUSERID}
+	    </if>
+	    <if test="XSUSERID!=null and XSUSERID!=''">
+	    	And XSUSERID = #{XSUSERID}
 	    </if>
 	    <if test="STARTDATE!=null and STARTDATE!=''">
 	    	And DATE >= #{STARTDATE}

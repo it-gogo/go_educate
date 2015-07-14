@@ -23,6 +23,9 @@ public class ClassService extends BaseService {
 	public int findCount(Map<String,Object> parameter){
 		return Integer.parseInt(this.getBaseDao().findOne("class.findattencount", parameter).toString());
 	}
+	public int findSgkCount(Map<String,Object> parameter){
+		return Integer.parseInt(this.getBaseDao().findOne("class.findsgkcount", parameter).toString());
+	}
 	/**
 	 * 分页查找数据
 	 * @param parameter

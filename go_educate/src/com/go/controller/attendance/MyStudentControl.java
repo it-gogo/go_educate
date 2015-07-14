@@ -89,6 +89,8 @@ public class MyStudentControl extends BaseController {
 		  }
 	  }
 	  
+	  
+	  
 	  /**
 	   * 查询列表
 	   * @param request
@@ -123,5 +125,17 @@ public class MyStudentControl extends BaseController {
 		  model.addAttribute("parameter", parameter);
 		  model.addAttribute("pageUrl", "lookClass.do");
 		  return  "attendance/myStudent/lookClass";
+	  }
+	  
+	  /**
+	   * 删除数据
+	   * @param request
+	   * @param response
+	   */
+	  @RequestMapping("delete.do")
+	  public  void  delete(HttpServletRequest request, HttpServletResponse response){
+		  List<String> parameter = sqlUtil.getIdsParameter(request);
+		  this.classService.delete(parameter);
+		  this.ajaxMessage(response, Syscontants.MESSAGE, "删除成功");
 	  }
 }

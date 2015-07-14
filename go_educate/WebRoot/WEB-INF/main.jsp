@@ -58,7 +58,18 @@
 									<td>${vo.MUCHLESSON }</td>
 									<td>${vo.CURRICULUMNAME }</td>
 									<td>${vo.STARTTIME }-${vo.ENDTIME }</td>
-									<td>${vo.STATUS=='0'?'正常':'未上课'}</td>
+									<td><%--
+										${vo.STATUS=='0'?'正常':'未上课'}
+										--%>
+										<c:if test="${vo.STATUS==0 }">正常</c:if>
+										<c:if test="${vo.STATUS==1 }">学生未上课</c:if>
+										<c:if test="${vo.STATUS==2 }">老师未上课</c:if>
+										<c:if test="${vo.STATUS==3 }">学生请假</c:if>
+										<c:if test="${vo.STATUS==4 }">老师请假</c:if>
+										<c:if test="${vo.STATUS==5 }">调课</c:if>
+										<c:if test="${vo.STATUS==null }">未上课</c:if>
+										<c:if test="${vo.STATUS=='' }">未上课</c:if>
+									</td>
 									<td>
 										<a href="<%=request.getContextPath()%>/feedback/add.do?fbid=${vo.FEEDBACKID}&classId=${vo.ID}">
 											反馈
