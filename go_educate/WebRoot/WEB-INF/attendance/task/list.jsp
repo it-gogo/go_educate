@@ -54,7 +54,7 @@
 				<%@include file="/WEB-INF/platform/nav.jsp"%>
 				<div class="cztable">
 					<div class="tis">
-						<form action="findList.do" method="post" id="searchForm">
+						<form action="ajax_list.do" method="post" id="searchForm">
 							从:<input size="20" name="STARTDATE" value="${parameter.STARTDATE }" class="input_2 Wdate"  />
 							到:<input size="20" name="ENDDATE" value="${parameter.ENDDATE }" class="input_2 Wdate"  />
 							<input class="input2" type="submit" value="查询"   />
