@@ -45,6 +45,7 @@
 									<td>${vo.IDENF }
 										<c:if test="${vo.SEX==1 }">男</c:if>
 										<c:if test="${vo.SEX==0 }">女</c:if><td>--%>
+										<td>
 									<c:choose>
 										<c:when test="${!empty vo.SEX && vo.SEX==1 }">
 											男
