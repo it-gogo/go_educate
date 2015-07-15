@@ -1,14 +1,15 @@
 package com.go.service.attendance;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.stereotype.Service;
 
-import com.go.common.util.SqlUtil;
-import com.go.common.util.SysUtil;
 import com.go.po.common.PageBean;
 import com.go.service.base.BaseService;
 /**
@@ -58,7 +59,26 @@ public class SemesterService extends BaseService {
 		Object curruculumid=parameter.get("ID");
 		Object electiveid=parameter.get("ELECTIVEID");
 		List<Map<String,Object>> list=this.getBaseDao().findList("elective.optionaldate1", parameter);
-		Map<Object,List<Map<String,Object>>> resMap=new HashMap<Object,List<Map<String,Object>>>();
+//		Map<Object,List<Map<String,Object>>> resMap=new HashMap<Object,List<Map<String,Object>>>();
+		Map<Object,List<Map<String,Object>>> resMap=new TreeMap<Object,List<Map<String,Object>>>(new Comparator<Object>(){ 
+			@Override
+			public int compare(Object o1, Object o2) {
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				long l1=0;
+				long l2=0;
+				try {
+					l1=sdf.parse(o1.toString()).getTime();
+					l2 = sdf.parse(o2.toString()).getTime();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if(l1>l2){
+					return 1;
+				}else{
+					return -1;
+				}
+			} 
+				  }); 
 		for(Map<String,Object> map:list){
 			Map<Object,List<Map<String,Object>>> res=new HashMap<Object,List<Map<String,Object>>>();
 			Map<String,Object> n_parameter=new HashMap<String, Object>();
@@ -83,7 +103,33 @@ public class SemesterService extends BaseService {
 		}
 		return resMap;
 	}
-	
+	public static void main(String[] args) {
+		Map<Object,List<Map<String,Object>>> resMap=new TreeMap<Object,List<Map<String,Object>>>(new Comparator<Object>(){ 
+			@Override
+			public int compare(Object o1, Object o2) {
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				long l1=0;
+				long l2=0;
+				try {
+					l1=sdf.parse(o1.toString()).getTime();
+					l2 = sdf.parse(o2.toString()).getTime();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if(l1>l2){
+					return 1;
+				}else{
+					return -1;
+				}
+			} 
+				  }); 
+		resMap.put("2015-06-07", new ArrayList());
+		resMap.put("2015-06-07", new ArrayList());
+		resMap.put("2015-06-02", new ArrayList());
+		resMap.put("2015-06-10", new ArrayList());
+		resMap.put("2015-06-17", new ArrayList());
+		System.out.println(resMap);
+	}
 	public void addSemesterElective(List<Map<String,Object>> parameter){
 		this.getBaseDao().insert("semesterelective.add", parameter);
 	}

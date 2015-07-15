@@ -16,6 +16,9 @@
 	    <if test="XSUSERID!=null and XSUSERID!=''">
 	    	And XSUSERID = #{XSUSERID}
 	    </if>
+	    <if test="XSUSERNAME!=null and XSUSERNAME!=''">
+	    	And XSUSERID In (Select ID From TBUSER Where NAME like CONCAT('%','${XSUSERNAME}','%' )   )
+	    </if>
 	   <if test="STARTDATE!=null and STARTDATE!=''">
 	    	And DATE >= #{STARTDATE}
 	    </if>
@@ -69,6 +72,9 @@
 	    </if>
 	    <if test="XSUSERID!=null and XSUSERID!=''">
 	    	And XSUSERID = #{XSUSERID}
+	    </if>
+	    <if test="XSUSERNAME!=null and XSUSERNAME!=''">
+	    	And XSUSERID In (Select ID From TBUSER Where NAME like CONCAT('%','${XSUSERNAME}','%' )   )
 	    </if>
 	    <if test="STARTDATE!=null and STARTDATE!=''">
 	    	And DATE >= #{STARTDATE}
