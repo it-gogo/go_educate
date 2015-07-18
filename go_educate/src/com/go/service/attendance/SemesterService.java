@@ -74,6 +74,8 @@ public class SemesterService extends BaseService {
 				}
 				if(l1>l2){
 					return 1;
+				}if(l1==l2){
+					return 0;
 				}else{
 					return -1;
 				}
