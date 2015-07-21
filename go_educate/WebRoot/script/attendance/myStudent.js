@@ -11,6 +11,9 @@ function back(){
 function lookClass(semesterid){
 	location.href="lookClass.do?SEMESTERID="+semesterid;
 }
+function lookXSInfo(xsuserid){
+	location.href="lookXSInfo.do?ID="+xsuserid;
+}
 /**
  * 查看课表
  * @param id

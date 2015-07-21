@@ -31,7 +31,7 @@
 	<select id="findTeacherkbDate" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select * From  TTEACHERTIME a
 	   Where 1=1
-	   And (Select count(*) From TELECTIVELESSON Where TIMEID=a.ID) >0
+	   And EXISTS(Select 1 From TELECTIVELESSON Where TIMEID=a.ID)
 	    <if test="USERID!=null and USERID!=''">
 	    And USERID = #{USERID}
 	    </if>
@@ -41,13 +41,14 @@
 	    <if test="ENDDATE!=null and ENDDATE!=''">
 	    	And DATE &lt;= #{ENDDATE}
 	    </if>
-	    Order By DATE desc
+	    Order By DATE asc
 	    limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select>
 	<!-- 查询记录数 -->
 	<select id="findTeacherkbCount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
-	    Select count(1) From  TTEACHERTIME 
+	    Select count(1) From  TTEACHERTIME a
 	    where 1=1
+	    And EXISTS(Select 1 From TELECTIVELESSON Where TIMEID=a.ID)
 	    <if test="USERID!=null and USERID!=''">
 	    And USERID = #{USERID}
 	    </if>
@@ -129,6 +130,24 @@
 	   Where 1=1 
 	   And DATE >= #{today} 
 	   And USERID In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{ID})
+	   Order By DATE
+	</select>
+	<select id="optionaldate11" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select a.ID TIMEID,a.USERID USERID,a.DATE DATE,b.NAME USERNAME,c.STARTTIME STARTTIME,c.ENDTIME ENDTIME
+	   From  TTEACHERTIME a left join TBUSER b on a.USERID=b.ID,TLESSON c 
+	   Where EXISTS(select 1 from TTIMELESSON b  where c.STARTTIME>=b.STARTTIME And c.ENDTIME &lt;= b.ENDTIME 
+	   And Not EXISTS (Select 1 From TELECTIVELESSON d Where d.TIMEID=a.ID And d.LESSONID=c.ID
+	   <if test="ELECTIVEID!=NULL and ELECTIVEID!=''">
+	   	And d.ELECTIVEID != #{ELECTIVEID} 
+	   	</if>
+	  	 ) 
+	  	 And b.TIMEID =a.ID  
+	   <if test="CURRICULUMID!=NULL and CURRICULUMID!=''">
+	   	And a.USERID In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{CURRICULUMID})
+	   </if>
+	   	) 
+	   And a.DATE >= #{today} 
+	   And a.USERID In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{ID})
 	   Order By DATE
 	</select>
 	<select id="optionallesson" resultType="java.util.HashMap" parameterType="java.util.HashMap" >

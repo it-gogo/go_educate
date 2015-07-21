@@ -43,7 +43,8 @@
 									<td>${vo.YDLESSON }</td>
 									<td>
 										<a href="javascript:void(0);"  onclick="lookClass('${vo.SEMESTERID}')">课程详情</a> | 
-										<a href="javascript:void(0);"  onclick="lookTimetable('${vo.SEMESTERID}')">查看课表</a>  
+										<a href="javascript:void(0);"  onclick="lookTimetable('${vo.SEMESTERID}')">查看课表</a> | 
+										<a href="javascript:void(0);"  onclick="lookXSInfo('${vo.XSUSERID}')">学生信息</a>  
 									</td>
 								</tr>
 							</c:forEach>

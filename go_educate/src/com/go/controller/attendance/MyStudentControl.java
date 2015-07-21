@@ -127,6 +127,22 @@ public class MyStudentControl extends BaseController {
 		  return  "attendance/myStudent/lookClass";
 	  }
 	  
+	  @RequestMapping("lookXSInfo.do")
+	  public  String  lookXSInfo(HttpServletRequest request, HttpServletResponse response,Model  model){
+		  Map<String,Object>  parameter = sqlUtil.setParameterInfo(request);
+		  Map<String,Object>  res = this.buserService.load(parameter);
+		  model.addAttribute("vo", res);
+		  return  "attendance/myStudent/lookXSInfo";
+	  }
+	  @RequestMapping("saveXSInfo.do")
+	  public  void saveXSInfo(HttpServletRequest request, HttpServletResponse response,String TIME) throws Exception{
+		  Map<String,Object>  parameter = sqlUtil.setParameterInfo(request);
+		  Map<String,Object>  res = this.buserService.load(parameter);
+		  res.putAll(parameter);
+		  this.buserService.update(res);
+		  this.ajaxMessage(response, Syscontants.MESSAGE,"修改成功");
+	  }
+	  
 	  /**
 	   * 删除数据
 	   * @param request
