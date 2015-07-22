@@ -121,7 +121,8 @@ public class TeacherkbControl extends BaseController {
 		  }
 		  Map<String,Object> map=teacherkbService.findKB(parameter);
 		  model.addAttribute("map", map);
-		  model.addAttribute("pageBean", map.get("pb"));
+		  if(map!=null)
+			  model.addAttribute("pageBean", map.get("pb"));
 		  model.addAttribute("parameter", parameter);
 		  return  "attendance/teacherkb/look";
 	  }

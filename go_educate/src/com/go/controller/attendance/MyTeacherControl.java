@@ -71,7 +71,6 @@ public class MyTeacherControl extends BaseController {
 		  PageBean<Map<String,Object>> pb = this.buserService.myTeacher(parameter);
 		  model.addAttribute("pageBean", pb);
 		  model.addAttribute("parameter", parameter);
-		  System.out.println("--------------------"+(System.currentTimeMillis()-l));
 		  return  "attendance/myTeacher/list";
 	  }
 }

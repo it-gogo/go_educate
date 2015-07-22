@@ -1,11 +1,11 @@
 package com.go.service.attendance;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -255,6 +255,70 @@ public class ElectiveService extends BaseService {
 			}else{
 				List<Map<String,Object>> l=new ArrayList<Map<String,Object>>();
 				l.add(map);
+				resMap.put(date, l);
+			}
+		}
+		return resMap;
+	}
+	public Map<Object,List<Map<String,Object>>> findOptionalLesson11(Map<String,Object> parameter){
+		Object curruculumid=parameter.get("ID");
+		Object electiveid=parameter.get("ELECTIVEID");
+		List<Map<String,Object>> list=this.getBaseDao().findList("elective.optionaldate11", parameter);
+		Map<Object,List<Map<String,Object>>> resMap=new TreeMap<Object,List<Map<String,Object>>>(new Comparator<Object>(){ 
+			@Override
+			public int compare(Object o1, Object o2) {
+				SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+				long l1=0;
+				long l2=0;
+				try {
+					l1=sdf.parse(o1.toString()).getTime();
+					l2 = sdf.parse(o2.toString()).getTime();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				if(l1>l2){
+					return 1;
+				}if(l1==l2){
+					return 0;
+				}else{
+					return -1;
+				}
+			} 
+		}); 
+		Map<String,List<Map<String,Object>>> res=new HashMap<String,List<Map<String,Object>>>();
+		for(Map<String,Object> map:list){
+			Object date=map.get("DATE");
+			Object userid=map.get("USERID");
+			Object username=map.get("USERNAME");
+			String du=date+"_"+userid+"_"+username;
+			if(res.containsKey(du)){//存在同日期同老师
+				List<Map<String,Object>> l=res.get(du);
+				l.add(map);
+			}else{
+				List<Map<String,Object>> l=new ArrayList<Map<String,Object>>();
+				l.add(map);
+				res.put(du, l);
+			}
+		}
+		Iterator<String> it=res.keySet().iterator();
+		while(it.hasNext()){
+			String du=it.next();
+			List<Map<String,Object>> ll=(List<Map<String,Object>>) res.get(du);
+			String[] arr=du.split("_");
+			String date=arr[0];
+			String userid=arr[1];
+			String username=arr[2];
+			Map<String,Object> m=new HashMap<String, Object>();
+			m.put("USERNAME", username);
+			m.put("USERID", userid);
+			m.put("DATE", date);
+			m.put("lessonIdList", ll);
+			if(resMap.containsKey(date)){//存在同日期同老师
+				List<Map<String,Object>> l=resMap.get(date);
+				l.add(m);
+			}else{
+				List<Map<String,Object>> l=new ArrayList<Map<String,Object>>();
+				l.add(m);
 				resMap.put(date, l);
 			}
 		}

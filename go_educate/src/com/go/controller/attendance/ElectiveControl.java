@@ -51,11 +51,13 @@ public class ElectiveControl extends BaseController {
 	  }  
 	  @RequestMapping("add.do")
 	  public  String add(HttpServletRequest request,HttpServletResponse response,Model  model){
+		  long l=System.currentTimeMillis();
 		  Map<String,Object>  parameter = sqlUtil.setParameterInfo(request);
 		  parameter.put("today", ExtendDate.getYMD(new Date()));
-		  Map<Object,List<Map<String,Object>>> list=electiveService.findOptionalLesson1(parameter);
+		  Map<Object,List<Map<String,Object>>> list=electiveService.findOptionalLesson11(parameter);
 		  model.addAttribute("timeList", list);
 		  model.addAttribute("parameter", parameter);
+		  System.out.println(System.currentTimeMillis()-l);
 		  return  "attendance/elective/edit1";
 	  }  
 	  /**
