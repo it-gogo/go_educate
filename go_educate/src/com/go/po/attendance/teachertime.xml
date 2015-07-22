@@ -19,7 +19,7 @@
 	   		And DATE &lt;= #{ENDDATE}  
 	   </if>
 	  <!--  Group By DATE -->
-	   Order By DATE desc
+	   Order By DATE asc
 	   limit  #{pageBean.startRowNum},#{pageBean.rows}
 	</select> 
 	

@@ -2,6 +2,7 @@ package com.go.controller.attendance;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.go.common.util.ExtendDate;
 import com.go.common.util.JSONUtil;
 import com.go.common.util.SqlUtil;
 import com.go.common.util.SysUtil;
@@ -232,6 +234,9 @@ public class TeachertimeControl extends BaseController {
 	  @RequestMapping("findList.do")
 	  public  String  findList(HttpServletRequest request, HttpServletResponse response,Model  model){
 		  Map<String,Object> parameter = sqlUtil.queryParameter(request);
+		  if(!parameter.containsKey("STARTDATE")){
+			  parameter.put("STARTDATE", ExtendDate.getYMD(new Date()));
+		  }
 		  Map<String,Object> user=SysUtil.getSessionUsr(request, "user");
 		  if("1".equals(user.get("TYPE"))){
 			  parameter.put("USERID", user.get("ID"));
