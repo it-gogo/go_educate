@@ -148,7 +148,7 @@
 	   	) 
 	   And a.DATE >= #{today} 
 	   And a.USERID In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{ID})
-	   Order By DATE
+	   Order By DATE,c.STARTTIME asc
 	</select>
 	<select id="optionallesson" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select ID From  TLESSON  a

@@ -19,7 +19,7 @@
 					<div class="tis">
 						<form action="findList.do" method="post" id="searchForm">
 							开始时间:<input size="20" name="STARTDATE" value="${parameter.STARTDATE }" class="input_2 Wdate"  />
-							开始时间:<input size="20" name="ENDDATE" value="${parameter.ENDDATE }" class="input_2 Wdate"  />
+							结束时间:<input size="20" name="ENDDATE" value="${parameter.ENDDATE }" class="input_2 Wdate"  />
 							<input class="input2" type="submit" value="查询"   />
 							<input class="input2" type="button" value="清空"  onclick="clearData('searchForm')"  />
 							<input class="input2" type="button" value="添加" onclick="addxx()"  />
