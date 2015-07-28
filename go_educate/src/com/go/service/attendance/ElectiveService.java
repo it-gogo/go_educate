@@ -290,7 +290,8 @@ public class ElectiveService extends BaseService {
 			Object date=map.get("DATE");
 			Object userid=map.get("USERID");
 			Object username=map.get("USERNAME");
-			String du=date+"_"+userid+"_"+username;
+			Object timeid=map.get("TIMEID");
+			String du=date+"_"+userid+"_"+username+"_"+timeid;
 			if(res.containsKey(du)){//存在同日期同老师
 				List<Map<String,Object>> l=res.get(du);
 				l.add(map);
@@ -308,11 +309,13 @@ public class ElectiveService extends BaseService {
 			String date=arr[0];
 			String userid=arr[1];
 			String username=arr[2];
+			String timeid=arr[3];
 			Map<String,Object> m=new HashMap<String, Object>();
 			m.put("USERNAME", username);
 			m.put("USERID", userid);
 			m.put("DATE", date);
 			m.put("lessonIdList", ll);
+			m.put("ID", timeid);
 			if(resMap.containsKey(date)){//存在同日期同老师
 				List<Map<String,Object>> l=resMap.get(date);
 				l.add(m);

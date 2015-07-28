@@ -169,6 +169,29 @@
            #{id}  
         </foreach>;
 	</delete>
+	<!-- 删除调课关联 -->
+	<delete id="deletetransfer"  parameterType = "java.util.List">
+		delete From  TELECTIVELESSON   Where 1 = 1
+	    And ID in (Select ELID From TCLASSEL Where CLASSID In 
+	    	<foreach collection="list" item="id"  open="(" separator="," close=")">   
+          	 #{id}  
+        	</foreach>
+	    );
+	     delete From  TCLASSEL   Where 1 = 1
+	    And CLASSID in 
+	    <foreach collection="list" item="id"  open="(" separator="," close=")">   
+           #{id}  
+        </foreach>;
+	</delete>
+	<insert id="addtransfer"  parameterType = "java.util.List">
+		<foreach collection="list" item="vo"  open="" separator=";" close="">   
+		   insert into TELECTIVELESSON(ID,ELECTIVEID,LESSONID,TIMEID) 
+		   values(#{vo.ELECTIVELESSONID},#{vo.ELECTIVEID},#{vo.LESSONID},#{vo.TIMEID});
+		   
+		    insert into TCLASSEL(ID,CLASSID,ELID) 
+	  		values(#{vo.CLASSELID},#{vo.CLASSID},#{vo.ELID})
+	   </foreach>
+	</insert>
 	<!-- 签到type修改 -->
 	<update id="updateSign" parameterType="java.util.HashMap">
 		update TCLASS set 

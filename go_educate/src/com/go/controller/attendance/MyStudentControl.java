@@ -1,8 +1,9 @@
 package com.go.controller.attendance;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.go.common.util.ExtendDate;
+import com.go.common.util.SqlUtil;
 import com.go.common.util.SysUtil;
 import com.go.controller.base.BaseController;
 import com.go.po.common.PageBean;
@@ -68,14 +70,54 @@ public class MyStudentControl extends BaseController {
 		  String str1=arr[1];
 		  long l0=sdf.parse(str0).getTime();
 		  long l1=sdf.parse(str1).getTime();
-		  parameter.put("MUCHLESSON", (l1-l0)/(30*60*1000));//多少课时
+		  if(l0>=l1){
+			  this.ajaxMessage(response, Syscontants.ERROE,"添加失败,请选择合适时间段。");
+			  return;
+		  }
+		  long much=(l1-l0)/(30*60*1000);
+		  parameter.put("MUCHLESSON", much);
 		  parameter.put("STARTTIME", str0);
 		  parameter.put("ENDTIME", str1);
 		  parameter.put("STATUS", 5);
 		  parameter.put("CREATEDATE", ExtendDate.getYMD(new Date()));
-		  parameter.put("STATUS", 5);
-		  parameter.put("STATUS", 5);
-		  parameter.put("STATUS", 5);
+		  List<Map<String,Object>> lessonList=classService.findTransferLesson(parameter);//调课时间的课时
+		  List<Map<String,Object>> transferList=classService.findTransfer(parameter);//可以调课老师时间
+		  if(transferList==null || transferList.size()==0){
+			  this.ajaxMessage(response, Syscontants.ERROE,"添加失败,所选时间没有合适老师可以上课。");
+			  return ;
+		  }
+		  Map<String,Object> res=new HashMap<String, Object>();
+		  for(Map<String,Object> map:transferList){
+			  map.put("list", lessonList);
+			  map.put("CLASSID", parameter.get("ID"));
+			  long l=classService.findIsTransfer(map);
+			  if(l==0){
+				  res=map;
+				  break;
+			  }
+		  }
+		  if(res==null || res.size()==0){
+			  this.ajaxMessage(response, Syscontants.ERROE,"添加失败,所选时间没有合适老师可以上课。");
+			  return;
+		  }
+		  String electiveid=classService.findTransferElective(parameter);
+		  List<String> l_parameter = new ArrayList<String>();
+		  l_parameter.add(parameter.get("ID").toString());
+		  classService.deleteTransfer(l_parameter);
+		  Map<String,Object> n_parameter=new HashMap<String, Object>();
+		  for(Map<String,Object> m:lessonList){
+			  String elid=SqlUtil.uuid();
+			  m.put("ELECTIVEID", electiveid);
+			  m.put("ELECTIVELESSONID", elid);
+			  m.put("LESSONID", m.get("ID"));
+			  m.put("TIMEID", res.get("ID"));
+			  
+			  m.put("CLASSELID", SqlUtil.uuid());
+			  m.put("CLASSID", parameter.get("ID"));
+			  m.put("ELID",elid);
+		  }
+		  classService.addTransfer(lessonList);
+		  parameter.put("LSUSERID", res.get("USERID"));
 		  boolean  isIDNull = sqlUtil.isIDNull(parameter,"ID");
 		  if(isIDNull){
 			  //设置ID

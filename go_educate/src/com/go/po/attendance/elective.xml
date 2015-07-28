@@ -133,7 +133,7 @@
 	   Order By DATE
 	</select>
 	<select id="optionaldate11" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
-	   select a.ID TIMEID,a.USERID USERID,a.DATE DATE,b.NAME USERNAME,c.STARTTIME STARTTIME,c.ENDTIME ENDTIME
+	   select c.ID ID,a.ID TIMEID,a.USERID USERID,a.DATE DATE,b.NAME USERNAME,c.STARTTIME STARTTIME,c.ENDTIME ENDTIME
 	   From  TTEACHERTIME a left join TBUSER b on a.USERID=b.ID,TLESSON c 
 	   Where EXISTS(select 1 from TTIMELESSON b  where c.STARTTIME>=b.STARTTIME And c.ENDTIME &lt;= b.ENDTIME 
 	   And Not EXISTS (Select 1 From TELECTIVELESSON d Where d.TIMEID=a.ID And d.LESSONID=c.ID

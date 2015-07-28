@@ -43,6 +43,42 @@ public class ClassService extends BaseService {
 		return this.getBaseDao().findList("class.findall", parameter);
 	}
 	/**
+	 * 查询可以调课老师时间
+	 * @param parameter
+	 * @return
+	 */
+	public List<Map<String,Object>> findTransfer(Map<String,Object> parameter){
+		return this.getBaseDao().findList("teachertime.findtransfer", parameter);
+	}
+	/**
+	 * 查询调课时间的课时
+	 * @param parameter
+	 * @return
+	 */
+	public List<Map<String,Object>> findTransferLesson(Map<String,Object> parameter){
+		return this.getBaseDao().findList("lesson.findtransfer", parameter);
+	}
+	/**
+	 * 查询是否可以调课
+	 * @param parameter
+	 * @return
+	 */
+	public long findIsTransfer(Map<String,Object> parameter){
+		long count=(Long) this.getBaseDao().findOne("teachertime.findistransfer", parameter);
+		return count;
+	}
+	public String findTransferElective(Map<String,Object> parameter){
+		String electiveid=(String) this.getBaseDao().findOne("teachertime.findtransferelective", parameter);
+		return electiveid;
+	}
+	/**
+	 * 添加调课关联
+	 * @param parameter
+	 */
+	public void addTransfer(List<Map<String,Object>> parameter){
+		this.getBaseDao().insert("class.addtransfer", parameter);
+	}
+	/**
 	 *未上课
 	 * @param parameter
 	 * @return
@@ -83,6 +119,13 @@ public class ClassService extends BaseService {
 	 */
 	public  void  delete(List<String> parameter){
 		this.getBaseDao().delete("class.delete", parameter);
+	}
+	/**
+	 * 删除调课
+	 * @param parameter
+	 */
+	public  void  deleteTransfer(List<String> parameter){
+		this.getBaseDao().delete("class.deletetransfer", parameter);
 	}
 	public void setFeedBackId(Map<String, Object> parameter) {
 		this.getBaseDao().delete("class.setFeedBackId", parameter);

@@ -20,6 +20,15 @@
 	   </if>
 	   Order By STARTTIME asc
 	</select>
+	
+	<select id="findtransfer" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select * From  TLESSON 
+	   Where 1=1
+	   	And ISACTIVES =1
+	   	And STARTTIME >= #{STARTTIME}
+	   	And ENDTIME &lt;= #{ENDTIME}
+	   Order By STARTTIME asc
+	</select>
 	<!-- 可选课时 -->
 	<select id="findoptional" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select a.*,c.ID TIMEID,c.USERID USERID,c.DATE DATE,(Select NAME From TBUSER Where ID=c.USERID) USERNAME 

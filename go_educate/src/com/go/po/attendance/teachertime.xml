@@ -39,7 +39,34 @@
 	   	And ID !=#{BID}  
 	   </if>
 	</select>
-	
+	<!-- 查询可以调课老师时间 -->
+	<select id="findtransfer" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
+	   select * From  TTEACHERTIME 
+	   Where 1=1
+	   	And USERID in (Select USERID From TUSERCURRICULUM Where 1=1 And CURRICULUMID=#{CURRICULUMID})  
+	   	And DATE =#{DATE}  
+	   And ID in (Select TIMEID From TTIMELESSON Where STARTTIME &lt;=#{STARTTIME} And ENDTIME >=#{ENDTIME})
+	</select>
+	<!-- 查询是否可以调课 -->
+	<select id="findistransfer" resultType="java.lang.Object" parameterType="java.util.HashMap" >
+	   select count(*) From  TELECTIVELESSON 
+	   Where 1=1
+	   <if test="CLASSID!=NULL and CLASSID!=''">
+	   	And ID not in (Select ELID From TCLASSEL Where CLASSID=#{CLASSID})
+	   </if>
+	   	And TIMEID =#{ID}
+	   	And LESSONID In 
+	   	 <foreach collection="list" item="map"  open="(" separator="," close=")">   
+           #{map.ID}  
+        </foreach>;
+	</select>
+	<!-- 查询调课中的electiveid -->
+	<select id="findtransferelective" resultType="java.lang.Object" parameterType="java.util.HashMap" >
+	   select ELECTIVEID From  TELECTIVELESSON 
+	   Where 1=1
+	   	And ID in (Select ELID  From TCLASSEL Where CLASSID=#{ID})
+	   	limit 0,1
+	</select>
 	
 	
 	<!-- 查询记录数 -->

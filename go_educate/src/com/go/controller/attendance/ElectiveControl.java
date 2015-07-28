@@ -105,7 +105,7 @@ public class ElectiveControl extends BaseController {
 			  electiveid=parameter.get("ID").toString();
 			  elective.put("ID", electiveid);
 		  }
-		  electiveService.deleteElectiveLesson(electiveid);//删除旧选课课时表
+		 
 		  List<Map<String,Object>> electiveLessonList=new ArrayList<Map<String,Object>>();
 		  for(String str:LESSONID){
 			  String[] arr=str.split("-");
@@ -125,6 +125,7 @@ public class ElectiveControl extends BaseController {
 			  this.ajaxMessage(response, Syscontants.ERROE,res);
 			  return;
 		  }
+		  electiveService.deleteElectiveLesson(electiveid);//删除旧选课课时表
 		  electiveService.addElectiveLesson(electiveLessonList);
 		  if(isIDNull){
 			  electiveService.add(elective);//添加选课
