@@ -176,8 +176,11 @@
 	
 	<!-- 查询记录数 -->
 	<select id="findcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
-	    Select count(1) From  TELECTIVE 
-	    where 1=1
+	    select count(*) From TCURRICULUM a left join  TELECTIVE b on a.ID = b.CURRICULUMID And b.STATUS=#{STATUS} And b.USERID=#{USERID}
+	   <if test="SEMESTERID!=null and SEMESTERID!=''">
+	   	And b.ID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID=#{SEMESTERID})
+	   </if>
+	   Where 1=1 And a.ISACTIVES=1 
 	</select>
 	
 	<!-- 添加后台数据 -->
