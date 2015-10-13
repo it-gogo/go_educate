@@ -44,20 +44,24 @@
 						<tbody>
 							<tr style="height: 25px" align="center">
 								<th scope="col">日期 </th>
+								<th scope="col">星期几</th>
 								<th scope="col">学生 </th>
 								<th scope="col">课时 </th>
 								<th scope="col">课程 </th>
 								<th scope="col">课时段</th>
+								<th scope="col">授课老师姓名</th>
 								<th scope="col">上课状态</th>
 								<th scope="col">操作</th>
 								</tr>
 							<c:forEach items="${classList}" var="vo" >
 								<tr align="center">
 									<td>${vo.DATE }</td>
+									<td>${vo.weekDay }</td>
 									<td>${vo.XSNAME }</td>
 									<td>${vo.MUCHLESSON }</td>
 									<td>${vo.CURRICULUMNAME }</td>
 									<td>${vo.STARTTIME }-${vo.ENDTIME }</td>
+									<td>${vo.LSNAME}</td>
 									<td><%--
 										${vo.STATUS=='0'?'正常':'未上课'}
 										--%>

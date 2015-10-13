@@ -1,7 +1,10 @@
 package com.go.controller.common;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,6 +119,17 @@ public class LoginController extends BaseController {
 		parameter.put("ENDDATE", ExtendDate.getYMD(c));
 		//parameter.put("STATUS", 0);//未上课
 		list=classService.findNoClass(parameter);//前后七天数据
+		/**
+		 * zhangjf 2015-10-13处理显示星期几start
+		 */
+		for (Map<String, Object> classMap : list) {
+			if(classMap.containsKey("DATE")&&classMap.get("DATE")!=null){
+				classMap.put("weekDay", dayForWeek(classMap.get("DATE").toString()));
+			}
+		}
+		/**
+		 * zhangjf 2015-10-13处理显示星期几end
+		 */
 		model.addAttribute("classList", list);
 		int studentcount=buserService.myStudentCount(parameter);
 		model.addAttribute("studentcount", studentcount);
@@ -186,7 +200,46 @@ public class LoginController extends BaseController {
 		return  "redirect:../common/loginPage.do";
 	}
 	
-	
+	/**
+	 * 根据日期获取星期几
+	 * @author zhangjf
+	 * @create_time 2015-10-13 下午12:06:50
+	 * @param dateTime
+	 * @return
+	 */
+	private String dayForWeek(String dateTime){
+		 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");  
+	      
+		    Date tmpDate=null;
+			try {
+				tmpDate = format.parse(dateTime);
+				 Calendar cal = new GregorianCalendar();  
+				 cal.set(tmpDate.getYear(), tmpDate.getMonth(), tmpDate.getDay());
+				 Integer day=cal.get(Calendar.DAY_OF_WEEK)-1;
+				 switch (day) {
+				case 0:
+					return "星期日";
+				case 1:
+					return "星期一";
+				case 2:
+					return "星期二";
+				case 3:
+					return "星期三";
+				case 4:
+					return "星期四";
+				case 5:
+					return "星期五";	
+				default:
+					return "星期六";
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("获取星期失败");
+			}  
+		      
+		   return "";
+	}
 	
 	
 }
