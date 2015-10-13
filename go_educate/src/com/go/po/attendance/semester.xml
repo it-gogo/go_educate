@@ -5,8 +5,18 @@
 	<select id="findlist" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
 	   select *,(Select NAME From TBUSER Where ID=a.USERID) USERNAME ,
 	   (Select FORMAT(count(*)/2,1) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) MUCHLESSON,
-	   (Select min(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) FIRST,
-	   (Select max(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) LATEST
+	   <!-- (Select min(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) FIRST, -->
+	   (
+		select min(DATE) from TTEACHERTIME t1 right join TELECTIVELESSON t2 on t1.ID=t2.TIMEID
+			left join  TSEMESTERELECTIVE t3 on t2.ELECTIVEID=t3.ELECTIVEID
+			where t3.SEMESTERID=a.ID
+		)FIRST,
+		(
+			select max(DATE) from TTEACHERTIME t1 right join TELECTIVELESSON t2 on t1.ID=t2.TIMEID
+			left join  TSEMESTERELECTIVE t3 on t2.ELECTIVEID=t3.ELECTIVEID
+			where t3.SEMESTERID=a.ID
+		)LATEST
+	   <!-- (Select max(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) LATEST -->
 	   From  TSEMESTER a Where 1=1
 	   <if test="XSNAME!=null and XSNAME!=''">
 	   	And USERID In (Select ID From TBUSER Where NAME  like CONCAT('%','${XSNAME}','%' )  )
@@ -24,8 +34,18 @@
 	   select a.*,b.*,b.ID XSUSERID,a.ID SEMESTERID,
 	   (Select cast((count(*)/2) as decimal(50,1)) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID)) ZLESSON,<!-- 总课时 -->
 	   (Select  cast((count(*)/2) as decimal(50,1)) From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID) And ID In (Select ELID From TCLASSEL Where CLASSID In (Select ID From TCLASS Where XSUSERID=b.ID And STATUS=1))) YDLESSON,<!-- 已读课时 -->
-	   (Select min(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) FIRST,
-	   (Select max(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) LATEST
+	 	(
+		select min(DATE) from TTEACHERTIME t1 right join TELECTIVELESSON t2 on t1.ID=t2.TIMEID
+			left join  TSEMESTERELECTIVE t3 on t2.ELECTIVEID=t3.ELECTIVEID
+			where t3.SEMESTERID=a.ID
+		)FIRST,
+		(
+			select max(DATE) from TTEACHERTIME t1 right join TELECTIVELESSON t2 on t1.ID=t2.TIMEID
+			left join  TSEMESTERELECTIVE t3 on t2.ELECTIVEID=t3.ELECTIVEID
+			where t3.SEMESTERID=a.ID
+		)LATEST
+	  <!--  (Select min(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) FIRST,
+	   (Select max(DATE) From TTEACHERTIME Where ID In (Select TIMEID From TELECTIVELESSON Where ELECTIVEID In (Select ELECTIVEID From TSEMESTERELECTIVE Where SEMESTERID = a.ID))) LATEST -->
 	   From  TSEMESTER a join TBUSER b on a.USERID=b.ID  Where 1=1
 	   <if test="XSNAME!=null and XSNAME!=''">
 	   	And USERID In (Select ID From TBUSER Where NAME  like CONCAT('%','${XSNAME}','%' )  )
@@ -43,6 +63,15 @@
 	<select id="findcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
 	    Select count(1) From  TSEMESTER 
 	    where 1=1
+	    <if test="XSNAME!=null and XSNAME!=''">
+	   	And USERID In (Select ID From TBUSER Where NAME  like CONCAT('%','${XSNAME}','%' )  )
+	   </if>
+	   <if test="USERID!=null and USERID!=''"><!-- 学生 -->
+	   	And USERID =#{USERID}
+	   </if>
+	    <if test="LSUSERID!=null and LSUSERID!=''"><!-- 老师 -->
+	   	And ID In (Select SEMESTERID From TSEMESTERELECTIVE Where ELECTIVEID In (Select ELECTIVEID From TELECTIVELESSON Where TIMEID In (Select ID From TTEACHERTIME Where USERID=#{LSUSERID}))) 
+	   </if>
 	</select>
 	<!-- 查询我的学生记录数 -->
 	<select id="mystudentcount" resultType="java.lang.Object" parameterType="java.util.HashMap" >
