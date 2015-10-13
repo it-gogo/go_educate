@@ -50,7 +50,20 @@
 	   Order By a.STARTTIME asc
 	</select>
 	<select id="findoptional2" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
-	    select a.*
+		select a.*
+	   From  TLESSON a  ,TTIMELESSON b 
+	   Where  1=1
+	   and a.STARTTIME between b.STARTTIME and b.ENDTIME 
+	   and a.ENDTIME between b.STARTTIME and b.ENDTIME
+	   And b.TIMEID =#{TIMEID}  
+	   And Not EXISTS (Select 1 From TELECTIVELESSON d left join TSEMESTERELECTIVE e on d.ELECTIVEID=e.ELECTIVEID left join TSEMESTER f on e.SEMESTERID=f.id  
+	   Where d.TIMEID=#{TIMEID} And d.LESSONID=a.ID
+	   <if test="ELECTIVEID!=NULL and ELECTIVEID!=''">
+	   	And d.ELECTIVEID != #{ELECTIVEID} 
+	   </if>
+	 	) 
+	   Order By a.STARTTIME asc
+	    <!-- select a.*
 	   From  TLESSON a  
 	   Where EXISTS(select b.ID from TTIMELESSON b  where a.STARTTIME>=b.STARTTIME And a.ENDTIME &lt;= b.ENDTIME 
 	    And Not EXISTS (Select d.ID From TELECTIVELESSON d Where d.TIMEID=#{TIMEID} And d.LESSONID=a.ID
@@ -63,7 +76,7 @@
 	   	And #{USERID} In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{CURRICULUMID})
 	   </if>
 	   ) 
-	   Order By a.STARTTIME asc
+	   Order By a.STARTTIME asc -->
 	</select>
 	<!-- 管理员可选课时（允许查询被选中的课时） -->
 	<select id="findoptional1" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
