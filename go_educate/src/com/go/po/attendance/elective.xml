@@ -136,11 +136,11 @@
 	   select c.ID ID,a.ID TIMEID,a.USERID USERID,a.DATE DATE,b.NAME USERNAME,c.STARTTIME STARTTIME,c.ENDTIME ENDTIME
 	   From  TTEACHERTIME a left join TBUSER b on a.USERID=b.ID,TLESSON c 
 	   Where EXISTS(select 1 from TTIMELESSON b  where c.STARTTIME>=b.STARTTIME And c.ENDTIME &lt;= b.ENDTIME 
-	   And Not EXISTS (Select 1 From TELECTIVELESSON d Where d.TIMEID=a.ID And d.LESSONID=c.ID
+	  <!--  And Not EXISTS (Select 1 From TELECTIVELESSON d Where d.TIMEID=a.ID And d.LESSONID=c.ID
 	   <if test="ELECTIVEID!=NULL and ELECTIVEID!=''">
 	   	And d.ELECTIVEID != #{ELECTIVEID} 
 	   	</if>
-	  	 ) 
+	  	 )  -->
 	  	 And b.TIMEID =a.ID  
 	   <if test="CURRICULUMID!=NULL and CURRICULUMID!=''">
 	   	And a.USERID In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{CURRICULUMID})
@@ -148,6 +148,11 @@
 	   	) 
 	   And a.DATE >= #{today} 
 	   And a.USERID In (Select USERID From TUSERCURRICULUM Where CURRICULUMID = #{ID})
+	    And Not EXISTS (Select 1 From TELECTIVELESSON d Where d.TIMEID=a.ID And d.LESSONID=c.ID
+	   <if test="ELECTIVEID!=NULL and ELECTIVEID!=''">
+	   	And d.ELECTIVEID != #{ELECTIVEID} 
+	   	</if>
+	  	 ) 
 	   Order By DATE,c.STARTTIME asc
 	</select>
 	<select id="optionallesson" resultType="java.util.HashMap" parameterType="java.util.HashMap" >
