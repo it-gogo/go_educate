@@ -4,7 +4,7 @@
 <html>
   <head>
 	</head>
-	<script type="text/javascript">
+	<script type="text/javascript"> 
 	document.location.href = "common/loginPage.do";
 </script>
 </html>
